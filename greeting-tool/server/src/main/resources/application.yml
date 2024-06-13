@@ -1,0 +1,38 @@
+server:
+  port: 8080
+
+spring:
+  profiles:
+    active: dev
+  main:
+    allow-circular-references: true
+  datasource:
+    druid:
+      driver-class-name: ${tool.datasource.driver-class-name}
+      url: jdbc:mysql://${tool.datasource.host}:${tool.datasource.port}/${tool.datasource.database}?serverTimezone=serverTimezone=Europe/London&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&useSSL=false&allowPublicKeyRetrieval=true
+      username: ${tool.datasource.username}
+      password: ${tool.datasource.password}
+
+mybatis:
+  # mapper configuration
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.tool.entity
+  configuration:
+    map-underscore-to-camel-case: true
+
+logging:
+  level:
+    com:
+      tool:
+        mapper: debug
+        service: info
+        controller: info
+
+tool:
+  jwt:
+    # Set the secret key used for jwt signature encryption
+    admin-secret-key: itcast
+    # Set the jwt expiration time
+    admin-ttl: 7200000
+    # Set the name of the token passed from the front end
+    admin-token-name: token
