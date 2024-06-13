@@ -4,7 +4,7 @@ import com.tool.dto.UserDTO;
 import com.tool.dto.UserUpdateDTO;
 import com.tool.entity.User;
 
-@SuppressWarnings("JavadocDeclaration")
+
 public interface UserService {
 
     /**

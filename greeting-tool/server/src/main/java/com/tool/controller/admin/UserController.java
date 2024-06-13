@@ -84,7 +84,6 @@ public class UserController {
         return Result.success();
     }
 
-    //TODO
     /**
      * Update user data
      * @param userUpdateDTO
