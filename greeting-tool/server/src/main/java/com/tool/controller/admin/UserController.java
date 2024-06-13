@@ -73,7 +73,7 @@ public class UserController {
     }
 
     /**
-     * User Register
+     * User register
      * @param userDTO
      */
     @PostMapping
