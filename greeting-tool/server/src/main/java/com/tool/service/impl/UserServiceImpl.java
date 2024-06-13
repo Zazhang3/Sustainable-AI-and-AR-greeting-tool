@@ -1,12 +1,14 @@
 package com.tool.service.impl;
 
 import com.tool.constant.MessageConstant;
-import com.tool.dto.UserLoginDTO;
+import com.tool.dto.UserDTO;
+import com.tool.dto.UserUpdateDTO;
 import com.tool.entity.User;
 import com.tool.exception.AccountNotFoundException;
 import com.tool.exception.PasswordErrorException;
 import com.tool.mapper.UserMapper;
 import com.tool.service.UserService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
@@ -20,16 +22,15 @@ public class UserServiceImpl implements UserService {
 
 
     /**
-     * User Login
-     * @param userLoginDTO
+     * User login
+     * @param userDTO
      * @return
      */
     @Override
-    public User login(UserLoginDTO userLoginDTO) {
+    public User login(UserDTO userDTO) {
 
-
-        String username = userLoginDTO.getUsername();
-        String password = userLoginDTO.getPassword();
+        String username = userDTO.getUsername();
+        String password = userDTO.getPassword();
 
         //Find the corresponding user by username
         User currentUser = userMapper.getByUsername(username);
@@ -49,5 +50,51 @@ public class UserServiceImpl implements UserService {
         //Successful login and return the user object
         return currentUser;
     }
+
+    /**
+     * User register
+     * @param userDTO
+     */
+    @Override
+    public void addUser(UserDTO userDTO) {
+        User newUser = new User();
+
+        //MD5 encrypts passwords
+        userDTO.setPassword(DigestUtils.md5DigestAsHex(userDTO.getPassword().getBytes()));
+
+        //Copy Properties
+        BeanUtils.copyProperties(userDTO, newUser);
+
+        userMapper.addUser(newUser);
+    }
+
+    /**
+     * Update user data
+     * @param userUpdateDTO
+     */
+    @Override
+    public void updateUser(UserUpdateDTO userUpdateDTO) {
+
+        User user = new User();
+
+        BeanUtils.copyProperties(userUpdateDTO,user);
+
+        userMapper.updateUser(user);
+
+    }
+
+    /**
+     * Delete user
+     * @param id
+     */
+    @Override
+    public void deleteById(Long id) {
+        User user = userMapper.getById(id);
+        if(user == null){
+            throw new AccountNotFoundException(MessageConstant.USER_NOT_FOUND);
+        }
+        userMapper.deleteUserById(id);
+    }
+
 
 }

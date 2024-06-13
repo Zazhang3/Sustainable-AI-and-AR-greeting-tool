@@ -4,16 +4,17 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
-import java.io.Serializable;
-
 @Data
-@ApiModel(description = "user info model")
-public class UserLoginDTO implements Serializable {
+@ApiModel("user info to be updated")
+public class UserUpdateDTO {
 
-    @ApiModelProperty("Username")
+    @ApiModelProperty
+    private Long id;
+
+    @ApiModelProperty
     private String username;
 
-    @ApiModelProperty("Password")
+    @ApiModelProperty
     private String password;
 
 }

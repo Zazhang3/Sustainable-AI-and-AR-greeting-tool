@@ -1,7 +1,8 @@
 package com.tool.controller.admin;
 
 import com.tool.constant.JwtClaimsConstant;
-import com.tool.dto.UserLoginDTO;
+import com.tool.dto.UserDTO;
+import com.tool.dto.UserUpdateDTO;
 import com.tool.entity.User;
 import com.tool.properties.JwtProperties;
 import com.tool.result.Result;
@@ -31,16 +32,16 @@ public class UserController {
     private JwtProperties jwtProperties;
     /**
      * login
-     * @param userLoginDTO
+     * @param userDTO
      * @return
      */
-    @PostMapping
-    @ApiOperation("User Login")
-    public Result<UserLoginVO> login(@RequestBody UserLoginDTO userLoginDTO) {
-        log.info("Login User: {}", userLoginDTO);
+    @PostMapping("/login")
+    @ApiOperation("User login")
+    public Result<UserLoginVO> login(@RequestBody UserDTO userDTO) {
+        log.info("Login User: {}", userDTO);
 
         //Login
-        User user = userService.login(userLoginDTO);
+        User user = userService.login(userDTO);
 
         //Generate JWT token after successful login
         Map<String, Object> claims = new HashMap<>();
@@ -60,6 +61,53 @@ public class UserController {
         return Result.success(userLoginVO);
     }
 
+    /**
+     * Logout
+     * @return
+     */
+    @PostMapping("/logout")
+    @ApiOperation("User logout")
+    public Result<String> logout() {
+        log.info("Logout User");
+        return Result.success();
+    }
 
+    /**
+     * User Register
+     * @param userDTO
+     */
+    @PostMapping
+    @ApiOperation("Add user")
+    public Result addUser(@RequestBody UserDTO userDTO) {
+        log.info("Add User: {}", userDTO);
+        userService.addUser(userDTO);
+        return Result.success();
+    }
 
+    //TODO
+    /**
+     * Update user data
+     * @param userUpdateDTO
+     * @return
+     */
+    @PutMapping
+    @ApiOperation("Update user data")
+    public Result updateUser(@RequestBody UserUpdateDTO userUpdateDTO) {
+        log.info("Update User: {}", userUpdateDTO);
+        userService.updateUser(userUpdateDTO);
+        return Result.success();
+    }
+
+    //TODO
+    /**
+     * Delete user
+     * @param id
+     * @return
+     */
+    @DeleteMapping("/{id}")
+    @ApiOperation("delete user")
+    public Result<Void> deleteById(@PathVariable Long id) {
+        userService.deleteById(id);
+        return Result.success();
+    }
 }

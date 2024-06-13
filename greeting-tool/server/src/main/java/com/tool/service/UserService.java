@@ -1,18 +1,35 @@
 package com.tool.service;
 
-import com.tool.dto.UserLoginDTO;
+import com.tool.dto.UserDTO;
+import com.tool.dto.UserUpdateDTO;
 import com.tool.entity.User;
-import com.tool.result.Result;
 
 @SuppressWarnings("JavadocDeclaration")
 public interface UserService {
 
     /**
-     * User Login
-     * @param userLoginDTO
+     * User login
+     * @param userDTO
      * @return
      */
-    User login(UserLoginDTO userLoginDTO);
+    User login(UserDTO userDTO);
 
+    /**
+     * User register
+     * @param userDTO
+     */
+    void addUser(UserDTO userDTO) ;
+
+    /**
+     * Update user data
+     * @param userUpdateDTO
+     */
+    void updateUser(UserUpdateDTO userUpdateDTO);
+
+    /**
+     * Delete user
+     * @param id
+     */
+    void deleteById(Long id);
 
 }
