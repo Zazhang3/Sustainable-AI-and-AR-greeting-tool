@@ -43,6 +43,7 @@ public class UserServiceImpl implements UserService {
         //MD5 encrypt the entered passwords and compare them
         //Throws an exception if the match fails
         password = DigestUtils.md5DigestAsHex(password.getBytes());
+        System.out.println(DigestUtils.md5DigestAsHex("123456".getBytes()));
         if(!password.equals(currentUser.getPassword())){
             throw new PasswordErrorException(MessageConstant.PASSWORD_MISMATCH);
         }
