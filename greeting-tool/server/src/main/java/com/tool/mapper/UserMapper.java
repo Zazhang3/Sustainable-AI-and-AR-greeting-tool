@@ -25,7 +25,7 @@ public interface UserMapper {
      * @param user
      */
     @Insert("INSERT INTO user (username, password) VALUES (#{username},#{password})")
-    void addUser(User user);
+    void userRegister(User user);
 
     /**
      * Update user data(update)

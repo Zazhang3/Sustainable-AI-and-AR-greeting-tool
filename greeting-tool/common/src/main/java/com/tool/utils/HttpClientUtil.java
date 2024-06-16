@@ -84,12 +84,12 @@ public class HttpClientUtil {
     public static String doPost(String url, Map<String, String> paramMap)throws IOException {
 
         CloseableHttpClient httpClient = HttpClients.createDefault();
-        String result = "";
+        String resultString = "";
         CloseableHttpResponse response = null;
 
         try {
             HttpPost httpPost = new HttpPost(url);
-            if (paramMap != null && !paramMap.isEmpty()) {
+            if (paramMap != null) {
                 List<NameValuePair> paramList = new ArrayList<>();
                 for (Map.Entry<String, String> entry : paramMap.entrySet()) {
                     paramList.add(new BasicNameValuePair(entry.getKey(), entry.getValue()));
@@ -98,9 +98,11 @@ public class HttpClientUtil {
                 httpPost.setEntity(entity);
             }
 
+            httpPost.setConfig(builderRequestConfig());
+
             response = httpClient.execute(httpPost);
 
-            result = EntityUtils.toString(response.getEntity(), "UTF-8");
+            resultString = EntityUtils.toString(response.getEntity(), "UTF-8");
         }catch (Exception e){
             throw new IOException(e);
         }finally {
@@ -111,13 +113,8 @@ public class HttpClientUtil {
                     e.printStackTrace();
                 }
             }
-            try {
-                httpClient.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
         }
-        return result;
+        return resultString;
     }
 
     /**
@@ -128,27 +125,43 @@ public class HttpClientUtil {
      * @throws IOException
      */
     public String doPostByJson(String url, Map<String, String> paramMap) throws IOException {
+
         CloseableHttpClient httpClient = HttpClients.createDefault();
-        HttpPost httpPost = new HttpPost(url);
+        CloseableHttpResponse response = null;
+        String resultString = "";
 
-        //turn to JSON object
-        JSONObject jsonObject = new JSONObject();
-        if (paramMap != null && !paramMap.isEmpty()) {
-            for (Map.Entry<String, String> entry : paramMap.entrySet()) {
-                jsonObject.put(entry.getKey(), entry.getValue());
+        try {
+            // create http request
+            HttpPost httpPost = new HttpPost(url);
+
+            if (paramMap != null) {
+                //set JSON
+                JSONObject jsonObject = new JSONObject();
+                for (Map.Entry<String, String> param : paramMap.entrySet()) {
+                    jsonObject.put(param.getKey(),param.getValue());
+                }
+                StringEntity entity = new StringEntity(jsonObject.toString(),"utf-8");
+                entity.setContentEncoding("utf-8");
+                entity.setContentType("application/json");
+                httpPost.setEntity(entity);
+            }
+
+            httpPost.setConfig(builderRequestConfig());
+
+            // 执行http请求
+            response = httpClient.execute(httpPost);
+
+            resultString = EntityUtils.toString(response.getEntity(), "UTF-8");
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            try {
+                response.close();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }
-        StringEntity entity = new StringEntity(jsonObject.toString());
-        httpPost.setEntity(entity);
-
-        try(CloseableHttpResponse response = httpClient.execute(httpPost)) {
-            int statusCode = response.getStatusLine().getStatusCode();
-            if (statusCode == 200) {
-                return EntityUtils.toString(response.getEntity(),"UTF-8");
-            }else {
-                throw new IOException("Unexpected response status: " + statusCode);
-            }
-        }
+        return resultString;
     }
 
     /**

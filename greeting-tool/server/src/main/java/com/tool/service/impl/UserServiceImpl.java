@@ -43,7 +43,6 @@ public class UserServiceImpl implements UserService {
         //MD5 encrypt the entered passwords and compare them
         //Throws an exception if the match fails
         password = DigestUtils.md5DigestAsHex(password.getBytes());
-        System.out.println(DigestUtils.md5DigestAsHex("123456".getBytes()));
         if(!password.equals(currentUser.getPassword())){
             throw new PasswordErrorException(MessageConstant.PASSWORD_MISMATCH);
         }
@@ -57,7 +56,7 @@ public class UserServiceImpl implements UserService {
      * @param userDTO
      */
     @Override
-    public void addUser(UserDTO userDTO) {
+    public void userRegister(UserDTO userDTO) {
         User newUser = new User();
 
         //MD5 encrypts passwords
@@ -66,7 +65,7 @@ public class UserServiceImpl implements UserService {
         //Copy Properties
         BeanUtils.copyProperties(userDTO, newUser);
 
-        userMapper.addUser(newUser);
+        userMapper.userRegister(newUser);
     }
 
     /**
@@ -77,9 +76,9 @@ public class UserServiceImpl implements UserService {
     public void updateUser(UserUpdateDTO userUpdateDTO) {
 
         User user = new User();
-
         BeanUtils.copyProperties(userUpdateDTO,user);
-
+        String password = DigestUtils.md5DigestAsHex(userUpdateDTO.getPassword().getBytes());
+        user.setPassword(password);
         userMapper.updateUser(user);
 
     }

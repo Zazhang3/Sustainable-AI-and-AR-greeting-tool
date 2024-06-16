@@ -49,8 +49,7 @@ public class JwtUtil {
                 //Set the secret key for signing
                 .setSigningKey(secretKey.getBytes(StandardCharsets.UTF_8))
                 //Set the JWT to be parsed
-                .parseClaimsJwt(token).getBody();
+                .parseClaimsJws(token).getBody();
         return claims;
     }
-
 }

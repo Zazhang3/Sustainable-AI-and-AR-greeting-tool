@@ -9,7 +9,7 @@ spring:
   datasource:
     druid:
       driver-class-name: ${tool.datasource.driver-class-name}
-      url: jdbc:mysql://${tool.datasource.host}:${tool.datasource.port}/${tool.datasource.database}?serverTimezone=serverTimezone=Europe/London&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&useSSL=false&allowPublicKeyRetrieval=true
+      url: jdbc:mysql://${tool.datasource.host}:${tool.datasource.port}/${tool.datasource.database}?serverTimezone=Europe/London&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&useSSL=false&allowPublicKeyRetrieval=true
       username: ${tool.datasource.username}
       password: ${tool.datasource.password}
 

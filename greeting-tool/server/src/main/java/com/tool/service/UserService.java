@@ -18,7 +18,7 @@ public interface UserService {
      * User register
      * @param userDTO
      */
-    void addUser(UserDTO userDTO) ;
+    void userRegister(UserDTO userDTO) ;
 
     /**
      * Update user data

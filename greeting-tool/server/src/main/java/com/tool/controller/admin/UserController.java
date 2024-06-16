@@ -76,11 +76,11 @@ public class UserController {
      * User register
      * @param userDTO
      */
-    @PostMapping
-    @ApiOperation("Add user")
-    public Result addUser(@RequestBody UserDTO userDTO) {
-        log.info("Add User: {}", userDTO);
-        userService.addUser(userDTO);
+    @PostMapping("/register")
+    @ApiOperation("User register")
+    public Result userRegister(@RequestBody UserDTO userDTO) {
+        log.info("User register: {}", userDTO);
+        userService.userRegister(userDTO);
         return Result.success();
     }
 
@@ -97,7 +97,6 @@ public class UserController {
         return Result.success();
     }
 
-    //TODO
     /**
      * Delete user
      * @param id

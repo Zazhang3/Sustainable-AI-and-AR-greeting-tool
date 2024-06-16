@@ -34,6 +34,7 @@ public class JwtTokenAdminInterceptor implements HandlerInterceptor {
      */
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         //Check whether the current intercept is a Controller method or another resource
+
         if (!(handler instanceof HandlerMethod)) {
             //If the current intercept is not a corresponding method, it is released
             return true;
@@ -45,6 +46,7 @@ public class JwtTokenAdminInterceptor implements HandlerInterceptor {
         //Check tokens
         try {
             log.info("JWT Verification:{}", token);
+            log.info("JWT :{}",jwtProperties);
             Claims claims = JwtUtil.parseJWT(jwtProperties.getAdminSecretKey(), token);
             Long userId = Long.valueOf(claims.get(JwtClaimsConstant.USER_ID).toString());
             log.info("Current User_id：", userId);
