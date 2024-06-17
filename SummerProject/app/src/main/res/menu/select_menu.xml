@@ -1,0 +1,12 @@
+<!-- res/menu/select_menu.xml -->
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_logout"
+        android:title="@string/log_out"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_cancel_account"
+        android:title="@string/cancel_account"
+        app:showAsAction="never" />
+</menu>

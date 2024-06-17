@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">SampleApp</string>
+    <string name="title_home">Home</string>
+    <string name="title_User">User</string>
+    <string name="NearbyMessage">NearByMessage</string>
+    <string name="SendMessage">SendMessage</string>
+    <string name="Preview">Preview</string>
+    <string name="log_out">Log out</string>
+    <string name="cancel_account">Cancel account</string>
+    <string name="history">History</string>
+    <string name="enter_postcode">Enter Postcode</string>
+    <string name="postcode">Postcode</string>
+    <string name="submit">Submit</string>
+    <!--<string name="title_notifications">Notifications</string>-->
+</resources>
