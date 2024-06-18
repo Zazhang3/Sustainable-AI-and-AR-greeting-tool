@@ -1,4 +1,4 @@
-package com.example.sampleapp.ui.home;
+package com.tool.greeting_tool.ui.home;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,10 +15,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.sampleapp.MainActivity;
-import com.example.sampleapp.Postcode_fill;
-import com.example.sampleapp.WordsSelect;
-import com.example.sampleapp.databinding.FragmentHomeBinding;
+import com.tool.greeting_tool.MainActivity;
+import com.tool.greeting_tool.Postcode_fill;
+import com.tool.greeting_tool.WordsSelect;
+import com.tool.greeting_tool.common.KeySet;
+import com.tool.greeting_tool.databinding.FragmentHomeBinding;
 
 public class HomeFragment extends Fragment {
 
@@ -42,16 +43,16 @@ public class HomeFragment extends Fragment {
         //Button Listener for Preview
         wordButton.setOnClickListener(v->{
             Intent intent = new Intent(getActivity(), WordsSelect.class);
-            intent.putExtra("selectType", "Words");
-            intent.putExtra("request", REQUEST_CODE_SELECT_1);
+            intent.putExtra(KeySet.SelectedType, "Words");
+            intent.putExtra(KeySet.Request, REQUEST_CODE_SELECT_1);
             startActivityForResult(intent, REQUEST_CODE_SELECT_1);
         });
 
         //Button Listener for Send
         sendButton.setOnClickListener(v->{
                     Intent intent = new Intent(getActivity(), WordsSelect.class);
-                    intent.putExtra("selectType", "Words");
-                    intent.putExtra("request", REQUEST_CODE_SELECT_2);
+                    intent.putExtra(KeySet.SelectedType, "Words");
+                    intent.putExtra(KeySet.Request, REQUEST_CODE_SELECT_2);
                     startActivityForResult(intent, REQUEST_CODE_SELECT_2);
                 });
 
@@ -60,11 +61,11 @@ public class HomeFragment extends Fragment {
         return root;
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+    //@Override
+    /*public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        assert data != null;
-        String selection = data.getStringExtra(WordsSelect.EXTRA_SELECTION);
+        //assert data != null;
+        //String selection = data.getStringExtra(WordsSelect.EXTRA_SELECTION);
         if (requestCode == REQUEST_CODE_SELECT_1) {
             // Handle first selection
             //Toast.makeText(getActivity(), "Selected: " + selection, Toast.LENGTH_SHORT).show();
@@ -73,7 +74,7 @@ public class HomeFragment extends Fragment {
             Intent intent = new Intent(getActivity(), Postcode_fill.class);
             startActivity(intent);
         }
-    }
+    }*/
 
     @Override
     public void onDestroyView() {

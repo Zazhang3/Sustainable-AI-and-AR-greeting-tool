@@ -1,4 +1,4 @@
-package com.example.checkapp;
+package com.greeting_tool.checkapp;
 
 import android.content.Context;
 

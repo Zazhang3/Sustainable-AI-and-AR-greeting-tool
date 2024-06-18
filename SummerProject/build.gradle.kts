@@ -2,3 +2,4 @@
 plugins {
     alias(libs.plugins.android.application) apply false
 }
+val defaultApplicationId by extra("com.root.greeting_tool")

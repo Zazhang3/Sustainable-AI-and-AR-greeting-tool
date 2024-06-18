@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">SampleApp</string>
+    <string name="app_name">Greeting_tool</string>
     <string name="title_home">Home</string>
     <string name="title_User">User</string>
     <string name="NearbyMessage">NearByMessage</string>
@@ -16,5 +16,6 @@
     <string name="user_id">User ID</string>
     <string name="password">PassWord</string>
     <string name="sign_in">Sign in</string>
+    <string name="welcome">Welcome,</string>
     <!--<string name="title_notifications">Notifications</string>-->
 </resources>

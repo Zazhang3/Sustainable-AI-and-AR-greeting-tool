@@ -9,13 +9,13 @@
 
     <fragment
         android:id="@+id/navigation_home"
-        android:name="com.example.sampleapp.ui.home.HomeFragment"
+        android:name="com.tool.greeting_tool.ui.home.HomeFragment"
         android:label="@string/title_home"
         tools:layout="@layout/fragment_home"/>
 
     <fragment
         android:id="@+id/navigation_user"
-        android:name="com.example.sampleapp.ui.user.UserFragment"
+        android:name="com.tool.greeting_tool.ui.user.UserFragment"
         android:label="@string/title_User"
         tools:layout="@layout/fragment_user"/>
 

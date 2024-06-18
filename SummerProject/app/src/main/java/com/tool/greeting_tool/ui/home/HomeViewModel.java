@@ -1,4 +1,4 @@
-package com.example.sampleapp.ui.home;
+package com.tool.greeting_tool.ui.home;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;

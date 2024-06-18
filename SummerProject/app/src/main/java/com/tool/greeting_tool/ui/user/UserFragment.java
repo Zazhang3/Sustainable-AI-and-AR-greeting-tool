@@ -1,4 +1,4 @@
-package com.example.sampleapp.ui.user;
+package com.tool.greeting_tool.ui.user;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,8 +14,8 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.sampleapp.R;
-import com.example.sampleapp.databinding.FragmentUserBinding;
+import com.tool.greeting_tool.R;
+import com.tool.greeting_tool.databinding.FragmentUserBinding;
 
 
 public class UserFragment extends Fragment {

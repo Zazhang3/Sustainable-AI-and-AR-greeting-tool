@@ -1,10 +1,11 @@
-package com.example.sampleapp;
+package com.tool.greeting_tool;
 
 import android.os.Bundle;
 
-import com.example.sampleapp.ui.home.HomeFragment;
-import com.example.sampleapp.ui.user.UserFragment;
-import com.example.sampleapp.ui.user.UserViewModel;
+import com.tool.greeting_tool.common.KeySet;
+import com.tool.greeting_tool.ui.home.HomeFragment;
+import com.tool.greeting_tool.ui.user.UserFragment;
+import com.tool.greeting_tool.ui.user.UserViewModel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,7 +15,7 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
-import com.example.sampleapp.databinding.ActivityMainBinding;
+import com.tool.greeting_tool.databinding.ActivityMainBinding;
 
 import java.util.Objects;
 
@@ -27,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        String userName = getIntent().getStringExtra("userName");
+        String userName = getIntent().getStringExtra(KeySet.UserKey);
 
         // Initialize UserViewModel
         userViewModel = new ViewModelProvider(this).get(UserViewModel.class);

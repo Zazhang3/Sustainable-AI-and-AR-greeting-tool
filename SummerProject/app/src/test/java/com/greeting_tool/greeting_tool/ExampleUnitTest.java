@@ -1,4 +1,4 @@
-package com.example.sampleapp;
+package com.greeting_tool.greeting_tool;
 
 import org.junit.Test;
 

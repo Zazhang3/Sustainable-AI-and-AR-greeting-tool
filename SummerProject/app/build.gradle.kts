@@ -1,13 +1,15 @@
+
+
 plugins {
     alias(libs.plugins.android.application)
 }
 
 android {
-    namespace = "com.example.sampleapp"
+    namespace = "com.tool.greeting_tool"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.example.sampleapp"
+        applicationId = rootProject.extra["defaultApplicationId"] as String
         minSdk = 26
         targetSdk = 34
         versionCode = 1
@@ -23,7 +25,6 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
     buildFeatures {
