@@ -3,9 +3,12 @@ package com.example.sampleapp;
 import android.os.Bundle;
 
 import com.example.sampleapp.ui.home.HomeFragment;
+import com.example.sampleapp.ui.user.UserFragment;
+import com.example.sampleapp.ui.user.UserViewModel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -18,10 +21,18 @@ import java.util.Objects;
 public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
+    private UserViewModel userViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        String userName = getIntent().getStringExtra("userName");
+
+        // Initialize UserViewModel
+        userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
+        // Set the username in UserViewModel
+        userViewModel.setText(userName);
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());

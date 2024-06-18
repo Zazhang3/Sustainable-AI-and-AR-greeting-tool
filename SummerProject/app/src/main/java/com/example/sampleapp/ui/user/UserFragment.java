@@ -26,12 +26,13 @@ public class UserFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         UserViewModel userViewModel =
-                new ViewModelProvider(this).get(UserViewModel.class);
+                new ViewModelProvider(requireActivity()).get(UserViewModel.class);
 
         binding = FragmentUserBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
         final TextView textView = binding.textUser;
+
         userViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
 
         setHasOptionsMenu(true);

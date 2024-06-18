@@ -11,5 +11,10 @@
     <string name="enter_postcode">Enter Postcode</string>
     <string name="postcode">Postcode</string>
     <string name="submit">Submit</string>
+    <string name="account">Account</string>
+    <string name="Login">Login</string>
+    <string name="user_id">User ID</string>
+    <string name="password">PassWord</string>
+    <string name="sign_in">Sign in</string>
     <!--<string name="title_notifications">Notifications</string>-->
 </resources>
