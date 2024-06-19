@@ -17,5 +17,14 @@
     <string name="password">PassWord</string>
     <string name="sign_in">Sign in</string>
     <string name="welcome">Welcome,</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="intro">intro</string>
+    <string name="back_login">back_login</string>
+    <string name="login_image">Login_image</string>
+    <string name="signup_text">signup_text</string>
+    <string name="signup_back">signup_back</string>
+    <string name="signup">signup</string>
+    <string name="re_enter_password">Re-enter Password</string>
     <!--<string name="title_notifications">Notifications</string>-->
 </resources>

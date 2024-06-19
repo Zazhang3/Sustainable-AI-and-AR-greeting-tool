@@ -3,47 +3,45 @@ package com.tool.greeting_tool.server;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 
 import com.tool.greeting_tool.MainActivity;
 import com.tool.greeting_tool.R;
 import com.tool.greeting_tool.common.ErrorMessage;
 import com.tool.greeting_tool.common.KeySet;
 
-public class Login extends AppCompatActivity {
+public class SignUp extends AppCompatActivity {
+
     private EditText Account;
     private EditText Password;
+    private EditText Password_re;
     private ImageButton backButton;
 
-    /**
-     * Use to ask user enter the ID and Password
-     *
-     * @param savedInstanceState If the activity is being re-initialized after
-     *     previously being shut down then this Bundle contains the data it most
-     *     recently supplied in {@link #onSaveInstanceState}.  <b><i>Note: Otherwise it is null.</i></b>
-     *
-     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
-        Account = findViewById(R.id.account_num);
-        Password = findViewById(R.id.password);
-        backButton = findViewById(R.id.navigateButton_login);
-        ImageButton Login = findViewById(R.id.signin_button);
+        setContentView(R.layout.activity_sign_up);
 
-        Login.setOnClickListener(new View.OnClickListener() {
+        Account = findViewById(R.id.id_signup_id);
+        Password = findViewById(R.id.id_signup_password);
+        Password_re = findViewById(R.id.id_signup_password_re);
+        backButton = findViewById(R.id.id_back_signup);
+        ImageButton SignUp = findViewById(R.id.id_signup_button);
+
+        SignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String account = Account.getText().toString();
-                String passWord = Password.getText().toString();
-                if(account.equals("Admin")&&passWord.equals("123456")){
-                    /*Intent intent = new Intent(Login.this, MainActivity.class);
+                if(Password.getText().toString().equals(Password_re.getText().toString())){
+                    /*Intent intent = new Intent(SignUp.this, MainActivity.class);
                     intent.putExtra(KeySet.UserKey, account);
                     startActivity(intent);*/
                     Intent resultIntent = new Intent();
@@ -51,7 +49,7 @@ public class Login extends AppCompatActivity {
                     setResult(RESULT_OK, resultIntent);
                     finish();
                 }else{
-                    Toast.makeText(Login.this, ErrorMessage.User_Not_Found, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SignUp.this, ErrorMessage.User_Not_Found, Toast.LENGTH_SHORT).show();
                 }
             }
         });

@@ -13,20 +13,27 @@
         android:theme="@style/Theme.SampleApp"
         tools:targetApi="31">
         <activity
-            android:name=".server.Login"
+            android:name=".server.SignUp"
+            android:exported="false" />
+        <activity
+            android:name=".server.StartPage"
             android:exported="true"
             android:theme="@style/Theme.SampleApp.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
+            android:name=".server.Login"
+            android:exported="false"
+            android:theme="@style/Theme.SampleApp.NoActionBar">
+        </activity>
+        <activity
             android:name=".Postcode_fill"
             android:exported="false"
-            android:theme="@style/Theme.SampleApp.NoActionBar"
-            android:parentActivityName=".WordsSelect"/>
+            android:parentActivityName=".WordsSelect"
+            android:theme="@style/Theme.SampleApp.NoActionBar" />
         <activity
             android:name=".WordsSelect"
             android:exported="false"
