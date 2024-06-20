@@ -1,11 +1,17 @@
 package com.tool.service.impl;
 
 
+import com.tool.constant.MessageConstant;
 import com.tool.dto.GreetingCardsDTO;
+import com.tool.entity.GreetingCard;
+import com.tool.exception.GreetingCardNotFoundException;
 import com.tool.mapper.GreetingCardMapper;
 import com.tool.service.GreetingCardService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
 
 @Service
 public class GreetingCardServiceImpl implements GreetingCardService {
@@ -19,35 +25,55 @@ public class GreetingCardServiceImpl implements GreetingCardService {
      */
     @Override
     public void createCard(GreetingCardsDTO greetingCardsDTO) {
-        //TODO
+
+        GreetingCard newGreetingCard = new GreetingCard();
+        BeanUtils.copyProperties(greetingCardsDTO,newGreetingCard);
+        greetingCardMapper.createCard(newGreetingCard);
+
     }
 
    /**
     * Select cards by user id
-    * @param id
+    *
+    * @param userId
+    * @return
     */
    @Override
-    public void selectByUserId(Long id) {
-        //TODO
-    }
+    public ArrayList<GreetingCard> selectByUserId(Long userId) {
+
+       ArrayList<GreetingCard> greetingCards= new ArrayList<>();
+       greetingCards = greetingCardMapper.getByUserId(userId);
+
+       return greetingCards;
+   }
 
   /**
    * Select cards by postcode
+   *
    * @param postcode
+   * @return
    */
    @Override
-    public void selectByPostcode(String postcode) {
-        //TODO
-    }
+    public ArrayList<GreetingCard> selectByPostcode(String postcode) {
 
-  /**
-   * Delete card by users
-   * @param userId
-   * @param cardId
-   */
+       ArrayList<GreetingCard> greetingCards= new ArrayList<>();
+       greetingCards = greetingCardMapper.getByPostcode(postcode);
+
+       return greetingCards;
+   }
+
+    /**
+     * Delete card by users
+     * @param cardId
+     */
    @Override
-   public void deleteByUser(Long userId, Long cardId) {
-       //TODO
+   public void deleteByUser(Long cardId) {
+       GreetingCard greetingCard = greetingCardMapper.getByCardId(cardId);
+
+       if(greetingCard == null) {
+           throw new GreetingCardNotFoundException(MessageConstant.CARD_NOT_FOUND);
+       }
+       greetingCardMapper.deleteCardByUser(cardId);
    }
 
 }

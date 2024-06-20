@@ -1,6 +1,9 @@
 package com.tool.service;
 
 import com.tool.dto.GreetingCardsDTO;
+import com.tool.entity.GreetingCard;
+
+import java.util.ArrayList;
 
 public interface GreetingCardService {
     /**
@@ -11,22 +14,25 @@ public interface GreetingCardService {
 
     /**
      * Select cards by user id
-     * @param id
+     *
+     * @param userId
+     * @return
      */
-    void selectByUserId(Long id);
+    ArrayList<GreetingCard> selectByUserId(Long userId);
 
     /**
      * Select cards by postcode
+     *
      * @param postcode
+     * @return
      */
 
-    void selectByPostcode(String postcode);
+    ArrayList<GreetingCard> selectByPostcode(String postcode);
 
     /**
      * delete card by users
-     * @param userId
      * @param cardId
      */
 
-    void deleteByUser(Long userId, Long cardId);
+    void deleteByUser(Long cardId);
 }

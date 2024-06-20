@@ -1,6 +1,8 @@
 package com.tool.controller.admin;
 
 import com.tool.dto.GreetingCardsDTO;
+import com.tool.entity.GreetingCard;
+import com.tool.result.PageResult;
 import com.tool.result.Result;
 import com.tool.service.GreetingCardService;
 import io.swagger.annotations.Api;
@@ -11,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @Slf4j
@@ -40,15 +43,16 @@ public class GreetingCardController {
      * @param id
      * @return
      */
-    @PostMapping("/{id}")
+    @PostMapping("/user/{id}")
     @ApiOperation("Select by user id")
-    public Result selectByUserId(@PathVariable Long id) {
+    public Result<ArrayList<GreetingCard>> selectByUserId(@PathVariable Long id) {
         log.info("Select by user id: {}", id);
 
         //Select by user id
-        greetingCardService.selectByUserId(id);
+        ArrayList<GreetingCard> records = greetingCardService.selectByUserId(id);
 
-        return Result.success();
+        //total=1, not divide pages
+        return Result.success(records);
 
     }
 
@@ -57,32 +61,32 @@ public class GreetingCardController {
      * @param postcode
      * @return
      */
-    @PostMapping("/{postcode}")
+    @PostMapping("/postcode/{postcode}")
     @ApiOperation("Select by postcode")
-    public Result selectByPostcode(@PathVariable String postcode) {
+    public Result<ArrayList<GreetingCard>> selectByPostcode(@PathVariable String postcode) {
         log.info("Select by postcode: {}", postcode);
 
         //Select by postcode
-        greetingCardService.selectByPostcode(postcode);
+        ArrayList<GreetingCard> records = greetingCardService.selectByPostcode(postcode);
 
-        return Result.success();
+        return Result.success(records);
     }
 
     /**
      * Delete card by users
-     * @param userId
      * @param cardId
      * @return
      */
-    @DeleteMapping("/{userId}/{cardId}")
+    @DeleteMapping("/{cardId}")
     @ApiOperation("User delete certain card")
-    public Result deleteCardByUser(@PathVariable Long userId,@PathVariable Long cardId) {
-        log.info("Delete card:{} by user: {}",cardId,userId);
+    public Result deleteCardByUser(@PathVariable Long cardId) {
+        log.info("Delete card:{} by user.",cardId);
 
         //Delete card by user
-        greetingCardService.deleteByUser(userId,cardId);
+        greetingCardService.deleteByUser(cardId);
 
         return Result.success();
     }
+
 
 }
