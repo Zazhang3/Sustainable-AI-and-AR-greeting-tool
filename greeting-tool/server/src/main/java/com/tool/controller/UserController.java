@@ -1,4 +1,4 @@
-package com.tool.controller.admin;
+package com.tool.controller;
 
 import com.tool.constant.JwtClaimsConstant;
 import com.tool.dto.UserDTO;
@@ -21,7 +21,7 @@ import java.util.Map;
 
 @RestController
 @Slf4j
-@RequestMapping("/admin/user")
+@RequestMapping("/user")
 @Api(tags = "User-related Interface")
 public class UserController {
 

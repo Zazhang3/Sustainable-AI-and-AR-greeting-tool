@@ -1,4 +1,4 @@
-package com.tool.controller.admin;
+package com.tool.controller;
 
 import com.tool.dto.GreetingCardsDTO;
 import com.tool.entity.GreetingCard;
@@ -17,7 +17,7 @@ import java.util.List;
 
 @RestController
 @Slf4j
-@RequestMapping("/admin/greeting_card")
+@RequestMapping("/greeting_card")
 @Api(tags = "Greeting_card-related Interface")
 public class GreetingCardController {
     @Autowired
