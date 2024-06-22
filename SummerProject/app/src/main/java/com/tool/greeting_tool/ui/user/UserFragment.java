@@ -1,5 +1,6 @@
 package com.tool.greeting_tool.ui.user;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -7,6 +8,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -16,11 +18,14 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.tool.greeting_tool.R;
 import com.tool.greeting_tool.databinding.FragmentUserBinding;
+import com.tool.greeting_tool.ui.user.History.HistoryActivity;
+import com.tool.greeting_tool.ui.user.History.History_Message;
 
 
 public class UserFragment extends Fragment {
 
     private FragmentUserBinding binding;
+    private Button History;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -36,6 +41,12 @@ public class UserFragment extends Fragment {
         userViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
 
         setHasOptionsMenu(true);
+
+        History = binding.history;
+        History.setOnClickListener(v->{
+            Intent intent = new Intent(getActivity(), HistoryActivity.class);
+            startActivity(intent);
+        });
 
         return root;
     }
