@@ -1,10 +1,11 @@
 package com.tool.greeting_tool;
 
+
 import android.os.Bundle;
+import android.view.View;
 
 import com.tool.greeting_tool.common.KeySet;
-import com.tool.greeting_tool.ui.home.HomeFragment;
-import com.tool.greeting_tool.ui.user.UserFragment;
+import com.tool.greeting_tool.server.NotificationHelper;
 import com.tool.greeting_tool.ui.user.UserViewModel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -17,20 +18,18 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.tool.greeting_tool.databinding.ActivityMainBinding;
 
-import java.lang.annotation.Target;
-import java.util.Objects;
-
 public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
     private UserViewModel userViewModel;
-
+    private NotificationHelper notificationHelper;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         String userName = getIntent().getStringExtra(KeySet.UserKey);
-
+        // Initialize NotificationHelper
+        notificationHelper = new NotificationHelper(this);
         // Initialize UserViewModel
         userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
         // Set the username in UserViewModel
@@ -53,6 +52,14 @@ public class MainActivity extends AppCompatActivity {
 
         //Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
 
+    }
+
+    public void sendNotification(View view) {
+        notificationHelper.sendNotification("Notification!", "You have a new E-card!");
+    }
+
+    public void cancelNotification(View view) {
+        notificationHelper.cancelNotification(1);
     }
 
 }
