@@ -17,6 +17,7 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.tool.greeting_tool.databinding.ActivityMainBinding;
 
+import java.lang.annotation.Target;
 import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
@@ -51,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(binding.navView, navController);
 
         //Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
+
     }
 
 }
