@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,8 +38,8 @@ public class HomeFragment extends Fragment {
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        Button wordButton = binding.button;
-        Button sendButton = binding.button3;
+        ImageButton wordButton = binding.button;
+        ImageButton sendButton = binding.button3;
 
         //Button Listener for Preview
         wordButton.setOnClickListener(v->{

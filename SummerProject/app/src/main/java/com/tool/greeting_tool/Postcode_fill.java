@@ -11,6 +11,7 @@ import com.tool.greeting_tool.common.KeySet;
 import com.tool.greeting_tool.common.MessageConstant;
 
 import androidx.appcompat.app.AppCompatActivity;
+import android.widget.ImageButton;
 
 public class Postcode_fill extends AppCompatActivity {
 
@@ -27,7 +28,7 @@ public class Postcode_fill extends AppCompatActivity {
         setContentView(R.layout.activity_postcode_fill);
 
         EditText postCode = findViewById(R.id.postcode);
-        Button submitButton = findViewById(R.id.submit_postcode_button);
+        ImageButton submitButton = findViewById(R.id.submit_postcode_button);
 
         submitButton.setOnClickListener(v -> {
             String postcode = postCode.getText().toString().trim();

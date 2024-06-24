@@ -26,5 +26,9 @@
     <string name="signup_back">signup_back</string>
     <string name="signup">signup</string>
     <string name="re_enter_password">Re-enter Password</string>
+    <string name="ar_greeting_title">ar_greeting_title</string>
+    <string name="decoration">decoration</string>
+    <string name="cancel_text">cancel text</string>
+    <string name="title_postcode">postcode title</string>
     <!--<string name="title_notifications">Notifications</string>-->
 </resources>

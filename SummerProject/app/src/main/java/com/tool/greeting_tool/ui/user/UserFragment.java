@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,7 +26,7 @@ import com.tool.greeting_tool.ui.user.History.History_Message;
 public class UserFragment extends Fragment {
 
     private FragmentUserBinding binding;
-    private Button History;
+    private ImageButton History;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
