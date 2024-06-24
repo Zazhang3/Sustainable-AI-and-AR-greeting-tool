@@ -17,6 +17,7 @@ import com.google.gson.JsonObject;
 import com.tool.greeting_tool.R;
 import com.tool.greeting_tool.common.ErrorMessage;
 import com.tool.greeting_tool.common.KeySet;
+import com.tool.greeting_tool.common.SharedPreferencesUtil;
 import com.tool.greeting_tool.common.TAGConstant;
 import com.tool.greeting_tool.common.URLConstant;
 import com.tool.greeting_tool.pojo.vo.UserLoginVO;
@@ -31,7 +32,7 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-public class Login extends AppCompatActivity {
+public class LoginController extends AppCompatActivity {
 
     private EditText usernameEditText;
     private EditText passwordEditText;
@@ -60,7 +61,6 @@ public class Login extends AppCompatActivity {
             public void onClick(View v) {
                 String username = usernameEditText.getText().toString();
                 String password = passwordEditText.getText().toString();
-                //TODO
                 //login logic
                 login(username,password);
             }
@@ -108,7 +108,7 @@ public class Login extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        Toast.makeText(Login.this,ErrorMessage.LOGIN_FAILED_NETWORK_ERROR,Toast.LENGTH_SHORT).show();
+                        Toast.makeText(LoginController.this,"Login failed " + ErrorMessage.NETWORK_ERROR,Toast.LENGTH_SHORT).show();
                     }
                 });
             }
@@ -125,17 +125,14 @@ public class Login extends AppCompatActivity {
                             JsonObject jsonResponse = gson.fromJson(responseBody, JsonObject.class);
                             int code = jsonResponse.get("code").getAsInt();
                             if (code == 1) {
-                                // login successful
-                                Long id = jsonResponse.get("data").getAsJsonObject().get("id").getAsLong();
+                                // login successfully: handle response
+                                Long userId = jsonResponse.get("data").getAsJsonObject().get("id").getAsLong();
                                 String token = jsonResponse.get("data").getAsJsonObject().get("token").getAsString();
-                                Toast.makeText(Login.this, "Login successful", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(LoginController.this, "Login successful", Toast.LENGTH_SHORT).show();
 
+                                System.out.println(token);
                                 //save user data
-                                SharedPreferences sharedPreferences = getSharedPreferences("user_data",MODE_PRIVATE);
-                                SharedPreferences.Editor editor = sharedPreferences.edit();
-                                editor.putLong("userId",id);
-                                editor.putString("username",username);
-                                editor.putString("token",token);
+                                SharedPreferencesUtil.saveUserInfo(LoginController.this,userId,username,token);
 
                                 Intent resultIntent = new Intent();
                                 resultIntent.putExtra(KeySet.UserKey, username);
@@ -144,15 +141,16 @@ public class Login extends AppCompatActivity {
                             } else {
                                 // login failed
                                 String msg = jsonResponse.get("msg").getAsString();
-                                Toast.makeText(Login.this, "Login failed: " + msg, Toast.LENGTH_SHORT).show();
+                                Toast.makeText(LoginController.this, "Login failed: " + msg, Toast.LENGTH_SHORT).show();
                             }
                         } catch (Exception e) {
                             Log.e(TAGConstant.LOGIN_TAG, "Exception while parsing response", e);
-                            Toast.makeText(Login.this, ErrorMessage.LOGIN_FAILED_INVALID_RESPONSE, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(LoginController.this, "Login failed " + ErrorMessage.INVALID_RESPONSE, Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
             }
         });
     }
+
 }

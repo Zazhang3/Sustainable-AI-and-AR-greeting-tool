@@ -19,7 +19,7 @@
             android:exported="false"
             android:theme="@style/Theme.SampleApp.NoActionBar"/>
         <activity
-            android:name=".server.SignUp"
+            android:name=".server.SignUpController"
             android:exported="false"
             android:theme="@style/Theme.SampleApp.NoActionBar" />
         <activity
@@ -32,7 +32,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".server.Login"
+            android:name=".server.LoginController"
             android:exported="false"
             android:theme="@style/Theme.SampleApp.NoActionBar" />
         <activity

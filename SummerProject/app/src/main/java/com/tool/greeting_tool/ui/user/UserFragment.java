@@ -19,10 +19,22 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.tool.greeting_tool.R;
+import com.tool.greeting_tool.common.ErrorMessage;
+import com.tool.greeting_tool.common.SharedPreferencesUtil;
+import com.tool.greeting_tool.common.URLConstant;
 import com.tool.greeting_tool.databinding.FragmentUserBinding;
 import com.tool.greeting_tool.server.StartPage;
 import com.tool.greeting_tool.ui.user.History.HistoryActivity;
 import com.tool.greeting_tool.ui.user.History.History_Message;
+
+import java.io.IOException;
+import java.util.Objects;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 
 public class UserFragment extends Fragment {
@@ -57,13 +69,17 @@ public class UserFragment extends Fragment {
         AccountCancel.setOnClickListener(v->{
             //TODO
             //add account cancellation logic here
+            cancelAccount();
+
             Toast.makeText(getActivity(), "Click cancel", Toast.LENGTH_SHORT).show();
         });
 
         LogoutButton = binding.actionLogout;
         LogoutButton.setOnClickListener(v->{
-            //TODO
-            //add account logout logic here
+
+            //clear user data
+            SharedPreferencesUtil.clearSharedPreferences(requireContext());
+
             Intent intent = new Intent(getActivity(), StartPage.class);
             startActivity(intent);
 
@@ -102,4 +118,58 @@ public class UserFragment extends Fragment {
 
         return super.onOptionsItemSelected(item);
     }
+
+    public void cancelAccount(){
+
+        //get user id and then clear local user data
+        Long userId = SharedPreferencesUtil.getLong(requireContext());
+        String jwtToken = SharedPreferencesUtil.getToken(requireContext());
+        SharedPreferencesUtil.clearSharedPreferences(requireContext());
+
+        //set Requestbody
+        OkHttpClient client = new OkHttpClient();
+        Request request = new Request.Builder()
+                .url(URLConstant.BASIC_USER_URL+"/"+userId)
+                .header("Token",jwtToken)
+                .delete()
+                .build();
+
+        Log.d("RequestDebug", "Authorization Header: " + jwtToken);
+
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                if (response.isSuccessful()) {
+                    // cancel success
+                    requireActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(requireContext(), "Cancel account successfully", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                } else {
+                    //fail to cancel
+                    requireActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(requireContext(), ErrorMessage.INVALID_RESPONSE, Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call call, @NonNull IOException e) {
+                requireActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(requireContext(), ErrorMessage.NETWORK_ERROR, Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
+
+    }
+
+
 }

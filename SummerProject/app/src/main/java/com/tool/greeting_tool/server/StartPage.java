@@ -2,8 +2,6 @@ package com.tool.greeting_tool.server;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
 
 import androidx.annotation.Nullable;
@@ -27,12 +25,12 @@ public class StartPage extends AppCompatActivity {
 
 
         login.setOnClickListener(v -> {
-            Intent intent = new Intent(this, Login.class);
+            Intent intent = new Intent(this, LoginController.class);
             startActivityForResult(intent, 1);
         });
 
         signup.setOnClickListener(v -> {
-            Intent intent = new Intent(this, SignUp.class);
+            Intent intent = new Intent(this, SignUpController.class);
             startActivityForResult(intent, 2);
         });
     }
