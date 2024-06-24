@@ -40,6 +40,8 @@ public class SignUp extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String account = Account.getText().toString();
+                //TODO
+                //Insert SignUp check
                 if(Password.getText().toString().equals(Password_re.getText().toString())){
                     /*Intent intent = new Intent(SignUp.this, MainActivity.class);
                     intent.putExtra(KeySet.UserKey, account);

@@ -32,6 +32,8 @@ public class Postcode_fill extends AppCompatActivity {
 
         submitButton.setOnClickListener(v -> {
             String postcode = postCode.getText().toString().trim();
+            //TODO
+            //Check submit postcode
             showPostCodeDialog(postcode);
 
             /*Intent resultIntent = new Intent();

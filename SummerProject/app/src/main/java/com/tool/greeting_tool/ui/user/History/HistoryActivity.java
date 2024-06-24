@@ -21,6 +21,8 @@ public class HistoryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history);
 
+        //TODO
+        //history check
         ListView listView = findViewById(R.id.history);
 
         MessageList = new ArrayList<>();

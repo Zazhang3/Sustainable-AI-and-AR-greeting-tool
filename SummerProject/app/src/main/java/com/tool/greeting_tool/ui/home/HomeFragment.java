@@ -39,6 +39,7 @@ public class HomeFragment extends Fragment {
         View root = binding.getRoot();
 
         ImageButton wordButton = binding.button;
+        ImageButton nearByMessage = binding.button2;
         ImageButton sendButton = binding.button3;
 
         //Button Listener for Preview
@@ -56,6 +57,11 @@ public class HomeFragment extends Fragment {
                     intent.putExtra(KeySet.Request, REQUEST_CODE_SELECT_2);
                     startActivityForResult(intent, REQUEST_CODE_SELECT_2);
                 });
+
+        nearByMessage.setOnClickListener(v->{
+            //TODO
+            //get nearbymessage
+        });
 
         final TextView textView = binding.textHome;
         homeViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);

@@ -42,6 +42,8 @@ public class Login extends AppCompatActivity {
             public void onClick(View v) {
                 String account = Account.getText().toString();
                 String password = Password.getText().toString();
+                //TODO
+                //implement login logic
                 if(account.equals("Admin")&&password.equals("123456")){
                     /*Intent intent = new Intent(Login.this, MainActivity.class);
                     intent.putExtra(KeySet.UserKey, account);
