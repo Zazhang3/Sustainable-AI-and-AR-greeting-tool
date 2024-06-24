@@ -8,6 +8,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.tool.greeting_tool.R;
+import com.tool.greeting_tool.common.MessageConstant;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,12 +45,12 @@ public class HistoryActivity extends AppCompatActivity {
 
     private void showDeleteDialog(History_Message message) {
         new AlertDialog.Builder(this)
-                .setTitle("Delete Message")
-                .setMessage("Are you sure you want to delete this message?")
+                .setTitle(MessageConstant.Delete)
+                .setMessage(MessageConstant.DeleteMessage)
                 .setPositiveButton(android.R.string.yes, (dialog, which) -> {
                     MessageList.remove(message);
                     messageAdapter.notifyDataSetChanged();
-                    Toast.makeText(HistoryActivity.this, "Message deleted", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(HistoryActivity.this, MessageConstant.Delete, Toast.LENGTH_SHORT).show();
                 })
                 .setNegativeButton(android.R.string.no, null)
                 .show();
