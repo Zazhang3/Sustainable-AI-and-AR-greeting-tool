@@ -2,6 +2,7 @@ package com.tool.greeting_tool.ui.user;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -19,6 +20,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.tool.greeting_tool.R;
 import com.tool.greeting_tool.databinding.FragmentUserBinding;
+import com.tool.greeting_tool.server.StartPage;
 import com.tool.greeting_tool.ui.user.History.HistoryActivity;
 import com.tool.greeting_tool.ui.user.History.History_Message;
 
@@ -27,6 +29,8 @@ public class UserFragment extends Fragment {
 
     private FragmentUserBinding binding;
     private ImageButton History;
+    private ImageButton AccountCancel;
+    private ImageButton LogoutButton;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -47,6 +51,23 @@ public class UserFragment extends Fragment {
         History.setOnClickListener(v->{
             Intent intent = new Intent(getActivity(), HistoryActivity.class);
             startActivity(intent);
+        });
+
+        AccountCancel = binding.cancelButton;
+        AccountCancel.setOnClickListener(v->{
+            //TODO
+            //add account cancellation logic here
+            Toast.makeText(getActivity(), "Click cancel", Toast.LENGTH_SHORT).show();
+        });
+
+        LogoutButton = binding.actionLogout;
+        LogoutButton.setOnClickListener(v->{
+            //TODO
+            //add account logout logic here
+            Intent intent = new Intent(getActivity(), StartPage.class);
+            startActivity(intent);
+
+            requireActivity().finish();
         });
 
         return root;
