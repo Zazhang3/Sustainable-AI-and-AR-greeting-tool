@@ -57,8 +57,6 @@ public class UserFragment extends Fragment {
 
         userViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
 
-        setHasOptionsMenu(true);
-
         History = binding.history;
         History.setOnClickListener(v->{
             Intent intent = new Intent(getActivity(), HistoryActivity.class);
@@ -93,30 +91,6 @@ public class UserFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
-    }
-
-    //Create optionsMenu
-    @Override
-    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
-        inflater.inflate(R.menu.select_menu, menu);
-        super.onCreateOptionsMenu(menu, inflater);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        int id = item.getItemId();
-
-        if (id == R.id.action_cancel_account) {
-            // Handle settings action
-            Toast.makeText(getActivity(), "Click cancel", Toast.LENGTH_SHORT).show();
-            return true;
-        } else if (id == R.id.action_logout) {
-            // Handle about action
-            Toast.makeText(getActivity(), "Click logout", Toast.LENGTH_SHORT).show();
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 
     public void cancelAccount(){
