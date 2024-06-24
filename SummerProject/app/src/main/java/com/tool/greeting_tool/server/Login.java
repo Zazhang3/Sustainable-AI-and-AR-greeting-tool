@@ -41,8 +41,8 @@ public class Login extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String account = Account.getText().toString();
-                String passWord = Password.getText().toString();
-                if(account.equals("Admin")&&passWord.equals("123456")){
+                String password = Password.getText().toString();
+                if(account.equals("Admin")&&password.equals("123456")){
                     /*Intent intent = new Intent(Login.this, MainActivity.class);
                     intent.putExtra(KeySet.UserKey, account);
                     startActivity(intent);*/

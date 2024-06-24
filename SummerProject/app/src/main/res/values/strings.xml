@@ -14,7 +14,7 @@
     <string name="account">Account</string>
     <string name="Login">Login</string>
     <string name="user_id">User ID</string>
-    <string name="password">PassWord</string>
+    <string name="password">password</string>
     <string name="sign_in">Sign in</string>
     <string name="welcome">Welcome,</string>
     <string name="dummy_button">Dummy Button</string>

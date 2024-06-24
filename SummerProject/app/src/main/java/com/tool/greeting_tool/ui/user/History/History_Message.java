@@ -26,8 +26,7 @@ public class History_Message {
     }
 
     @NonNull
-    @Override
-    public String toString() {
+    public String getMessage() {
         return Message;
     }
 

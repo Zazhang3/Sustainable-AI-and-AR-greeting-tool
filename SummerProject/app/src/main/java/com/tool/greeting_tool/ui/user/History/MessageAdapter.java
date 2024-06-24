@@ -22,13 +22,15 @@ public class MessageAdapter extends ArrayAdapter<History_Message> {
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        History_Message Message = getItem(position);
-        if(convertView == null) {
+        History_Message message = getItem(position);
+
+        if (convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_item_message, parent, false);
         }
 
         TextView messageText = convertView.findViewById(R.id.message_text);
-        messageText.setText(Message.toString());
-        return super.getView(position, convertView, parent);
+        messageText.setText(message.getMessage());
+
+        return convertView;
     }
 }

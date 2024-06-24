@@ -1,7 +1,6 @@
 package com.tool.greeting_tool.ui.user.History;
 
 import android.app.AlertDialog;
-import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -9,7 +8,6 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.tool.greeting_tool.R;
-import com.tool.greeting_tool.common.ButtonString;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,7 +38,6 @@ public class HistoryActivity extends AppCompatActivity {
                 showDeleteDialog(message);
             }
         });
-
     }
 
     private void showDeleteDialog(History_Message message) {
