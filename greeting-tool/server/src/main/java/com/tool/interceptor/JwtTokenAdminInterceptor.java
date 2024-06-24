@@ -1,5 +1,6 @@
 package com.tool.interceptor;
 
+import com.aliyun.oss.HttpMethod;
 import com.tool.constant.JwtClaimsConstant;
 import com.tool.context.BaseContext;
 import com.tool.properties.JwtProperties;
@@ -40,8 +41,10 @@ public class JwtTokenAdminInterceptor implements HandlerInterceptor {
             return true;
         }
 
+
         //Get the token from the request header
         String token = request.getHeader(jwtProperties.getAdminTokenName());
+
 
         //Check tokens
         try {

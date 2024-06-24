@@ -1,5 +1,6 @@
 package com.tool.controller;
 
+import com.alibaba.druid.pool.ManagedDataSource;
 import com.tool.constant.JwtClaimsConstant;
 import com.tool.dto.UserDTO;
 import com.tool.dto.UserUpdateDTO;
@@ -62,26 +63,18 @@ public class UserController {
     }
 
     /**
-     * Logout
-     * @return
-     */
-    @PostMapping("/logout")
-    @ApiOperation("User logout")
-    public Result<String> logout() {
-        log.info("Logout User");
-        return Result.success();
-    }
-
-    /**
      * User register
      * @param userDTO
      */
     @PostMapping("/register")
     @ApiOperation("User register")
-    public Result userRegister(@RequestBody UserDTO userDTO) {
+    public Result<UserLoginVO> userRegister(@RequestBody UserDTO userDTO) {
         log.info("User register: {}", userDTO);
+        UserDTO userDTOWithUnencryptedPassword = new UserDTO();
+        userDTOWithUnencryptedPassword.setUsername(userDTO.getUsername());
+        userDTOWithUnencryptedPassword.setPassword(userDTO.getPassword());
         userService.userRegister(userDTO);
-        return Result.success();
+        return login(userDTOWithUnencryptedPassword);
     }
 
     /**
