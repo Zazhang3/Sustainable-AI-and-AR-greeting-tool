@@ -2,16 +2,38 @@ package com.tool.greeting_tool.ui.user.History;
 
 import android.app.AlertDialog;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.reflect.TypeToken;
 import com.tool.greeting_tool.R;
+import com.tool.greeting_tool.common.ErrorMessage;
 import com.tool.greeting_tool.common.MessageConstant;
+import com.tool.greeting_tool.common.SharedPreferencesUtil;
+import com.tool.greeting_tool.common.TAGConstant;
+import com.tool.greeting_tool.common.URLConstant;
+import com.tool.greeting_tool.pojo.dto.GreetingCard;
+import com.tool.greeting_tool.server.LoginController;
 
+import org.jetbrains.annotations.NotNull;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 public class HistoryActivity extends AppCompatActivity {
     private MessageAdapter messageAdapter;
@@ -24,13 +46,10 @@ public class HistoryActivity extends AppCompatActivity {
 
         //TODO
         //history check
+        Long currentUserId = SharedPreferencesUtil.getLong(this);
         ListView listView = findViewById(R.id.history);
 
         MessageList = new ArrayList<>();
-        MessageList.add(new History_Message(0, "First One"));
-        MessageList.add(new History_Message(1, "Second One"));
-        MessageList.add(new History_Message(2, "Third One"));
-        MessageList.add(new History_Message(3, "Fourth One"));
 
         messageAdapter = new MessageAdapter(this, MessageList);
         listView.setAdapter(messageAdapter);
@@ -41,6 +60,8 @@ public class HistoryActivity extends AppCompatActivity {
                 showDeleteDialog(message);
             }
         });
+
+        getGreetingCards(currentUserId);
     }
 
     private void showDeleteDialog(History_Message message) {
@@ -55,4 +76,74 @@ public class HistoryActivity extends AppCompatActivity {
                 .setNegativeButton(android.R.string.no, null)
                 .show();
     }
+
+    private void getGreetingCards(Long userId) {
+        String jwtToken = SharedPreferencesUtil.getToken(this);
+
+        // Create empty JSON body
+        Gson gson = new Gson();
+        JsonObject jsonObject = new JsonObject();
+        String json = gson.toJson(jsonObject);
+
+        RequestBody body = RequestBody.create(json, MediaType.get("application/json; charset=utf-8"));
+
+        Request request = new Request.Builder()
+                .url(URLConstant.GET_HISTORY_CARD_URL + "/" + userId)
+                .header("Token", jwtToken)
+                .post(body)
+                .build();
+
+        //send request
+        OkHttpClient client = new OkHttpClient();
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                final String responseBody = response.body().string();
+                Log.d(TAGConstant.HISTORY_CARD_TAG,"Response: "+ responseBody);
+                runOnUiThread(() -> {
+                    try {
+                        JsonObject jsonResponse = new Gson().fromJson(responseBody, JsonObject.class);
+                        int code = jsonResponse.get("code").getAsInt();
+                        if (code == 1) {
+                            ArrayList<GreetingCard> greetingCards = new Gson().fromJson(
+                                    jsonResponse.get("data").getAsJsonArray(),
+                                    new TypeToken<ArrayList<GreetingCard>>(){}.getType()
+                            );
+                            updateMessageList(greetingCards);
+                        } else {
+                            String msg = jsonResponse.get("msg").getAsString();
+                            Toast.makeText(HistoryActivity.this, "Error: " + msg, Toast.LENGTH_SHORT).show();
+                        }
+                    } catch (Exception e) {
+                        Log.e(TAGConstant.HISTORY_CARD_TAG, "Exception while parsing response", e);
+                        Toast.makeText(HistoryActivity.this, "Invalid response", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+
+
+            }
+
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                Log.e(TAGConstant.HISTORY_CARD_TAG,"Get card failed",e);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(HistoryActivity.this,"Get history card failed " + ErrorMessage.NETWORK_ERROR,Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
+
+    }
+    private void updateMessageList(ArrayList<GreetingCard> greetingCards) {
+        MessageList.clear();
+        int id = 0;
+        for (GreetingCard card : greetingCards) {
+            MessageList.add(new History_Message(id++, card.getCardId()));
+        }
+        messageAdapter.notifyDataSetChanged();
+    }
+
 }

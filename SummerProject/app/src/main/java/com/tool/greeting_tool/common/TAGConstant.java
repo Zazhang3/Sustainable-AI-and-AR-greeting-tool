@@ -8,4 +8,5 @@ public class TAGConstant {
 
     public static final String SIGN_UP_TAG = "User register";
 
+    public static final String HISTORY_CARD_TAG = "Fetch history cards by user id";
 }
