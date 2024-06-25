@@ -9,7 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.tool.greeting_tool.MainActivity;
 import com.tool.greeting_tool.R;
-import com.tool.greeting_tool.common.KeySet;
+import com.tool.greeting_tool.common.constant.KeySet;
 
 public class StartPage extends AppCompatActivity {
     private ImageButton login;

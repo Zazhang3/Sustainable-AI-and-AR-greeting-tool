@@ -1,4 +1,4 @@
-package com.tool.greeting_tool.common;
+package com.tool.greeting_tool.common.constant;
 
 public class ButtonString {
     public static final String positiveSet = "OK";

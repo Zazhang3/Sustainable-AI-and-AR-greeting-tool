@@ -3,12 +3,11 @@ package com.tool.greeting_tool;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.Button;
 import android.widget.EditText;
 
-import com.tool.greeting_tool.common.ButtonString;
-import com.tool.greeting_tool.common.KeySet;
-import com.tool.greeting_tool.common.MessageConstant;
+import com.tool.greeting_tool.common.constant.ButtonString;
+import com.tool.greeting_tool.common.constant.KeySet;
+import com.tool.greeting_tool.common.constant.MessageConstant;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.widget.ImageButton;

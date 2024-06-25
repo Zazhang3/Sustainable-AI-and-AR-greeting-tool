@@ -5,21 +5,15 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.tool.greeting_tool.MainActivity;
-import com.tool.greeting_tool.Postcode_fill;
 import com.tool.greeting_tool.WordsSelect;
-import com.tool.greeting_tool.common.KeySet;
+import com.tool.greeting_tool.common.constant.KeySet;
 import com.tool.greeting_tool.databinding.FragmentHomeBinding;
 
 public class HomeFragment extends Fragment {

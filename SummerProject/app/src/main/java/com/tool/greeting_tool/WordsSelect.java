@@ -1,26 +1,17 @@
 package com.tool.greeting_tool;
 
-import com.tool.greeting_tool.common.ButtonString;
-import com.tool.greeting_tool.common.constant;
-import com.tool.greeting_tool.common.KeySet;
+import com.tool.greeting_tool.common.constant.ButtonString;
+import com.tool.greeting_tool.common.constant.RequestCode;
+import com.tool.greeting_tool.common.constant.KeySet;
 
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.provider.UserDictionary;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.AlertDialogLayout;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -108,11 +99,11 @@ public class WordsSelect extends AppCompatActivity {
                 intent.putExtra(KeySet.Request, request);
                 startActivityForResult(intent, 2);
             }else if(Objects.equals(selectType, "Animation")){
-                if(request == constant.REQUEST_CODE_SELECT_1){
+                if(request == RequestCode.REQUEST_CODE_SELECT_1){
                     //Situation for Preview
                     selectList.add(selectedItem);
                     showSelectionDialog(selectList);
-                }else if(request == constant.REQUEST_CODE_SELECT_2){
+                }else if(request == RequestCode.REQUEST_CODE_SELECT_2){
                     //Finish Item selection and move to postcode enter
                     //Back to Home page
                     Intent intent = new Intent(WordsSelect.this, Postcode_fill.class);
