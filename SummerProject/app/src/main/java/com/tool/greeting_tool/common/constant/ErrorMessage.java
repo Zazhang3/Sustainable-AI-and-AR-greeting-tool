@@ -8,4 +8,6 @@ public class ErrorMessage {
     public static final String NETWORK_ERROR = "Network error";
     public static final String INVALID_RESPONSE = "Invalid response";
 
+    public static final String POSTCODE_NOT_FOUND = "Can not find your location";
+
 }
