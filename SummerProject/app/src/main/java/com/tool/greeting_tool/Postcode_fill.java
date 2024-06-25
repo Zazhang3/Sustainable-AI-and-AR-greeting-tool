@@ -1,5 +1,6 @@
 package com.tool.greeting_tool;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -42,10 +43,6 @@ public class Postcode_fill extends AppCompatActivity{
             //Check submit postcode
             showPostCodeDialog(postcode, selectList);
 
-            /*Intent resultIntent = new Intent();
-            resultIntent.putExtra("POSTCODE", postcode);
-            setResult(RESULT_OK, resultIntent);
-            finish();*/
         });
     }
 
@@ -60,7 +57,7 @@ public class Postcode_fill extends AppCompatActivity{
                     Intent resultIntent = new Intent();
                     resultIntent.putExtra(KeySet.PostKey, postCode);
                     resultIntent.putExtra(KeySet.SelectedList, selectList);
-                    setResult(RESULT_OK, resultIntent);
+                    setResult(Activity.RESULT_OK, resultIntent);
                     finish();
                 })
                 .show();
