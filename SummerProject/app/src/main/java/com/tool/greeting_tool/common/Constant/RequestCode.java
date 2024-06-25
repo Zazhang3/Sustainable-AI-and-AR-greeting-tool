@@ -1,6 +1,6 @@
-package com.tool.greeting_tool.common;
+package com.tool.greeting_tool.common.Constant;
 
-public class constant {
+public class RequestCode {
 
     public static final int REQUEST_CODE_SELECT_1 = 1;
     public static final int REQUEST_CODE_SELECT_2 = 2;

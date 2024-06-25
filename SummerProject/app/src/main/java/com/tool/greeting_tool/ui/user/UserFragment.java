@@ -9,7 +9,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -19,16 +18,14 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.tool.greeting_tool.R;
-import com.tool.greeting_tool.common.ErrorMessage;
-import com.tool.greeting_tool.common.SharedPreferencesUtil;
-import com.tool.greeting_tool.common.URLConstant;
+import com.tool.greeting_tool.common.Constant.ErrorMessage;
+import com.tool.greeting_tool.common.Utils.SharedPreferencesUtil;
+import com.tool.greeting_tool.common.Constant.URLConstant;
 import com.tool.greeting_tool.databinding.FragmentUserBinding;
 import com.tool.greeting_tool.server.StartPage;
 import com.tool.greeting_tool.ui.user.History.HistoryActivity;
-import com.tool.greeting_tool.ui.user.History.History_Message;
 
 import java.io.IOException;
-import java.util.Objects;
 
 import okhttp3.Call;
 import okhttp3.Callback;

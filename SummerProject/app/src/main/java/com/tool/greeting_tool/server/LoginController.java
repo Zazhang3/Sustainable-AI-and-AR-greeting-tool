@@ -1,7 +1,6 @@
 package com.tool.greeting_tool.server;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -15,11 +14,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.tool.greeting_tool.R;
-import com.tool.greeting_tool.common.ErrorMessage;
-import com.tool.greeting_tool.common.KeySet;
-import com.tool.greeting_tool.common.SharedPreferencesUtil;
-import com.tool.greeting_tool.common.TAGConstant;
-import com.tool.greeting_tool.common.URLConstant;
+import com.tool.greeting_tool.common.Constant.ErrorMessage;
+import com.tool.greeting_tool.common.Constant.KeySet;
+import com.tool.greeting_tool.common.Utils.SharedPreferencesUtil;
+import com.tool.greeting_tool.common.Constant.TAGConstant;
+import com.tool.greeting_tool.common.Constant.URLConstant;
 import com.tool.greeting_tool.pojo.vo.UserLoginVO;
 
 import java.io.IOException;

@@ -2,9 +2,7 @@ package com.tool.greeting_tool;
 
 import android.os.Bundle;
 
-import com.tool.greeting_tool.common.KeySet;
-import com.tool.greeting_tool.ui.home.HomeFragment;
-import com.tool.greeting_tool.ui.user.UserFragment;
+import com.tool.greeting_tool.common.Constant.KeySet;
 import com.tool.greeting_tool.ui.user.UserViewModel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -16,9 +14,6 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.tool.greeting_tool.databinding.ActivityMainBinding;
-
-import java.lang.annotation.Target;
-import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
 
