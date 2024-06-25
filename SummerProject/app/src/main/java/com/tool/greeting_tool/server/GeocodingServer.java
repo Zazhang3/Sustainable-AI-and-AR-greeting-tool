@@ -15,13 +15,13 @@ import okhttp3.Response;
  * The Class help to get address by latitude and longitude
  * Use Google API and have 100 check Limits
  * Back a Json file contains lots of address
+ * Please go to https://developers.google.com/maps/documentation/geocoding/cloud-setup#console
+ * To get API Key
  */
 
 public class GeocodingServer {
     private static final String BASE_URL = "https://maps.googleapis.com/maps/api/geocode/json";
-    private static final String API_KEY = "";
-    //TODO
-    //
+    private static final String API_KEY = "Your key here";
 
     public String getAddress(double latitude, double longitude){
         OkHttpClient client = new OkHttpClient();
