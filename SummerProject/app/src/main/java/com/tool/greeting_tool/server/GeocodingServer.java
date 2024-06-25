@@ -19,7 +19,9 @@ import okhttp3.Response;
 
 public class GeocodingServer {
     private static final String BASE_URL = "https://maps.googleapis.com/maps/api/geocode/json";
-    private static final String API_KEY = "AIzaSyDIalYY9nM3RgrPWJAcolhEoeCgfvog01c";
+    private static final String API_KEY = "";
+    //TODO
+    //
 
     public String getAddress(double latitude, double longitude){
         OkHttpClient client = new OkHttpClient();
