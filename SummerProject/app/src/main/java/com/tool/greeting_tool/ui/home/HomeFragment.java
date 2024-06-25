@@ -26,6 +26,7 @@ import com.tool.greeting_tool.Postcode_fill;
 import com.tool.greeting_tool.WordsSelect;
 import com.tool.greeting_tool.common.constant.ErrorMessage;
 import com.tool.greeting_tool.common.constant.KeySet;
+import com.tool.greeting_tool.common.constant.RequestCode;
 import com.tool.greeting_tool.common.constant.TAGConstant;
 import com.tool.greeting_tool.common.constant.URLConstant;
 import com.tool.greeting_tool.common.utils.SharedPreferencesUtil;
@@ -85,7 +86,7 @@ public class HomeFragment extends Fragment {
             Intent intent = new Intent(getActivity(), WordsSelect.class);
             intent.putExtra(KeySet.SelectedType, "Words");
             intent.putExtra(KeySet.Request, REQUEST_CODE_SELECT_1);
-            startActivityForResult(intent, 2);
+            startActivityForResult(intent, 1);
         });
 
         //Button Listener for Send
@@ -137,11 +138,12 @@ public class HomeFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        //int Request = data.getIntExtra(KeySet.Request, -1);
         if (requestCode == REQUEST_CODE_SELECT_1) {
-            String postcode = data.getStringExtra(KeySet.PostKey);
-            ArrayList<String> SelectedItems = data.getStringArrayListExtra(KeySet.SelectedList);
-            System.out.println(postcode);
-            System.out.println(SelectedItems);
+            //String postcode = data.getStringExtra(KeySet.PostKey);
+            //ArrayList<String> SelectedItems = data.getStringArrayListExtra(KeySet.SelectedList);
+            //System.out.println(postcode);
+            //System.out.println(SelectedItems);
         } else if (requestCode == REQUEST_CODE_SELECT_2) {
             //TODO
             //These are the items need for back_end

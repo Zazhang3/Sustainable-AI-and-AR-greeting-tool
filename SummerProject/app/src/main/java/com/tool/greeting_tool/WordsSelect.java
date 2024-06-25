@@ -99,7 +99,7 @@ public class WordsSelect extends AppCompatActivity {
                 intent.putExtra(KeySet.SelectedList, selectList);
                 intent.putExtra(KeySet.Request, request);
                 if(request == 1){
-                    startActivityForResult(intent, 2);
+                    startActivityForResult(intent, 1);
                 }else{
                     startActivityForResult(intent, 2);
                 }
@@ -139,6 +139,7 @@ public class WordsSelect extends AppCompatActivity {
                 .setPositiveButton(ButtonString.positiveSet, (dialog, which) -> {
                     Intent resultIntent = new Intent();
                     resultIntent.putExtra(EXTRA_SELECTION, selectList);
+                    resultIntent.putExtra(KeySet.Request, RequestCode.REQUEST_CODE_SELECT_1);
                     setResult(Activity.RESULT_OK, resultIntent);
                     finish();
                 })
@@ -163,6 +164,7 @@ public class WordsSelect extends AppCompatActivity {
             ArrayList<String> selection = data.getStringArrayListExtra(EXTRA_SELECTION);
             Intent resultIntent = new Intent();
             resultIntent.putExtra(EXTRA_SELECTION, selection);
+            resultIntent.putExtra(KeySet.Request, RequestCode.REQUEST_CODE_SELECT_1);
             setResult(Activity.RESULT_OK, resultIntent);
             finish();
         }else if(requestCode == RequestCode.REQUEST_CODE_SELECT_2 && resultCode == RESULT_OK && data != null){
@@ -171,6 +173,7 @@ public class WordsSelect extends AppCompatActivity {
             Intent resultIntent = new Intent();
             resultIntent.putExtra(KeySet.PostKey, postCode);
             resultIntent.putExtra(KeySet.SelectedList, backSelectedList);
+            resultIntent.putExtra(KeySet.Request, RequestCode.REQUEST_CODE_SELECT_2);
             setResult(Activity.RESULT_OK, resultIntent);
             finish();
         }
