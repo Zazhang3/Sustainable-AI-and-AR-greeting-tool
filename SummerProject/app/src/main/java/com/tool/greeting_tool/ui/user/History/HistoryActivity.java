@@ -13,13 +13,12 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 import com.tool.greeting_tool.R;
-import com.tool.greeting_tool.common.ErrorMessage;
-import com.tool.greeting_tool.common.MessageConstant;
-import com.tool.greeting_tool.common.SharedPreferencesUtil;
-import com.tool.greeting_tool.common.TAGConstant;
-import com.tool.greeting_tool.common.URLConstant;
+import com.tool.greeting_tool.common.constant.ErrorMessage;
+import com.tool.greeting_tool.common.constant.MessageConstant;
+import com.tool.greeting_tool.common.constant.TAGConstant;
+import com.tool.greeting_tool.common.constant.URLConstant;
+import com.tool.greeting_tool.common.utils.SharedPreferencesUtil;
 import com.tool.greeting_tool.pojo.dto.GreetingCard;
-import com.tool.greeting_tool.server.LoginController;
 
 import org.jetbrains.annotations.NotNull;
 
