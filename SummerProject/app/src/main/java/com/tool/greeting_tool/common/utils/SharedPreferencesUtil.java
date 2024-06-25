@@ -13,8 +13,8 @@ public class SharedPreferencesUtil {
     public static void clearSharedPreferences(Context context) {
         SharedPreferences sharedPreferences = context.getSharedPreferences(userPrefs, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.clear(); // 清空所有数据
-        editor.apply(); // 提交更改
+        editor.clear();
+        editor.apply();
     }
 
     /**

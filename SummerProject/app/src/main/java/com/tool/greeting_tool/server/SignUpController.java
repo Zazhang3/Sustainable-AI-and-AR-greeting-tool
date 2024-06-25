@@ -78,6 +78,11 @@ public class SignUpController extends AppCompatActivity {
         });
     }
 
+    /**
+     * Sign up with username and password
+     * @param username
+     * @param password
+     */
     private void signUp(String username,String password){
         //generate userVO
         UserLoginVO userLoginVO = new UserLoginVO();

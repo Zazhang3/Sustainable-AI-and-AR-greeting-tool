@@ -58,7 +58,7 @@ public class UserFragment extends Fragment {
 
         AccountCancel = binding.cancelButton;
         AccountCancel.setOnClickListener(v->{
-            //TODO
+
             //add account cancellation logic here
             cancelAccount();
 
@@ -86,6 +86,9 @@ public class UserFragment extends Fragment {
         binding = null;
     }
 
+    /**
+     * cancel user account by userId
+     */
     public void cancelAccount(){
 
         //get user id and then clear local user data
