@@ -5,12 +5,14 @@ import androidx.annotation.NonNull;
 public class History_Message {
 
     private int id;
+    private Long cardId;
 
     private String Message;
 
-    public History_Message(int id, String Message){
+    public History_Message(int id, String Message, Long cardId){
         this.Message = Message;
         this.id = id;
+        this.cardId = cardId;
     }
 
     public void setId(int id) {
@@ -23,6 +25,10 @@ public class History_Message {
 
     public int getId() {
         return id;
+    }
+
+    public Long getCardId() {
+        return cardId;
     }
 
     @NonNull

@@ -10,4 +10,5 @@ public class URLConstant {
     public static final String GET_HISTORY_CARD_URL = "http://10.0.2.2:8080/greeting_card/user";
     public static final String SEND_CARD_URL = "http://10.0.2.2:8080/greeting_card";
     public static final String GET_NEARBY_CARD_URL = "http://10.0.2.2:8080/greeting_card/postcode";
+    public static final String GET_DELETE_CARD_URL = "http://10.0.2.2:8080/greeting_card";
 }

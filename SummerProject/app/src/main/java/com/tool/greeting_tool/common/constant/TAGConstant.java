@@ -11,4 +11,5 @@ public class TAGConstant {
     public static final String HISTORY_CARD_TAG = "Fetch history cards by user id";
     public static final String SEND_CARD_TAG = "User send card";
     public static final String NEARBY_CARD_TAG = "User check nearby card";
+    public static final String DELETE_CARD_TAG = "User delete certain card";
 }

@@ -54,7 +54,9 @@ public class HistoryActivity extends AppCompatActivity {
         listView.setOnItemClickListener((parent, view, position, id) -> {
             History_Message message = messageAdapter.getItem(position);
             if (message != null) {
+                Long deletedId = message.getCardId();
                 showDeleteDialog(message);
+                deleteMessage(deletedId);
             }
         });
 
@@ -143,9 +145,60 @@ public class HistoryActivity extends AppCompatActivity {
         MessageList.clear();
         int id = 0;
         for (GreetingCard card : greetingCards) {
-            MessageList.add(new History_Message(id++, card.getCardId()));
+            MessageList.add(new History_Message(id++, card.getCardId(), card.getId()));
         }
         messageAdapter.notifyDataSetChanged();
+    }
+
+    /**
+     * user delete a greeting card
+     * @param deletedId
+     */
+    private void deleteMessage(Long deletedId) {
+        String jwtToken = SharedPreferencesUtil.getToken(this);
+
+        Request request = new Request.Builder()
+                .url(URLConstant.GET_DELETE_CARD_URL + "/" + deletedId)
+                .header("Token", jwtToken)
+                .delete()
+                .build();
+
+        //send request
+        OkHttpClient client = new OkHttpClient();
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                if (response.isSuccessful()) {
+                    // cancel success
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(HistoryActivity.this, "Delete card successfully", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                } else {
+                    //fail to cancel
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(HistoryActivity.this, ErrorMessage.INVALID_RESPONSE, Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call call, @NonNull IOException e) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(HistoryActivity.this, ErrorMessage.NETWORK_ERROR, Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
+
+
     }
 
 }
