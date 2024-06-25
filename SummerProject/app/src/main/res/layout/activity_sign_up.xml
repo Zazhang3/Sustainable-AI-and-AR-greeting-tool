@@ -84,6 +84,7 @@
         android:background="@drawable/round_background"
         android:hint="@string/user_id"
         android:inputType="text"
+        android:maxLength="30"
         app:layout_constraintBottom_toTopOf="@+id/id_signup_password"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.487"

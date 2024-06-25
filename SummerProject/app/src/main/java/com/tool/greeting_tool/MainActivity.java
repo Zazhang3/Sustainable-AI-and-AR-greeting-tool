@@ -7,6 +7,7 @@ import com.tool.greeting_tool.ui.user.UserViewModel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -49,5 +50,6 @@ public class MainActivity extends AppCompatActivity {
         //Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
 
     }
+
 
 }
