@@ -1,8 +1,8 @@
 package com.tool.greeting_tool;
 
-import com.tool.greeting_tool.common.ButtonString;
-import com.tool.greeting_tool.common.constant;
-import com.tool.greeting_tool.common.KeySet;
+import com.tool.greeting_tool.common.Constant.ButtonString;
+import com.tool.greeting_tool.common.Constant.RequestCode;
+import com.tool.greeting_tool.common.Constant.KeySet;
 
 import android.app.AlertDialog;
 import android.content.Intent;
@@ -108,11 +108,11 @@ public class WordsSelect extends AppCompatActivity {
                 intent.putExtra(KeySet.Request, request);
                 startActivityForResult(intent, 2);
             }else if(Objects.equals(selectType, "Animation")){
-                if(request == constant.REQUEST_CODE_SELECT_1){
+                if(request == RequestCode.REQUEST_CODE_SELECT_1){
                     //Situation for Preview
                     selectList.add(selectedItem);
                     showSelectionDialog(selectList);
-                }else if(request == constant.REQUEST_CODE_SELECT_2){
+                }else if(request == RequestCode.REQUEST_CODE_SELECT_2){
                     //Finish Item selection and move to postcode enter
                     //Back to Home page
                     Intent intent = new Intent(WordsSelect.this, Postcode_fill.class);
