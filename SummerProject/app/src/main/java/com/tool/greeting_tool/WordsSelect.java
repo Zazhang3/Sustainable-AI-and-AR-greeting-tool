@@ -4,6 +4,7 @@ import com.tool.greeting_tool.common.constant.ButtonString;
 import com.tool.greeting_tool.common.constant.RequestCode;
 import com.tool.greeting_tool.common.constant.KeySet;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -90,14 +91,18 @@ public class WordsSelect extends AppCompatActivity {
                 intent.putExtra(KeySet.SelectedList, selectList);
                 intent.putExtra(KeySet.SelectedType, "Emoji");
                 intent.putExtra(KeySet.Request, request);
-                startActivityForResult(intent, 1);
+                startActivityForResult(intent, 2);
             }else if(Objects.equals(selectType, "Emoji")){
                 Intent intent = new Intent(WordsSelect.this, WordsSelect.class);
                 selectList.add(selectedItem);
                 intent.putExtra(KeySet.SelectedType, "Animation");
                 intent.putExtra(KeySet.SelectedList, selectList);
                 intent.putExtra(KeySet.Request, request);
-                startActivityForResult(intent, 2);
+                if(request == 1){
+                    startActivityForResult(intent, 2);
+                }else{
+                    startActivityForResult(intent, 2);
+                }
             }else if(Objects.equals(selectType, "Animation")){
                 if(request == RequestCode.REQUEST_CODE_SELECT_1){
                     //Situation for Preview
@@ -106,6 +111,7 @@ public class WordsSelect extends AppCompatActivity {
                 }else if(request == RequestCode.REQUEST_CODE_SELECT_2){
                     //Finish Item selection and move to postcode enter
                     //Back to Home page
+                    selectList.add(selectedItem);
                     Intent intent = new Intent(WordsSelect.this, Postcode_fill.class);
                     intent.putExtra(KeySet.SelectedList, selectList);
                     startActivityForResult(intent, 2);
@@ -133,7 +139,7 @@ public class WordsSelect extends AppCompatActivity {
                 .setPositiveButton(ButtonString.positiveSet, (dialog, which) -> {
                     Intent resultIntent = new Intent();
                     resultIntent.putExtra(EXTRA_SELECTION, selectList);
-                    setResult(RESULT_OK, resultIntent);
+                    setResult(Activity.RESULT_OK, resultIntent);
                     finish();
                 })
                 .show();
@@ -153,20 +159,19 @@ public class WordsSelect extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK && data != null) {
+        if (resultCode == RESULT_OK && data != null && requestCode == RequestCode.REQUEST_CODE_SELECT_1) {
             ArrayList<String> selection = data.getStringArrayListExtra(EXTRA_SELECTION);
             Intent resultIntent = new Intent();
             resultIntent.putExtra(EXTRA_SELECTION, selection);
-            setResult(RESULT_OK, resultIntent);
+            setResult(Activity.RESULT_OK, resultIntent);
             finish();
-        }
-        if(requestCode == 2 && resultCode == RESULT_OK){
+        }else if(requestCode == RequestCode.REQUEST_CODE_SELECT_2 && resultCode == RESULT_OK && data != null){
             String postCode = data.getStringExtra(KeySet.PostKey);
             ArrayList<String> backSelectedList = data.getStringArrayListExtra(KeySet.SelectedList);
             Intent resultIntent = new Intent();
             resultIntent.putExtra(KeySet.PostKey, postCode);
             resultIntent.putExtra(KeySet.SelectedList, backSelectedList);
-            setResult(RESULT_OK, resultIntent);
+            setResult(Activity.RESULT_OK, resultIntent);
             finish();
         }
     }
