@@ -58,6 +58,8 @@ public class HomeFragment extends Fragment {
     private double backLatitude;
     private double backLongitude;
 
+    private String backPostCode;
+
     private String selectType;
     private static final int REQUEST_CODE_SELECT_1 = 1;
     private static final int REQUEST_CODE_SELECT_2 = 2;
@@ -103,8 +105,7 @@ public class HomeFragment extends Fragment {
                     new FetchAddressTask().execute(backLatitude, backLongitude);
                 }
             });
-            ////TODO: get current postcode via geocoding server
-            getNearbyGreetingCards("BS2 0BU");
+            //getNearbyGreetingCards("BS2 0BU");
         });
 
         final TextView textView = binding.textHome;
@@ -117,7 +118,6 @@ public class HomeFragment extends Fragment {
         protected String doInBackground(Double... params) {
             double latitude = params[0];
             double longitude = params[1];
-            System.out.println(latitude);
             return geocodingServer.getAddress(latitude, longitude);
         }
 
@@ -125,9 +125,9 @@ public class HomeFragment extends Fragment {
         protected void onPostExecute(String postcode) {
             super.onPostExecute(postcode);
             if(postcode!=null){
-                //TODO
-                //the callback postcode is the current location postcode
-                Toast.makeText(requireContext(), postcode, Toast.LENGTH_SHORT).show();
+                //TODO Now move the getNearbyGreetingCards method here
+                getNearbyGreetingCards(postcode);
+                //Toast.makeText(requireContext(), postcode, Toast.LENGTH_SHORT).show();
             }else{
                 Toast.makeText(requireContext(), ErrorMessage.POSTCODE_NOT_FOUND, Toast.LENGTH_SHORT).show();
             }

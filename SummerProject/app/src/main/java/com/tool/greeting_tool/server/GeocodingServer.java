@@ -21,7 +21,7 @@ import okhttp3.Response;
 
 public class GeocodingServer {
     private static final String BASE_URL = "https://maps.googleapis.com/maps/api/geocode/json";
-    private static final String API_KEY = "Your key here";
+    private static final String API_KEY = "Your API Key";
 
     public String getAddress(double latitude, double longitude){
         OkHttpClient client = new OkHttpClient();
