@@ -1,4 +1,4 @@
-package com.tool.greeting_tool.common.Constant;
+package com.tool.greeting_tool.common.constant;
 
 public class MessageConstant {
     public static final String PostCodeMessage = "The PostCode you enter: ";

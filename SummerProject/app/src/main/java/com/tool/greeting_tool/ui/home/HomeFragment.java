@@ -13,7 +13,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.tool.greeting_tool.WordsSelect;
-import com.tool.greeting_tool.common.Constant.KeySet;
+import com.tool.greeting_tool.common.constant.KeySet;
 import com.tool.greeting_tool.databinding.FragmentHomeBinding;
 
 public class HomeFragment extends Fragment {

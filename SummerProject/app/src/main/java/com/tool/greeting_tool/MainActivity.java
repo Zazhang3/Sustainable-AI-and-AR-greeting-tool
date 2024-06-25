@@ -2,12 +2,11 @@ package com.tool.greeting_tool;
 
 import android.os.Bundle;
 
-import com.tool.greeting_tool.common.Constant.KeySet;
+import com.tool.greeting_tool.common.constant.KeySet;
 import com.tool.greeting_tool.ui.user.UserViewModel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;

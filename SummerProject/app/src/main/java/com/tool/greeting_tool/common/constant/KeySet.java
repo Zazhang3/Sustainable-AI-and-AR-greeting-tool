@@ -1,4 +1,4 @@
-package com.tool.greeting_tool.common.Constant;
+package com.tool.greeting_tool.common.constant;
 
 public class KeySet {
     public static final String PostKey = "thePostKey";

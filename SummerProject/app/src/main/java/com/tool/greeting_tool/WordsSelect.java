@@ -1,26 +1,17 @@
 package com.tool.greeting_tool;
 
-import com.tool.greeting_tool.common.Constant.ButtonString;
-import com.tool.greeting_tool.common.Constant.RequestCode;
-import com.tool.greeting_tool.common.Constant.KeySet;
+import com.tool.greeting_tool.common.constant.ButtonString;
+import com.tool.greeting_tool.common.constant.RequestCode;
+import com.tool.greeting_tool.common.constant.KeySet;
 
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.provider.UserDictionary;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.AlertDialogLayout;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import java.util.ArrayList;
 import java.util.Objects;

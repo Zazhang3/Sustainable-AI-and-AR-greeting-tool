@@ -14,11 +14,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.tool.greeting_tool.R;
-import com.tool.greeting_tool.common.Constant.ErrorMessage;
-import com.tool.greeting_tool.common.Constant.KeySet;
-import com.tool.greeting_tool.common.Utils.SharedPreferencesUtil;
-import com.tool.greeting_tool.common.Constant.TAGConstant;
-import com.tool.greeting_tool.common.Constant.URLConstant;
+import com.tool.greeting_tool.common.constant.ErrorMessage;
+import com.tool.greeting_tool.common.constant.KeySet;
+import com.tool.greeting_tool.common.utils.SharedPreferencesUtil;
+import com.tool.greeting_tool.common.constant.TAGConstant;
+import com.tool.greeting_tool.common.constant.URLConstant;
 import com.tool.greeting_tool.pojo.vo.UserLoginVO;
 
 import java.io.IOException;

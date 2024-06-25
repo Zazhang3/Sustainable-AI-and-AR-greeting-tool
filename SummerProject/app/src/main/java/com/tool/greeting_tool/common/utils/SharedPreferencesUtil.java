@@ -1,4 +1,4 @@
-package com.tool.greeting_tool.common.Utils;
+package com.tool.greeting_tool.common.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;

@@ -8,7 +8,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.tool.greeting_tool.R;
-import com.tool.greeting_tool.common.Constant.MessageConstant;
+import com.tool.greeting_tool.common.constant.MessageConstant;
 
 import java.util.ArrayList;
 import java.util.List;

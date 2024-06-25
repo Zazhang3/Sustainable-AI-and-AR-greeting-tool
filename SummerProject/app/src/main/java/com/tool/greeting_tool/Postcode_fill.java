@@ -5,9 +5,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.EditText;
 
-import com.tool.greeting_tool.common.Constant.ButtonString;
-import com.tool.greeting_tool.common.Constant.KeySet;
-import com.tool.greeting_tool.common.Constant.MessageConstant;
+import com.tool.greeting_tool.common.constant.ButtonString;
+import com.tool.greeting_tool.common.constant.KeySet;
+import com.tool.greeting_tool.common.constant.MessageConstant;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.widget.ImageButton;

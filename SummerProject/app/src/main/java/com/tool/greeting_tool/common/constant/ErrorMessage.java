@@ -1,4 +1,4 @@
-package com.tool.greeting_tool.common.Constant;
+package com.tool.greeting_tool.common.constant;
 
 public class ErrorMessage {
     public static final String User_Not_Found = "Invalid User Name";
