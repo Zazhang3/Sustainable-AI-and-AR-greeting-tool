@@ -43,8 +43,6 @@ public class HistoryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history);
 
-        //TODO
-        //history check
         Long currentUserId = SharedPreferencesUtil.getLong(this);
         ListView listView = findViewById(R.id.history);
 
@@ -75,6 +73,11 @@ public class HistoryActivity extends AppCompatActivity {
                 .setNegativeButton(android.R.string.no, null)
                 .show();
     }
+
+    /**
+     * Use to help user to check their history sent card
+     * @param userId
+     */
 
     private void getGreetingCards(Long userId) {
         String jwtToken = SharedPreferencesUtil.getToken(this);

@@ -15,4 +15,23 @@ public class GreetingCard {
         return card_id;
     }
 
+    public void setText(String text) {
+        this.card_id = text;
+    }
+
+    public void setEmoji(String emoji) {
+        this.emoji_id = emoji;
+    }
+
+    public void setPostcode(String postcode) {
+        this.postcode = postcode;
+    }
+
+    public void setAnimation(String animation) {
+        this.animation_id = animation;
+    }
+
+    public void setUser_id(Long userId) {
+        this.user_id = userId;
+    }
 }

@@ -9,4 +9,5 @@ public class TAGConstant {
     public static final String SIGN_UP_TAG = "User register";
 
     public static final String HISTORY_CARD_TAG = "Fetch history cards by user id";
+    public static final String SEND_CARD_TAG = "User send card";
 }
