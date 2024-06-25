@@ -43,8 +43,7 @@ dependencies {
             implementation libs.okhttp
             implementation libs.gson
             implementation libs.converter.gson
-    implementation libs.play.services.tasks
-    testImplementation libs.junit
+            testImplementation libs.junit
             androidTestImplementation libs.ext.junit
             androidTestImplementation libs.espresso.core
 }

@@ -107,6 +107,7 @@ public class WordsSelect extends AppCompatActivity {
                     //Finish Item selection and move to postcode enter
                     //Back to Home page
                     Intent intent = new Intent(WordsSelect.this, Postcode_fill.class);
+                    intent.putExtra(KeySet.SelectedList, selectList);
                     startActivityForResult(intent, 2);
                 }
             }
@@ -161,8 +162,10 @@ public class WordsSelect extends AppCompatActivity {
         }
         if(requestCode == 2 && resultCode == RESULT_OK){
             String postCode = data.getStringExtra(KeySet.PostKey);
+            ArrayList<String> backSelectedList = data.getStringArrayListExtra(KeySet.SelectedList);
             Intent resultIntent = new Intent();
             resultIntent.putExtra(KeySet.PostKey, postCode);
+            resultIntent.putExtra(KeySet.SelectedList, backSelectedList);
             setResult(RESULT_OK, resultIntent);
             finish();
         }
