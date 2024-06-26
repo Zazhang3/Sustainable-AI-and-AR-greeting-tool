@@ -1,5 +1,7 @@
 [versions]
 agp = "7.4.1"
+androidMail = "1.6.7"
+androidActivation = "1.6.7"
 junit = "4.13.2"
 junitVersion = "1.1.5"
 espressoCore = "3.5.1"
@@ -17,6 +19,8 @@ gson = "2.11.0"
 okhttp = "4.12.0"
 
 [libraries]
+android-activation = { module = "com.sun.mail:android-activation", version.ref = "androidActivation" }
+android-mail = { module = "com.sun.mail:android-mail", version.ref = "androidMail" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 ext-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }

@@ -11,7 +11,8 @@ import androidx.core.app.NotificationCompat;
 
 import com.tool.greeting_tool.R;
 
-/**Init and send a notification
+/**
+ * Init and send a notification
  * Cancel the notificatiion created
  */
 public class NotificationGenerater {
@@ -21,7 +22,8 @@ public class NotificationGenerater {
     private final NotificationManager notificationManager;
     private final Context context;
 
-    /**Init NotificationGenerater with Context(An activity) and notificationImportance
+    /**
+     * Init NotificationGenerater with Context(An activity) and notificationImportance
      * @param context
      * @param notificationImportance
      */
@@ -31,7 +33,8 @@ public class NotificationGenerater {
         createNotificationChannel(notificationImportance);
     }
 
-    /**Initialize a new NotificationChannel Class
+    /**
+     * Initialize a new NotificationChannel Class
      * NotificationImportance is needed to init this class
      * @param notificationImportance
      */

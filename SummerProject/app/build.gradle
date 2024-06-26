@@ -27,9 +27,18 @@ android {
     buildFeatures {
         viewBinding true
     }
+
+
+    packagingOptions {
+        pickFirst 'META-INF/NOTICE.md' // 或者可以使用 exclude 'META-INF/NOTICE.md'，取决于你的具体情况
+        pickFirst 'META-INF/LICENSE.md'
+    }
 }
 
 dependencies {
+
+            implementation libs.android.mail
+            implementation libs.android.activation
             implementation libs.play.services.location
             implementation libs.appcompat
             implementation libs.material
