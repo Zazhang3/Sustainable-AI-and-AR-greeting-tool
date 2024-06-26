@@ -11,6 +11,8 @@ public class ErrorMessage {
 
     public static final String POSTCODE_NOT_FOUND = "Can not find your location";
 
+    public static final String INVALID_POSTCODE = "Invalid postcode!";
+
     public static final String USERNAME_EMPTY_ERROR = "User Name can not be empty";
 
 }

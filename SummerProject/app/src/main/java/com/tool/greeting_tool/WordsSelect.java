@@ -26,8 +26,6 @@ public class WordsSelect extends AppCompatActivity {
 
     private ArrayList<String> selectList;
     private String selectType;
-    private String selectText;
-    private String selectEmoji;
     private int request;
     private String[] items;
 

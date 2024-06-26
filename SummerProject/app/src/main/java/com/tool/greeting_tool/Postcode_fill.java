@@ -7,18 +7,19 @@ import android.os.Bundle;
 import android.widget.EditText;
 
 import com.tool.greeting_tool.common.constant.ButtonString;
+import com.tool.greeting_tool.common.constant.ErrorMessage;
 import com.tool.greeting_tool.common.constant.KeySet;
 import com.tool.greeting_tool.common.constant.MessageConstant;
 import com.tool.greeting_tool.server.LocationHelper;
+import com.tool.greeting_tool.common.utils.FormatCheckerUtil;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
 public class Postcode_fill extends AppCompatActivity{
-    private LocationHelper locationHelper;
-
     /**
      *
      * @param savedInstanceState If the activity is being re-initialized after
@@ -39,10 +40,13 @@ public class Postcode_fill extends AppCompatActivity{
 
         submitButton.setOnClickListener(v -> {
             String postcode = postCode.getText().toString().trim();
-            //TODO
-            //Check submit postcode
-            showPostCodeDialog(postcode, selectList);
-
+            if(FormatCheckerUtil.checkPostcode(postcode)){
+                //TODO
+                //send card request
+                showPostCodeDialog(postcode, selectList);
+            }else{
+                Toast.makeText(Postcode_fill.this, ErrorMessage.INVALID_POSTCODE, Toast.LENGTH_SHORT).show();
+            }
         });
     }
 

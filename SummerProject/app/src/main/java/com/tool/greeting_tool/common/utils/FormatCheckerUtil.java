@@ -10,10 +10,14 @@ public class FormatCheckerUtil {
             "^(?=.*[0-9])"        // At least one number
                     +   "(?=.*[a-z])"         // At least one lowercase letter
                     +   "(?=.*[A-Z])"        // At least one uppercase letter
-                    +   "(?=.*[@#$%^&+=])"    // At least one special character
+                    +   "(?=.*[@#$%^&+=!?])"    // At least one special character
                     +   "(?=\\S+$).{8,}$";      // No spaces and at least eight digits
 
-    private static final Pattern pattern = Pattern.compile(PASSWORD_PATTERN);
+    private static final String POSTCODE_PATTERN =
+            "^([A-Za-z][A-Ha-hJ-Yj-y]?[0-9][A-Za-z0-9]? ?[0-9][A-Za-z]{2}|[Gg][Ii][Rr] ?0[Aa]{2})$";
+    private static final Pattern passwordPattern = Pattern.compile(PASSWORD_PATTERN);
+
+    private static final Pattern postcodePattern = Pattern.compile(POSTCODE_PATTERN);
 
     public static boolean checkPassword(String password) {
             // check whether is null
@@ -22,7 +26,15 @@ public class FormatCheckerUtil {
         }
 
         // check format
-        return pattern.matcher(password).matches();
+        return passwordPattern.matcher(password).matches();
+    }
+
+    public static boolean checkPostcode(String postcode){
+        if(postcode == null){
+            return false;
+        }
+
+        return postcodePattern.matcher(postcode).matches();
     }
 
 }
