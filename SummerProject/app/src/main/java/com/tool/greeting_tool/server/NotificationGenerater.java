@@ -10,6 +10,10 @@ import android.content.Intent;
 import androidx.core.app.NotificationCompat;
 
 import com.tool.greeting_tool.R;
+import com.tool.greeting_tool.ui.home.HomeFragment;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * Init and send a notification
@@ -21,20 +25,24 @@ public class NotificationGenerater {
     private static final int NOTIFiCATION_ID = 1;
     private final NotificationManager notificationManager;
     private final Context context;
+    private final String postcode;
+    private final Timer timer;
 
     /**
      * Init NotificationGenerater with Context(An activity) and notificationImportance
      * @param context
      * @param notificationImportance
+     * @param postcode
      */
-    public NotificationGenerater(Context context, int notificationImportance) {
+    public NotificationGenerater(Context context, int notificationImportance, String postcode, Timer timer) {
         this.context = context;
         notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         createNotificationChannel(notificationImportance);
+        this.postcode = postcode;
+        this.timer = timer;
+        startTimer();
     }
-
-    /**
-     * Initialize a new NotificationChannel Class
+    /**Initialize a new NotificationChannel Class
      * NotificationImportance is needed to init this class
      * @param notificationImportance
      */
@@ -42,7 +50,35 @@ public class NotificationGenerater {
         NotificationChannel channel = new NotificationChannel(CHANNEL_ID, CHANNEL_NAME, notificationImportance);
         notificationManager.createNotificationChannel(channel);
     }
-
+    /**Set a timer to send notification when users receive message in postcode area
+     */
+    private void startTimer() {
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                int msgCount = getMsgCountFromServer(postcode);
+                String notificationTitle = "Notification";
+                if (msgCount == 1) {
+                    String notificationContent = "You have a new message!";
+                    sendNotification(notificationTitle, notificationContent, HomeFragment.class);
+                } else if (msgCount > 1) {
+                    String notificationContent = "You have " + msgCount + " messages!";
+                    sendNotification(notificationTitle, notificationContent, HomeFragment.class);
+                }
+            }
+        }, 0, 60000); // Check per 1 min
+    }
+    /**Get the count of msg received in current postcode area
+     * @param postcode
+     * @return
+     */
+    private int getMsgCountFromServer(String postcode) {
+        // Implement count of Msg received in a postcode area
+        // TODO
+        // tmp part
+        int msgCount = 0;
+        return msgCount;
+    }
     /**Init and send the notification
      * @param title
      * @param message
@@ -62,7 +98,6 @@ public class NotificationGenerater {
         // Send the notification
         notificationManager.notify(NOTIFiCATION_ID, notification);
     }
-
     /**Get a PendingIntent to jump to an activity
      * @param targetActivity
      * @return pendingIntent
@@ -74,7 +109,6 @@ public class NotificationGenerater {
                 PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
         return pendingIntent;
     }
-
     /**Cancel notification according to notificationID
      * @param notificationId
      */
