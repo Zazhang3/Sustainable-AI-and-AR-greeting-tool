@@ -19,17 +19,17 @@ public class ReSetPassWord extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_re_set_pass_word);
 
-        EditText UserID = findViewById(R.id.userID_reset);
-        EditText Email = findViewById(R.id.textEmail);
+        EditText userID = findViewById(R.id.userID_reset);
+        EditText email = findViewById(R.id.textEmail);
         Button submitButton = findViewById(R.id.ResetButton);
-        String AccountName = UserID.getText().toString();
-        String EmailString = Email.getText().toString();
+        String accountName = userID.getText().toString();
+        String emailString = email.getText().toString();
 
         submitButton.setOnClickListener(v->{
             //TODO
             //send email to check here
             Intent intent = new Intent(this, SetPasswordActivity.class);
-            intent.putExtra(KeySet.UserKey, AccountName);
+            intent.putExtra(KeySet.UserKey, accountName);
             startActivityForResult(intent, 2);
         });
     }

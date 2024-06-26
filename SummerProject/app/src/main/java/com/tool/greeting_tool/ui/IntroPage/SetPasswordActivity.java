@@ -20,8 +20,11 @@ public class SetPasswordActivity extends AppCompatActivity {
         setContentView(R.layout.activity_set_password);
 
         Intent data = getIntent();
-        EditText Reset_password = findViewById(R.id.re_set_password);
-        String ID = data.getStringExtra(KeySet.UserKey);
+        EditText reset_Password = findViewById(R.id.re_set_password);
+        EditText reset_Password_Re = findViewById(R.id.re_set_password_re);
+        String accountID = data.getStringExtra(KeySet.UserKey);
+        String passWord = reset_Password.getText().toString();
+        String passWord_Re = reset_Password_Re.getText().toString();
 
         //TODO
         //Check and update reset_password
