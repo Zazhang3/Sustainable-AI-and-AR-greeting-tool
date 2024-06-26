@@ -1,46 +1,37 @@
 package com.tool.greeting_tool.ui.home;
 
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
-import com.tool.greeting_tool.MainActivity;
-import com.tool.greeting_tool.Postcode_fill;
 import com.tool.greeting_tool.WordsSelect;
 import com.tool.greeting_tool.common.constant.ErrorMessage;
 import com.tool.greeting_tool.common.constant.KeySet;
-import com.tool.greeting_tool.common.constant.RequestCode;
 import com.tool.greeting_tool.common.constant.TAGConstant;
 import com.tool.greeting_tool.common.constant.URLConstant;
 import com.tool.greeting_tool.common.utils.SharedPreferencesUtil;
 import com.tool.greeting_tool.databinding.FragmentHomeBinding;
 import com.tool.greeting_tool.pojo.dto.GreetingCard;
-import com.tool.greeting_tool.server.GeocodingServer;
 import com.tool.greeting_tool.server.LocationHelper;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
-import java.security.Key;
 import java.util.ArrayList;
-import java.util.List;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -54,13 +45,6 @@ public class HomeFragment extends Fragment {
 
     private FragmentHomeBinding binding;
     private LocationHelper locationHelper;
-    private GeocodingServer geocodingServer;
-
-    private double backLatitude;
-    private double backLongitude;
-
-    private String backPostCode;
-
     private String selectType;
     private static final int REQUEST_CODE_SELECT_1 = 1;
     private static final int REQUEST_CODE_SELECT_2 = 2;
@@ -75,7 +59,6 @@ public class HomeFragment extends Fragment {
         View root = binding.getRoot();
 
         locationHelper = new LocationHelper(requireContext());
-        geocodingServer = new GeocodingServer();
 
         ImageButton wordButton = binding.button;
         ImageButton nearByMessage = binding.button2;
@@ -98,13 +81,14 @@ public class HomeFragment extends Fragment {
                 });
 
         nearByMessage.setOnClickListener(v->{
-            locationHelper.getLocation(this, new LocationHelper.LocationCallback() {
-                @Override
-                public void onLocationResult(double latitude, double longitude) {
-                    backLongitude = longitude;
-                    backLatitude = latitude;
-                    new FetchAddressTask().execute(backLatitude, backLongitude);
+            locationHelper.getLocation(this, postcode -> {
+                if(postcode == null || postcode.isEmpty()){
+                    Toast.makeText(getActivity(), ErrorMessage.POSTCODE_NOT_FOUND, Toast.LENGTH_SHORT).show();
+                }else{
+                    Toast.makeText(getActivity(), postcode, Toast.LENGTH_SHORT).show();
+                    getNearbyGreetingCards(postcode);
                 }
+
             });
             //getNearbyGreetingCards("BS2 0BU");
         });
@@ -114,39 +98,15 @@ public class HomeFragment extends Fragment {
         return root;
     }
 
-    private class FetchAddressTask extends AsyncTask<Double, Void, String>{
-        @Override
-        protected String doInBackground(Double... params) {
-            double latitude = params[0];
-            double longitude = params[1];
-            return geocodingServer.getAddress(latitude, longitude);
-        }
-
-        @Override
-        protected void onPostExecute(String postcode) {
-            super.onPostExecute(postcode);
-            if(postcode!=null){
-                //TODO Now move the getNearbyGreetingCards method here
-                getNearbyGreetingCards(postcode);
-                //Toast.makeText(requireContext(), postcode, Toast.LENGTH_SHORT).show();
-            }else{
-                Toast.makeText(requireContext(), ErrorMessage.POSTCODE_NOT_FOUND, Toast.LENGTH_SHORT).show();
-            }
-        }
-    }
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        //int Request = data.getIntExtra(KeySet.Request, -1);
-        if (requestCode == REQUEST_CODE_SELECT_1) {
+        if (requestCode == REQUEST_CODE_SELECT_1&&data!=null) {
             //String postcode = data.getStringExtra(KeySet.PostKey);
             //ArrayList<String> SelectedItems = data.getStringArrayListExtra(KeySet.SelectedList);
             //System.out.println(postcode);
             //System.out.println(SelectedItems);
-        } else if (requestCode == REQUEST_CODE_SELECT_2) {
-            //TODO
-            //These are the items need for back_end
+        } else if (requestCode == REQUEST_CODE_SELECT_2&&data!=null) {
             String postcode = data.getStringExtra(KeySet.PostKey);
             ArrayList<String> SelectedItems = data.getStringArrayListExtra(KeySet.SelectedList);
             sendGreetingCard(SelectedItems,postcode);
@@ -228,6 +188,7 @@ public class HomeFragment extends Fragment {
      * @param currentPostcode
      */
     private void getNearbyGreetingCards(String currentPostcode) {
+        System.out.println(currentPostcode);
         String jwtToken = SharedPreferencesUtil.getToken(requireContext());
 
         // Create empty JSON body

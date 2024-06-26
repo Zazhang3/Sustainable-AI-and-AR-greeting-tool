@@ -52,18 +52,25 @@ public class SignUpController extends AppCompatActivity {
         SignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 String username = usernameEditText.getText().toString();
                 String password = passwordEditText.getText().toString();
+                //TODO
+                //set minimum password length
                 if(password.equals(rePasswordEditText.getText().toString())){
                     /*Intent intent = new Intent(SignUp.this, MainActivity.class);
                     intent.putExtra(KeySet.UserKey, account);
                     startActivity(intent);*/
-                    signUp(username,password);
-
-                    Intent resultIntent = new Intent();
-                    resultIntent.putExtra(KeySet.UserKey, username);
-                    setResult(RESULT_OK, resultIntent);
-                    finish();
+                    if(!username.isEmpty()){
+                        Intent resultIntent = new Intent();
+                        resultIntent.putExtra(KeySet.UserKey, username);
+                        setResult(RESULT_OK, resultIntent);
+                        finish();
+                    }else{
+                        //TODO
+                        // change error message
+                        Toast.makeText(SignUpController.this, ErrorMessage.USERNAME_EMPTY_ERROR, Toast.LENGTH_SHORT).show();
+                    }
                 }else{
                     Toast.makeText(SignUpController.this, ErrorMessage.INCONSISTENT_PASSWORD, Toast.LENGTH_SHORT).show();
                 }

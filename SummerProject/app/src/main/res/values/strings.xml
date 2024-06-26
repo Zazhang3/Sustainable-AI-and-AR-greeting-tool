@@ -30,5 +30,16 @@
     <string name="decoration">decoration</string>
     <string name="cancel_text">cancel text</string>
     <string name="title_postcode">postcode title</string>
+    <!-- Strings related to login -->
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="invalid_username">Not a valid username</string>
+    <string name="invalid_password">Password must be >5 characters</string>
+    <string name="login_failed">"Login failed"</string>
+    <string name="email">Email</string>
+    <string name="please_enter_userid_and_email">Please Enter UserID and Email</string>
+    <string name="please_re_set_password">Please Re-Set Password</string>
     <!--<string name="title_notifications">Notifications</string>-->
 </resources>

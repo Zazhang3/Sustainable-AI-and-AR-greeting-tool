@@ -10,4 +10,6 @@ public class KeySet {
     public static final String SelectedType = "selectType";
 
     public static final String SelectedList = "selectList";
+
+    public static final String ReSetKey = "resetpassword";
 }

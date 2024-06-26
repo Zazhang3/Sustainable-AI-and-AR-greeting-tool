@@ -1,5 +1,9 @@
 package com.tool.greeting_tool.server;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.tool.greeting_tool.common.constant.RequestCode;
 
 import android.Manifest;
@@ -9,6 +13,8 @@ import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
+import android.os.Handler;
+import android.os.Looper;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -26,6 +32,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+
 /**
  * Class use to ask location permission and get current location
  * by latitude and longitude
@@ -35,8 +45,11 @@ public class LocationHelper {
     FusedLocationProviderClient fusedLocationProviderClient;
     Context context;
 
-    public interface LocationCallback{
-        void onLocationResult(double latitude, double longitude);
+    private static final String BASE_URL = "https://maps.googleapis.com/maps/api/geocode/json";
+    private static final String API_KEY = "AIzaSyB3FX_zTEwt-SJkW_62J_kAaL2Yu18v630";
+
+    public interface PostcodeCallback{
+        void onPostcodeResult(String postcode);
     }
 
     public LocationHelper(Context context){
@@ -50,7 +63,7 @@ public class LocationHelper {
      * @param activity
      * @param callback
      */
-    public void getLocation(Activity activity, LocationCallback callback){
+    public void getLocation(Activity activity, PostcodeCallback callback){
         if(ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION)!=PackageManager.PERMISSION_GRANTED){
             ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, RequestCode.REQUEST_LOCATION_PERMISSION);
         }else{
@@ -58,7 +71,7 @@ public class LocationHelper {
         }
     }
 
-    public void getLocation(Fragment fragment, LocationCallback callback){
+    public void getLocation(Fragment fragment, PostcodeCallback callback){
         if(ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION)!=PackageManager.PERMISSION_GRANTED){
             fragment.requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, RequestCode.REQUEST_LOCATION_PERMISSION);
         }else{
@@ -73,7 +86,7 @@ public class LocationHelper {
      * @param grantResults
      * @param callback
      */
-    public void onRequestResult(int requestCode, int[] grantResults, LocationCallback callback){
+    public void onRequestResult(int requestCode, int[] grantResults, PostcodeCallback callback){
         if(requestCode == RequestCode.REQUEST_LOCATION_PERMISSION){
             if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
                 getLastLocation(callback);
@@ -84,19 +97,59 @@ public class LocationHelper {
         }
     }
 
-    private void getLastLocation(LocationCallback callback){
+    private void getLastLocation(PostcodeCallback callback){
         if(ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION)==PackageManager.PERMISSION_GRANTED){
             fusedLocationProviderClient.getLastLocation().addOnCompleteListener(new OnCompleteListener<Location>() {
                 @Override
                 public void onComplete(@NonNull Task<Location> task) {
                     if (task.isSuccessful() && task.getResult() != null){
                         Location location = task.getResult();
-                        double latitude = location.getLatitude();
-                        double longitude = location.getLongitude();
-                        callback.onLocationResult(latitude, longitude);
+                        fetchPostcode(location.getLatitude(), location.getLongitude(), callback);
+                        //callback.onLocationResult(latitude, longitude);
                     }
                 }
             });
         }
+    }
+
+    private void fetchPostcode(double latitude, double longitude, PostcodeCallback callback){
+        OkHttpClient client = new OkHttpClient();
+        String url = BASE_URL + "?latlng=" + latitude + "," + longitude + "&key=" + API_KEY;
+
+        Request request = new Request.Builder()
+                .url(url)
+                .build();
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try(Response response = client.newCall(request).execute()){
+                    if (response.isSuccessful() && response.body() != null) {
+                        String responseBody = response.body().string();
+                        JsonObject json = new Gson().fromJson(responseBody, JsonObject.class);
+                        if ("OK".equals(json.get("status").getAsString())) {
+                            JsonArray results = json.getAsJsonArray("results");
+                            for (JsonElement result : results) {
+                                JsonArray addressComponents = result.getAsJsonObject().getAsJsonArray("address_components");
+                                for (JsonElement component : addressComponents) {
+                                    JsonArray types = component.getAsJsonObject().getAsJsonArray("types");
+                                    for (JsonElement type : types) {
+                                        if ("postal_code".equals(type.getAsString())) {
+                                            String postcode = component.getAsJsonObject().get("long_name").getAsString();
+                                            new Handler(Looper.getMainLooper()).post(() ->
+                                                    callback.onPostcodeResult(postcode)
+                                            );
+                                            return;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }catch(IOException e){
+                    e.printStackTrace();
+                }
+            }
+        }).start();
     }
 }

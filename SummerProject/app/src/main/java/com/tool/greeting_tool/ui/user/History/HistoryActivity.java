@@ -45,7 +45,6 @@ public class HistoryActivity extends AppCompatActivity {
 
         Long currentUserId = SharedPreferencesUtil.getLong(this);
         ListView listView = findViewById(R.id.history);
-
         MessageList = new ArrayList<>();
 
         messageAdapter = new MessageAdapter(this, MessageList);

@@ -61,8 +61,10 @@ public class UserFragment extends Fragment {
 
             cancelAccount();
 
-            //TODO
-            Toast.makeText(getActivity(), "Click cancel", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(getActivity(), StartPage.class);
+            startActivity(intent);
+            requireActivity().finish();
+            //Toast.makeText(getActivity(), "Click cancel", Toast.LENGTH_SHORT).show();
         });
 
         LogoutButton = binding.actionLogout;

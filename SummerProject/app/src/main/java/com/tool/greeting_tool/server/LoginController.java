@@ -4,11 +4,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.gson.Gson;
@@ -20,6 +22,7 @@ import com.tool.greeting_tool.common.utils.SharedPreferencesUtil;
 import com.tool.greeting_tool.common.constant.TAGConstant;
 import com.tool.greeting_tool.common.constant.URLConstant;
 import com.tool.greeting_tool.pojo.vo.UserLoginVO;
+import com.tool.greeting_tool.ui.IntroPage.ReSetPassWord;
 
 import java.io.IOException;
 
@@ -36,6 +39,7 @@ public class LoginController extends AppCompatActivity {
     private EditText usernameEditText;
     private EditText passwordEditText;
     private ImageButton backButton;
+    private Button ForgetPassWord;
 
     /**
      * Use to ask user enter the ID and Password
@@ -54,6 +58,7 @@ public class LoginController extends AppCompatActivity {
         passwordEditText = findViewById(R.id.password);
         backButton = findViewById(R.id.navigateButton_login);
         ImageButton loginButton = findViewById(R.id.signin_button);
+        ForgetPassWord = findViewById(R.id.test_button);
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -65,6 +70,12 @@ public class LoginController extends AppCompatActivity {
             }
         });
 
+        ForgetPassWord.setOnClickListener(v->{
+            Intent intent = new Intent(this, ReSetPassWord.class);
+            intent.putExtra(KeySet.ReSetKey, KeySet.ReSetKey);
+            startActivityForResult(intent, 1);
+        });
+
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -73,6 +84,15 @@ public class LoginController extends AppCompatActivity {
         });
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Intent resultIntent = new Intent();
+        //resultIntent.putExtra(KeySet.UserKey, username);
+        resultIntent.putExtra(KeySet.ReSetKey, KeySet.ReSetKey);
+        setResult(RESULT_OK, resultIntent);
+        finish();
+    }
 
     /**
      * login connection

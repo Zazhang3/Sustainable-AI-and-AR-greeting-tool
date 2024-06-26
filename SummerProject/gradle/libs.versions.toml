@@ -17,6 +17,7 @@ playServicesLocation = "21.3.0"
 retrofit = "2.11.0"
 gson = "2.11.0"
 okhttp = "4.12.0"
+annotation = "1.8.0"
 
 [libraries]
 android-activation = { module = "com.sun.mail:android-activation", version.ref = "androidActivation" }
@@ -37,6 +38,7 @@ retrofit = {group = "com.squareup.retrofit2", name = "retrofit", version.ref = "
 gson = { group = "com.google.code.gson", name = "gson", version.ref = "gson" }
 converter-gson = { group = "com.squareup.retrofit2", name = "converter-gson", version.ref = "retrofit" }
 okhttp = { group = "com.squareup.okhttp3", name = "okhttp", version.ref = "okhttp"}
+annotation = { group = "androidx.annotation", name = "annotation", version.ref = "annotation" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
