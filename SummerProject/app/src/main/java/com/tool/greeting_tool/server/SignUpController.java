@@ -1,5 +1,7 @@
 package com.tool.greeting_tool.server;
 
+import static com.tool.greeting_tool.common.utils.FormatCheckerUtil.checkPassword;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -55,24 +57,24 @@ public class SignUpController extends AppCompatActivity {
 
                 String username = usernameEditText.getText().toString();
                 String password = passwordEditText.getText().toString();
-                //TODO
-                //set minimum password length
-                if(password.equals(rePasswordEditText.getText().toString())){
+                if (checkPassword(password)) {
+                    if (password.equals(rePasswordEditText.getText().toString())) {
                     /*Intent intent = new Intent(SignUp.this, MainActivity.class);
                     intent.putExtra(KeySet.UserKey, account);
                     startActivity(intent);*/
-                    if(!username.isEmpty()){
-                        Intent resultIntent = new Intent();
-                        resultIntent.putExtra(KeySet.UserKey, username);
-                        setResult(RESULT_OK, resultIntent);
-                        finish();
-                    }else{
-                        //TODO
-                        // change error message
-                        Toast.makeText(SignUpController.this, ErrorMessage.USERNAME_EMPTY_ERROR, Toast.LENGTH_SHORT).show();
+                        if (!username.isEmpty()) {
+                            Intent resultIntent = new Intent();
+                            resultIntent.putExtra(KeySet.UserKey, username);
+                            setResult(RESULT_OK, resultIntent);
+                            finish();
+                        } else {
+                            Toast.makeText(SignUpController.this, ErrorMessage.USERNAME_EMPTY_ERROR, Toast.LENGTH_SHORT).show();
+                        }
+                    } else {
+                        Toast.makeText(SignUpController.this, ErrorMessage.INCONSISTENT_PASSWORD, Toast.LENGTH_SHORT).show();
                     }
-                }else{
-                    Toast.makeText(SignUpController.this, ErrorMessage.INCONSISTENT_PASSWORD, Toast.LENGTH_SHORT).show();
+                }else {
+                    Toast.makeText(SignUpController.this, ErrorMessage.INVALID_PASSWORD, Toast.LENGTH_SHORT).show();
                 }
             }
         });
