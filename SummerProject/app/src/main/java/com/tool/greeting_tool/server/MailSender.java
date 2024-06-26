@@ -11,14 +11,28 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+/**
+ * Send e-mail
+ * @noinspection CallToPrintStackTrace
+ */
 public class MailSender {
 
+    /**
+     * Send mail
+     * @param username :mail sender
+     * @param password :mail sender password
+     * @param recipient :mail Recipient
+     * @param subject :e-mail subject
+     * @param body :tokens
+     */
     public static void sendEmail(final String username, final String password, String recipient, String subject, String body) {
+        //new thread to avoid block main thread
         new Thread(new Runnable() {
             @Override
             public void run() {
+
                 try {
-                    // Mail server properties
+                    //set Mail server properties
                     Properties props = new Properties();
                     props.put("mail.smtp.auth", "true");
                     props.put("mail.smtp.starttls.enable", "true");
@@ -39,6 +53,7 @@ public class MailSender {
                     message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(recipient)); // Recipient's email address
                     message.setSubject(subject); // Email subject
                     message.setText(body); // Email body
+
 
                     // Send message
                     Transport.send(message);
