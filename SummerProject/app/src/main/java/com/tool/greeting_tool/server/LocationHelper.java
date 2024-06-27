@@ -46,7 +46,7 @@ public class LocationHelper {
     Context context;
 
     private static final String BASE_URL = "https://maps.googleapis.com/maps/api/geocode/json";
-    private static final String API_KEY = "AIzaSyB3FX_zTEwt-SJkW_62J_kAaL2Yu18v630";
+    private static final String API_KEY = "Your API Key";
 
     public interface PostcodeCallback{
         void onPostcodeResult(String postcode);

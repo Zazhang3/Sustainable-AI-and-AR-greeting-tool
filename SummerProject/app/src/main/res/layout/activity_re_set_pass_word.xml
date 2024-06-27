@@ -35,13 +35,12 @@
         app:layout_constraintVertical_bias="0.286" />
 
     <EditText
-        android:id="@+id/textEmail"
+        android:id="@+id/re_set_email"
         android:layout_width="320dp"
         android:layout_height="56dp"
         android:background="@drawable/round_background"
         android:hint="@string/email"
         android:inputType="textEmailAddress"
-        android:maxLength="30"
         android:padding="16dp"
         android:textColorHint="#808080"
         app:layout_constraintBottom_toTopOf="@+id/ResetButton"

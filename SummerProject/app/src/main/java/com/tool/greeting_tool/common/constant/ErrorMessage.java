@@ -17,4 +17,6 @@ public class ErrorMessage {
 
     public static final String USERNAME_EMPTY_ERROR = "User Name can not be empty";
 
+    public static final String INCORRECT_SECURITY_CODE = "Incorrect Security Code!";
+
 }

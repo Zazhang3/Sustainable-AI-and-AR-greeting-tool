@@ -45,7 +45,6 @@ public class HomeFragment extends Fragment {
 
     private FragmentHomeBinding binding;
     private LocationHelper locationHelper;
-    private String selectType;
     private static final int REQUEST_CODE_SELECT_1 = 1;
     private static final int REQUEST_CODE_SELECT_2 = 2;
     private ArrayList<GreetingCard> nearbyGreetingCards = new ArrayList<>();
