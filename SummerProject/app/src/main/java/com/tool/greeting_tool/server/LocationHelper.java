@@ -97,6 +97,11 @@ public class LocationHelper {
         }
     }
 
+    /**
+     * This is the only method use to get postcode
+     * @param callback
+     */
+
     private void getLastLocation(PostcodeCallback callback){
         if(ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION)==PackageManager.PERMISSION_GRANTED){
             fusedLocationProviderClient.getLastLocation().addOnCompleteListener(new OnCompleteListener<Location>() {
@@ -112,6 +117,12 @@ public class LocationHelper {
         }
     }
 
+    /**
+     *
+     * @param latitude
+     * @param longitude
+     * @param callback
+     */
     private void fetchPostcode(double latitude, double longitude, PostcodeCallback callback){
         OkHttpClient client = new OkHttpClient();
         String url = BASE_URL + "?latlng=" + latitude + "," + longitude + "&key=" + API_KEY;

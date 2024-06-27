@@ -48,6 +48,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.751" />
 
+
     <EditText
         android:id="@+id/id_signup_password"
         android:layout_width="329dp"
@@ -60,8 +61,7 @@
         app:layout_constraintHorizontal_bias="0.512"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.576" />
-
+        app:layout_constraintVertical_bias="0.577" />
 
     <EditText
         android:id="@+id/id_signup_password_re"
@@ -91,6 +91,21 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.867" />
+
+    <EditText
+        android:id="@+id/email_set"
+        android:layout_width="329dp"
+        android:layout_height="53dp"
+        android:layout_marginBottom="260dp"
+        android:background="@drawable/round_background"
+        android:hint="@string/email"
+        android:inputType="textEmailAddress"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.512"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/id_signup_password_re"
+        app:layout_constraintVertical_bias="1.0" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

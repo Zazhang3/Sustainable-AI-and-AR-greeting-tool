@@ -38,6 +38,7 @@ public class SignUpController extends AppCompatActivity {
     private EditText usernameEditText;
     private EditText passwordEditText;
     private EditText rePasswordEditText;
+    private EditText setEmail;
     private ImageButton backButton;
 
     @Override
@@ -48,6 +49,7 @@ public class SignUpController extends AppCompatActivity {
         usernameEditText = findViewById(R.id.id_signup_id);
         passwordEditText = findViewById(R.id.id_signup_password);
         rePasswordEditText = findViewById(R.id.id_signup_password_re);
+        setEmail = findViewById(R.id.email_set);
         backButton = findViewById(R.id.id_back_signup);
         ImageButton SignUp = findViewById(R.id.id_signup_button);
 
@@ -57,6 +59,9 @@ public class SignUpController extends AppCompatActivity {
 
                 String username = usernameEditText.getText().toString();
                 String password = passwordEditText.getText().toString();
+                //TODO
+                //here is the email string
+                String email = setEmail.getText().toString();
                 if (checkPassword(password)) {
                     if (password.equals(rePasswordEditText.getText().toString())) {
                     /*Intent intent = new Intent(SignUp.this, MainActivity.class);
