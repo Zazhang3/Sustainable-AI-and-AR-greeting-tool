@@ -21,7 +21,7 @@ import com.tool.greeting_tool.common.constant.KeySet;
 import com.tool.greeting_tool.common.utils.SharedPreferencesUtil;
 import com.tool.greeting_tool.common.constant.TAGConstant;
 import com.tool.greeting_tool.common.constant.URLConstant;
-import com.tool.greeting_tool.pojo.vo.UserLoginVO;
+import com.tool.greeting_tool.pojo.vo.UserVO;
 import com.tool.greeting_tool.ui.IntroPage.ReSetPassWord;
 
 import java.io.IOException;
@@ -101,13 +101,13 @@ public class LoginController extends AppCompatActivity {
      */
     private void login(String username,String password){
         //generate userVO
-        UserLoginVO userLoginVO = new UserLoginVO();
-        userLoginVO.setUsername(username);
-        userLoginVO.setPassword(password);
+        UserVO userVO = new UserVO();
+        userVO.setUsername(username);
+        userVO.setPassword(password);
 
         //generate request
         Gson gson = new Gson();
-        String json = gson.toJson(userLoginVO);
+        String json = gson.toJson(userVO);
 
         RequestBody body = RequestBody.create(
                 json,

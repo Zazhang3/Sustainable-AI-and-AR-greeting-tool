@@ -5,6 +5,8 @@ public class ErrorMessage {
 
     public static final String INCONSISTENT_PASSWORD = "Inconsistent passwords entered twice";
     public static final String INVALID_PASSWORD = "Invalid password!";
+
+    public static final String  INCORRECT_EMAIL_ADDRESS = " Incorrect email address!";
     public static final String NETWORK_ERROR = "Network error";
 
     public static final String INVALID_RESPONSE = "Invalid response";

@@ -33,6 +33,18 @@ public class SharedPreferencesUtil {
         editor.apply();
     }
 
+
+    /**
+     * save email address
+     * @param context
+     * @param email
+     */
+    public static void saveUserEmail(Context context,String email) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences("user_prefs", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("email", email);
+        editor.apply();
+    }
     /**
      * get user id
      * @param context
@@ -51,6 +63,16 @@ public class SharedPreferencesUtil {
     public static String getToken(Context context) {
         SharedPreferences sharedPreferences = context.getSharedPreferences(userPrefs, Context.MODE_PRIVATE);
         return sharedPreferences.getString("token","");
+    }
+
+    /**
+     * get email
+     * @param context
+     * @return
+     */
+    public static String getEmail(Context context) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(userPrefs, Context.MODE_PRIVATE);
+        return sharedPreferences.getString("email","");
     }
 
 }

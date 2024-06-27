@@ -21,7 +21,7 @@ import com.tool.greeting_tool.common.constant.KeySet;
 import com.tool.greeting_tool.common.utils.SharedPreferencesUtil;
 import com.tool.greeting_tool.common.constant.TAGConstant;
 import com.tool.greeting_tool.common.constant.URLConstant;
-import com.tool.greeting_tool.pojo.vo.UserLoginVO;
+import com.tool.greeting_tool.pojo.vo.UserVO;
 
 import java.io.IOException;
 
@@ -38,7 +38,7 @@ public class SignUpController extends AppCompatActivity {
     private EditText usernameEditText;
     private EditText passwordEditText;
     private EditText rePasswordEditText;
-    private EditText setEmail;
+    private EditText emailEditText;
     private ImageButton backButton;
 
     @Override
@@ -49,7 +49,7 @@ public class SignUpController extends AppCompatActivity {
         usernameEditText = findViewById(R.id.id_signup_id);
         passwordEditText = findViewById(R.id.id_signup_password);
         rePasswordEditText = findViewById(R.id.id_signup_password_re);
-        setEmail = findViewById(R.id.email_set);
+        emailEditText = findViewById(R.id.email_set);
         backButton = findViewById(R.id.id_back_signup);
         ImageButton SignUp = findViewById(R.id.id_signup_button);
 
@@ -61,13 +61,17 @@ public class SignUpController extends AppCompatActivity {
                 String password = passwordEditText.getText().toString();
                 //TODO
                 //here is the email string
-                String email = setEmail.getText().toString();
+                String email = emailEditText.getText().toString();
                 if (checkPassword(password)) {
                     if (password.equals(rePasswordEditText.getText().toString())) {
                     /*Intent intent = new Intent(SignUp.this, MainActivity.class);
                     intent.putExtra(KeySet.UserKey, account);
                     startActivity(intent);*/
                         if (!username.isEmpty()) {
+
+                            //execute signup
+                            signUp(username,password,email);
+
                             Intent resultIntent = new Intent();
                             resultIntent.putExtra(KeySet.UserKey, username);
                             setResult(RESULT_OK, resultIntent);
@@ -97,15 +101,16 @@ public class SignUpController extends AppCompatActivity {
      * @param username
      * @param password
      */
-    private void signUp(String username,String password){
+    private void signUp(String username,String password,String email){
         //generate userVO
-        UserLoginVO userLoginVO = new UserLoginVO();
-        userLoginVO.setUsername(username);
-        userLoginVO.setPassword(password);
+        UserVO userVO = new UserVO();
+        userVO.setUsername(username);
+        userVO.setPassword(password);
+        userVO.setEmail(email);
 
         //generate request
         Gson gson = new Gson();
-        String json = gson.toJson(userLoginVO);
+        String json = gson.toJson(userVO);
 
         RequestBody body = RequestBody.create(
                 json,
@@ -150,10 +155,6 @@ public class SignUpController extends AppCompatActivity {
                                 //save user data
                                 SharedPreferencesUtil.saveUserInfo(SignUpController.this,id,username,token);
 
-                                Intent resultIntent = new Intent();
-                                resultIntent.putExtra(KeySet.UserKey, username);
-                                setResult(RESULT_OK, resultIntent);
-                                finish();
                             } else {
                                 // login failed
                                 String msg = jsonResponse.get("msg").getAsString();

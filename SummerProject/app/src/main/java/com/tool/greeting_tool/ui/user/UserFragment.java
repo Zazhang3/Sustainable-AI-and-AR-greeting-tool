@@ -18,7 +18,6 @@ import com.tool.greeting_tool.common.constant.ErrorMessage;
 import com.tool.greeting_tool.common.utils.SharedPreferencesUtil;
 import com.tool.greeting_tool.common.constant.URLConstant;
 import com.tool.greeting_tool.databinding.FragmentUserBinding;
-import com.tool.greeting_tool.server.MailSender;
 import com.tool.greeting_tool.server.StartPage;
 import com.tool.greeting_tool.ui.user.History.HistoryActivity;
 
