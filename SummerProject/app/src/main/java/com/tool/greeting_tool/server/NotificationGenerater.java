@@ -6,12 +6,16 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.media.MediaPlayer;
 
 import androidx.core.app.NotificationCompat;
 
 import com.tool.greeting_tool.R;
 import com.tool.greeting_tool.ui.home.HomeFragment;
+import com.tts.TextToSpeechConverter;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -27,6 +31,11 @@ public class NotificationGenerater {
     private final Context context;
     private final String postcode;
     private final Timer timer;
+    private String notificationTitle;
+    private String notificationContent;
+    private TextToSpeechConverter textToSpeechConverter;
+    private File audioFile;
+    private String filePath;
 
     /**
      * Init NotificationGenerater with Context(An activity) and notificationImportance
@@ -34,13 +43,16 @@ public class NotificationGenerater {
      * @param notificationImportance
      * @param postcode
      */
-    public NotificationGenerater(Context context, int notificationImportance, String postcode, Timer timer) {
+    public NotificationGenerater(Context context, int notificationImportance, String postcode) {
         this.context = context;
-        notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        this.notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         createNotificationChannel(notificationImportance);
         this.postcode = postcode;
-        this.timer = timer;
+        this.timer = new Timer();
         startTimer();
+        this.textToSpeechConverter = new TextToSpeechConverter();
+        this.audioFile = new File(context.getFilesDir(), "notification_Sound.wav");
+        this.filePath = audioFile.getAbsolutePath();
     }
     /**Initialize a new NotificationChannel Class
      * NotificationImportance is needed to init this class
@@ -52,18 +64,22 @@ public class NotificationGenerater {
     }
     /**Set a timer to send notification when users receive message in postcode area
      */
-    private void startTimer() {
+    public void startTimer() {
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
                 int msgCount = getMsgCountFromServer(postcode);
-                String notificationTitle = "Notification";
-                if (msgCount == 1) {
-                    String notificationContent = "You have a new message!";
-                    sendNotification(notificationTitle, notificationContent, HomeFragment.class);
-                } else if (msgCount > 1) {
-                    String notificationContent = "You have " + msgCount + " messages!";
-                    sendNotification(notificationTitle, notificationContent, HomeFragment.class);
+                notificationTitle = "Notification";
+                if (msgCount > 0) {
+                    if (msgCount == 1) {
+                        notificationContent = "You have a new message!";
+                        sendNotification(notificationTitle, notificationContent, HomeFragment.class);
+                    } else if (msgCount > 1) {
+                        notificationContent = "You have " + msgCount + " messages!";
+                        sendNotification(notificationTitle, notificationContent, HomeFragment.class);
+                    }
+                    textToSpeechConverter.convertTextToSpeech(notificationContent, filePath);
+                    playAudio();
                 }
             }
         }, 0, 60000); // Check per 1 min
@@ -76,7 +92,7 @@ public class NotificationGenerater {
         // Implement count of Msg received in a postcode area
         // TODO
         // tmp part
-        int msgCount = 0;
+        int msgCount = 2;
         return msgCount;
     }
     /**Init and send the notification
@@ -84,7 +100,7 @@ public class NotificationGenerater {
      * @param message
      * @param targetActivity
      */
-    public void sendNotification(String title, String message, Class<?> targetActivity) {
+    private void sendNotification(String title, String message, Class<?> targetActivity) {
         // Init a PendingIntent Class which decide jump to which activity
         PendingIntent pendingIntent = createPendingIntent(targetActivity);
         // Init a new Notification Class
@@ -114,5 +130,15 @@ public class NotificationGenerater {
      */
     public void cancelNotification(int notificationId) {
         notificationManager.cancel(notificationId);
+    }
+    private void playAudio() {
+        MediaPlayer mediaPlayer = new MediaPlayer();
+        try {
+            mediaPlayer.setDataSource(audioFile.getAbsolutePath());
+            mediaPlayer.prepare();
+            mediaPlayer.start();
+        } catch (Exception e) {
+            e.printStackTrace();;
+        }
     }
 }

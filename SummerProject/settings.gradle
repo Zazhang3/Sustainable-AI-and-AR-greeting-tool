@@ -21,4 +21,5 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = 'greeting_tool'
-include ':app'
+include ':app', ':watson-tts'
+project(':watson-tts').projectDir = new File(rootDir, 'watson-tts')

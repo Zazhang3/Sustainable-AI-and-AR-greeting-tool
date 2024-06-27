@@ -1,8 +1,11 @@
 package com.tool.greeting_tool;
 
+import static android.app.NotificationManager.IMPORTANCE_HIGH;
+
 import android.os.Bundle;
 
 import com.tool.greeting_tool.common.constant.KeySet;
+import com.tool.greeting_tool.server.NotificationGenerater;
 import com.tool.greeting_tool.ui.user.UserViewModel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -19,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
     private UserViewModel userViewModel;
+    private NotificationGenerater notificationGenerater;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +51,10 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(binding.navView, navController);
 
         //Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
-
+        // Init NotificationGenerater
+        String postcode = "BS1 4TT"; // A tmp postcode for testing
+        notificationGenerater = new NotificationGenerater(this, IMPORTANCE_HIGH, postcode);
+        notificationGenerater.startTimer();
     }
 
 
