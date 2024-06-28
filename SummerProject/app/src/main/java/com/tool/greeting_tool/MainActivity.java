@@ -53,8 +53,8 @@ public class MainActivity extends AppCompatActivity {
         //Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
         // Init NotificationGenerater
         String postcode = "BS1 4TT"; // A tmp postcode for testing
-        notificationGenerater = new NotificationGenerater(this, IMPORTANCE_HIGH, postcode);
-        notificationGenerater.startTimer();
+        //notificationGenerater = new NotificationGenerater(this, IMPORTANCE_HIGH, postcode);
+        //notificationGenerater.startTimer();
     }
 
 
