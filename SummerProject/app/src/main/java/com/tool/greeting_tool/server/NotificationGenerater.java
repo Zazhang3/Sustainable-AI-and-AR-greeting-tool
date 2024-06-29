@@ -74,7 +74,7 @@ public class NotificationGenerater {
                     if (msgCount == 1) {
                         notificationContent = "You have a new message!";
                         sendNotification(notificationTitle, notificationContent, HomeFragment.class);
-                    } else if (msgCount > 1) {
+                    } else {
                         notificationContent = "You have " + msgCount + " messages!";
                         sendNotification(notificationTitle, notificationContent, HomeFragment.class);
                     }
