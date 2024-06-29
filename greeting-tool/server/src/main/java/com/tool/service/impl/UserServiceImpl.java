@@ -2,16 +2,22 @@ package com.tool.service.impl;
 
 import com.tool.constant.MessageConstant;
 import com.tool.dto.UserDTO;
+import com.tool.dto.UserEmailDTO;
+import com.tool.dto.UserLoginDTO;
 import com.tool.dto.UserUpdateDTO;
 import com.tool.entity.User;
 import com.tool.exception.AccountNotFoundException;
+import com.tool.exception.MismatchBetweenEmailAndUsername;
 import com.tool.exception.PasswordErrorException;
 import com.tool.mapper.UserMapper;
 import com.tool.service.UserService;
+import com.tool.utils.VerificationCodeGenerator;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
+
+import java.time.LocalDateTime;
 
 @SuppressWarnings("JavadocDeclaration")
 @Service
@@ -23,14 +29,14 @@ public class UserServiceImpl implements UserService {
 
     /**
      * User login
-     * @param userDTO
+     * @param userLoginDTO
      * @return
      */
     @Override
-    public User login(UserDTO userDTO) {
+    public User login(UserLoginDTO userLoginDTO) {
 
-        String username = userDTO.getUsername();
-        String password = userDTO.getPassword();
+        String username = userLoginDTO.getUsername();
+        String password = userLoginDTO.getPassword();
 
         //Find the corresponding user by username
         User currentUser = userMapper.getByUsername(username);
@@ -94,6 +100,38 @@ public class UserServiceImpl implements UserService {
             throw new AccountNotFoundException(MessageConstant.USER_NOT_FOUND);
         }
         userMapper.deleteUserById(id);
+    }
+
+    /**
+     * verify Username And Email
+     * @param userEmailDTO
+     * @return
+     */
+    @Override
+    public User verifyUsernameAndEmail(UserEmailDTO userEmailDTO) {
+        
+        User user = userMapper.getByUsername(userEmailDTO.getUsername());
+        //Check if user exists and mailbox matches
+        if(user == null){
+            throw new AccountNotFoundException(MessageConstant.USER_NOT_FOUND);
+        } else if (!user.getEmail().equals(userEmailDTO.getEmail())) {
+            throw new MismatchBetweenEmailAndUsername(MessageConstant.EMAIL_MISMATCH);
+        }
+
+        return user;
+    }
+
+    /**
+     * generate Verification Code
+     * @param id
+     * @return
+     */
+    @Override
+    public String generateVerificationCode(Long id) {
+        String verificationCode = VerificationCodeGenerator.generateVerificationCode();
+        userMapper.saveVerificationCode(id,verificationCode,LocalDateTime.now());
+
+        return verificationCode;
     }
 
 

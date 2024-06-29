@@ -7,16 +7,13 @@ import lombok.Data;
 import java.io.Serializable;
 
 @Data
-@ApiModel("user info model")
-public class UserDTO implements Serializable {
+@ApiModel("user login info model")
+public class UserLoginDTO implements Serializable {
 
     @ApiModelProperty
     private String username;
 
     @ApiModelProperty
     private String password;
-
-    @ApiModelProperty
-    private String email;
 
 }

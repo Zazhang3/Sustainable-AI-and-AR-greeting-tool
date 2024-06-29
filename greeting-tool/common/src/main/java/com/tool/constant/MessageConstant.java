@@ -11,4 +11,5 @@ public class MessageConstant {
     public static final String PASSWORD_MISMATCH = "Password mismatch.";
     public static final String UNKNOWN_ERROR = "Unknown error.";
     public static final String ALREADY_EXISTS = "Already exists.";
+    public static final String EMAIL_MISMATCH = "Email mismatch.";
 }

@@ -22,4 +22,7 @@ public class UserLoginVO implements Serializable {
     @ApiModelProperty("jwt")
     private String token;
 
+    @ApiModelProperty("Email")
+    private String email;
+
 }

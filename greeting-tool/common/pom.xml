@@ -10,6 +10,7 @@
     </parent>
 
     <artifactId>common</artifactId>
+
     <dependencies>
     <dependency>
         <groupId>org.projectlombok</groupId>
@@ -31,7 +32,6 @@
         <groupId>io.jsonwebtoken</groupId>
         <artifactId>jjwt</artifactId>
     </dependency>
-    <!--支持配置属性类，yml文件中可以提示配置项-->
     <dependency>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-configuration-processor</artifactId>

@@ -1,14 +1,16 @@
 package com.tool.controller;
 
-import com.alibaba.druid.pool.ManagedDataSource;
 import com.tool.constant.JwtClaimsConstant;
 import com.tool.dto.UserDTO;
+import com.tool.dto.UserEmailDTO;
+import com.tool.dto.UserLoginDTO;
 import com.tool.dto.UserUpdateDTO;
 import com.tool.entity.User;
 import com.tool.properties.JwtProperties;
 import com.tool.result.Result;
 import com.tool.service.UserService;
 import com.tool.utils.JwtUtil;
+import com.tool.vo.UserEmailVO;
 import com.tool.vo.UserLoginVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -33,16 +35,16 @@ public class UserController {
     private JwtProperties jwtProperties;
     /**
      * login
-     * @param userDTO
+     * @param userLoginDTO
      * @return
      */
     @PostMapping("/login")
     @ApiOperation("User login")
-    public Result<UserLoginVO> login(@RequestBody UserDTO userDTO) {
-        log.info("Login User: {}", userDTO);
+    public Result<UserLoginVO> login(@RequestBody UserLoginDTO userLoginDTO) {
+        log.info("Login User: {}", userLoginDTO);
 
         //Login
-        User user = userService.login(userDTO);
+        User user = userService.login(userLoginDTO);
 
         //Generate JWT token after successful login
         Map<String, Object> claims = new HashMap<>();
@@ -70,11 +72,11 @@ public class UserController {
     @ApiOperation("User register")
     public Result<UserLoginVO> userRegister(@RequestBody UserDTO userDTO) {
         log.info("User register: {}", userDTO);
-        UserDTO userDTOWithUnencryptedPassword = new UserDTO();
-        userDTOWithUnencryptedPassword.setUsername(userDTO.getUsername());
-        userDTOWithUnencryptedPassword.setPassword(userDTO.getPassword());
+        UserLoginDTO userLoginDTOWithUnencryptedPassword = new UserLoginDTO();
+        userLoginDTOWithUnencryptedPassword.setUsername(userDTO.getUsername());
+        userLoginDTOWithUnencryptedPassword.setPassword(userDTO.getPassword());
         userService.userRegister(userDTO);
-        return login(userDTOWithUnencryptedPassword);
+        return login(userLoginDTOWithUnencryptedPassword);
     }
 
     /**
@@ -82,7 +84,7 @@ public class UserController {
      * @param userUpdateDTO
      * @return
      */
-    @PutMapping
+    @PutMapping("/update")
     @ApiOperation("Update user data")
     public Result updateUser(@RequestBody UserUpdateDTO userUpdateDTO) {
         log.info("Update User: {}", userUpdateDTO);
@@ -101,4 +103,25 @@ public class UserController {
         userService.deleteById(id);
         return Result.success();
     }
+
+    /**
+     * get user eamil by userId & generate verification code
+     * @param userEmailDTO
+     * @return :userEmailVO
+     */
+    @PostMapping("/verification")
+    @ApiOperation("check email address and username")
+    public Result<UserEmailVO> userEmailVerification(@RequestBody UserEmailDTO userEmailDTO) {
+        log.info("check userByUserName: {}", userEmailDTO);
+
+        User user = userService.verifyUsernameAndEmail(userEmailDTO);
+        String verificationCode = userService.generateVerificationCode(user.getId());
+
+        UserEmailVO userEmailVO = new UserEmailVO();
+        userEmailVO.setVerificationCode(verificationCode);
+        userEmailVO.setUsername(user.getUsername());
+
+        return Result.success(userEmailVO);
+    }
+
 }

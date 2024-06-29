@@ -5,10 +5,18 @@
     <update id="updateUser" parameterType="User">
         update user
         <set>
-            <if test="username != null">username = #{username},</if>
             <if test="password != null">password = #{password},</if>
+            <if test="email != null">email = #{email},</if>
         </set>
-        where id = #{id}
+        where username = #{username}
+    </update>
+    <update id="saveVerificationCode">
+        update user
+        <set>
+            verification_code = #{verificationCode},
+            verification_create_at = #{createTime},
+        </set>
+        where id =#{id}
     </update>
 
 </mapper>

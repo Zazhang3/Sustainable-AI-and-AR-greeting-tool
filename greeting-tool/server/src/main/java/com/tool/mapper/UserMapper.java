@@ -3,11 +3,13 @@ package com.tool.mapper;
 import com.tool.entity.User;
 import org.apache.ibatis.annotations.*;
 
+import java.time.LocalDateTime;
+
 @Mapper
 public interface UserMapper {
 
     /**
-     * Search for users by username
+     * Search for user by username
      * @param username
      */
     @Select("SELECT * FROM user WHERE username=#{username}")
@@ -24,7 +26,7 @@ public interface UserMapper {
      * Add new user(insert)
      * @param user
      */
-    @Insert("INSERT INTO user (username, password) VALUES (#{username},#{password})")
+    @Insert("INSERT INTO user (username, password,email) VALUES (#{username},#{password},#{email})")
     void userRegister(User user);
 
     /**
@@ -35,9 +37,16 @@ public interface UserMapper {
 
     /**
      * Delete user by id
-     * @param id
+     * @param id :user id
      */
     @Delete("DELETE FROM user WHERE id=#{id}")
     void deleteUserById(Long id);
+
+    /**
+     * Save verification code and set create time
+     * @param id :user id
+     * @param verificationCode :randomly generate
+     */
+    void saveVerificationCode(Long id, String verificationCode, LocalDateTime createTime);
 
 }

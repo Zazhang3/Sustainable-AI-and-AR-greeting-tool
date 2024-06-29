@@ -2,18 +2,15 @@ package com.tool.controller;
 
 import com.tool.dto.GreetingCardsDTO;
 import com.tool.entity.GreetingCard;
-import com.tool.result.PageResult;
 import com.tool.result.Result;
 import com.tool.service.GreetingCardService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.ibatis.jdbc.Null;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
-import java.util.List;
 
 @RestController
 @Slf4j

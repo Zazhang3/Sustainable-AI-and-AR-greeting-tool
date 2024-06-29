@@ -8,12 +8,4 @@ public class BaseContext {
         threadLocal.set(id);
     }
 
-    public static Long getCurrentId() {
-        return threadLocal.get();
-    }
-
-    public static void removeCurrentId() {
-        threadLocal.remove();
-    }
-
 }

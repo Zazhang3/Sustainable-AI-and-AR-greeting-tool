@@ -9,12 +9,12 @@ import lombok.Data;
 public class UserUpdateDTO {
 
     @ApiModelProperty
-    private Long id;
-
-    @ApiModelProperty
     private String username;
 
     @ApiModelProperty
     private String password;
+
+    @ApiModelProperty
+    private String email;
 
 }
