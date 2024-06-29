@@ -54,6 +54,7 @@ dependencies {
             implementation libs.converter.gson
             implementation libs.annotation
             implementation libs.ibm.watson
+            implementation(files("libs/watson-tts-1.0-SNAPSHOT.jar"))
             testImplementation libs.junit
             androidTestImplementation libs.ext.junit
             androidTestImplementation libs.espresso.core
