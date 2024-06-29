@@ -6,6 +6,7 @@ import android.os.Bundle;
 
 import com.tool.greeting_tool.common.constant.KeySet;
 import com.tool.greeting_tool.server.NotificationGenerater;
+import com.tool.greeting_tool.server.NotificationWorker;
 import com.tool.greeting_tool.ui.user.UserViewModel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -15,8 +16,12 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
+import androidx.work.PeriodicWorkRequest;
+import androidx.work.WorkManager;
 
 import com.tool.greeting_tool.databinding.ActivityMainBinding;
+
+import java.util.concurrent.TimeUnit;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -51,11 +56,17 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(binding.navView, navController);
 
         //Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
-        // Init NotificationGenerater
-        String postcode = "BS1 4TT"; // A tmp postcode for testing
-        //notificationGenerater = new NotificationGenerater(this, IMPORTANCE_HIGH, postcode);
-        //notificationGenerater.startTimer();
+        scheduleWork();
+
     }
 
+    private void scheduleWork() {
+        //because the background limit, the minimum interval is 15min
+        //It will set a background workManager to repeat the LocationWorker action each 15min
+        PeriodicWorkRequest locationWorkRequest = new PeriodicWorkRequest.Builder(NotificationWorker.class, 15, TimeUnit.MINUTES)
+                .build();
+
+        WorkManager.getInstance(this).enqueue(locationWorkRequest);
+    }
 
 }

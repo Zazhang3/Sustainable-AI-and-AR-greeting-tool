@@ -12,8 +12,6 @@ import androidx.core.app.NotificationCompat;
 
 import com.tool.greeting_tool.R;
 import com.tool.greeting_tool.ui.home.HomeFragment;
-import com.tts.TextToSpeechConverter;
-
 
 import java.io.File;
 import java.io.IOException;
@@ -31,12 +29,8 @@ public class NotificationGenerater {
     private final NotificationManager notificationManager;
     private final Context context;
     private final String postcode;
-    private final Timer timer;
     private String notificationTitle;
     private String notificationContent;
-    private TextToSpeechConverter textToSpeechConverter;
-    private File audioFile;
-    private String filePath;
 
     /**
      * Init NotificationGenerater with Context(An activity) and notificationImportance
@@ -49,12 +43,8 @@ public class NotificationGenerater {
         this.notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         createNotificationChannel(notificationImportance);
         this.postcode = postcode;
-        this.timer = new Timer();
-        startTimer();
-        this.textToSpeechConverter = new TextToSpeechConverter();
-        this.audioFile = new File(context.getFilesDir(), "notification_Sound.wav");
-        this.filePath = audioFile.getAbsolutePath();
     }
+
     /**Initialize a new NotificationChannel Class
      * NotificationImportance is needed to init this class
      * @param notificationImportance
@@ -63,39 +53,7 @@ public class NotificationGenerater {
         NotificationChannel channel = new NotificationChannel(CHANNEL_ID, CHANNEL_NAME, notificationImportance);
         notificationManager.createNotificationChannel(channel);
     }
-    /**Set a timer to send notification when users receive message in postcode area
-     */
-    public void startTimer() {
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                int msgCount = getMsgCountFromServer(postcode);
-                notificationTitle = "Notification";
-                if (msgCount > 0) {
-                    if (msgCount == 1) {
-                        notificationContent = "You have a new message!";
-                        sendNotification(notificationTitle, notificationContent, HomeFragment.class);
-                    } else {
-                        notificationContent = "You have " + msgCount + " messages!";
-                        sendNotification(notificationTitle, notificationContent, HomeFragment.class);
-                    }
-                    textToSpeechConverter.convertTextToSpeech(notificationContent, filePath);
-                    playAudio();
-                }
-            }
-        }, 0, 60000); // Check per 1 min
-    }
-    /**Get the count of msg received in current postcode area
-     * @param postcode
-     * @return
-     */
-    private int getMsgCountFromServer(String postcode) {
-        // Implement count of Msg received in a postcode area
-        // TODO
-        // tmp part
-        int msgCount = 2;
-        return msgCount;
-    }
+
     /**Init and send the notification
      * @param title
      * @param message
@@ -131,15 +89,5 @@ public class NotificationGenerater {
      */
     public void cancelNotification(int notificationId) {
         notificationManager.cancel(notificationId);
-    }
-    private void playAudio() {
-        MediaPlayer mediaPlayer = new MediaPlayer();
-        try {
-            mediaPlayer.setDataSource(audioFile.getAbsolutePath());
-            mediaPlayer.prepare();
-            mediaPlayer.start();
-        } catch (Exception e) {
-            e.printStackTrace();;
-        }
     }
 }

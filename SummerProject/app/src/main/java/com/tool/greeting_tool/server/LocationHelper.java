@@ -46,7 +46,7 @@ public class LocationHelper {
     Context context;
 
     private static final String BASE_URL = "https://maps.googleapis.com/maps/api/geocode/json";
-    private static final String API_KEY = "Your API Key";
+    private static final String API_KEY = "AIzaSyB3FX_zTEwt-SJkW_62J_kAaL2Yu18v630";
 
     public interface PostcodeCallback{
         void onPostcodeResult(String postcode);
@@ -102,7 +102,7 @@ public class LocationHelper {
      * @param callback
      */
 
-    private void getLastLocation(PostcodeCallback callback){
+    public void getLastLocation(PostcodeCallback callback){
         if(ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION)==PackageManager.PERMISSION_GRANTED){
             fusedLocationProviderClient.getLastLocation().addOnCompleteListener(new OnCompleteListener<Location>() {
                 @Override
