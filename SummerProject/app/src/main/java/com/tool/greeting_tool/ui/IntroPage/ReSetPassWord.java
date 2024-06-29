@@ -23,8 +23,8 @@ import com.tool.greeting_tool.common.constant.KeySet;
 import com.tool.greeting_tool.common.constant.TAGConstant;
 import com.tool.greeting_tool.common.constant.TempAccountInfoConstant;
 import com.tool.greeting_tool.common.constant.URLConstant;
+import com.tool.greeting_tool.common.utils.SharedPreferencesUtil;
 import com.tool.greeting_tool.pojo.vo.UserEmailVO;
-import com.tool.greeting_tool.pojo.vo.UserVO;
 import com.tool.greeting_tool.server.MailSender;
 
 import java.io.IOException;
@@ -39,7 +39,6 @@ import okhttp3.Response;
 
 public class ReSetPassWord extends AppCompatActivity {
 
-    String verificationCode = "";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,7 +50,7 @@ public class ReSetPassWord extends AppCompatActivity {
 
         submitButton.setOnClickListener(v->{
             String username = usernameEditText.getText().toString();
-            String email = emailEditText.getText().toString();
+            String email = emailEditText.getText().toString().replaceAll("\\n$", "");
 
 
             if (username.isEmpty() || email.isEmpty()) {
@@ -64,18 +63,11 @@ public class ReSetPassWord extends AppCompatActivity {
             //check username and email and return verificationCode
             userVerification(username,email);
 
-            //send email
-            MailSender.sendEmail(TempAccountInfoConstant.emailSenderAddress,
-                                 TempAccountInfoConstant.emailSenderPassword,
-                                 email,
-                                 TempAccountInfoConstant.emailSubject,
-                                 verificationCode);
-
-            showSecurityDialog(username);
+            showSecurityDialog(username,SharedPreferencesUtil.getVerificationCode(ReSetPassWord.this));
         });
     }
 
-    private void showSecurityDialog(String accountName){
+    private void showSecurityDialog(String accountName, String verificationCode){
         LayoutInflater inflater = LayoutInflater.from(this);
         View dialogView = inflater.inflate(R.layout.dialog_security_code, null);
 
@@ -165,7 +157,17 @@ public class ReSetPassWord extends AppCompatActivity {
                             if (code == 1) {
                                 // Verify successfully: handle response
 
-                                verificationCode = jsonResponse.get("code").getAsJsonObject().get("verificationCode").getAsString();
+                                String userVerificationCode = jsonResponse.getAsJsonObject("data").get("verificationCode").getAsString();
+                                SharedPreferencesUtil.saveVerificationCode(ReSetPassWord.this,userVerificationCode);
+                                SharedPreferencesUtil.saveEmail(ReSetPassWord.this,email);
+                                String verificationCode = SharedPreferencesUtil.getVerificationCode(ReSetPassWord.this);
+
+                                //send email
+                                MailSender.sendEmail(TempAccountInfoConstant.emailSenderAddress,
+                                        TempAccountInfoConstant.emailSenderPassword,
+                                        email,
+                                        TempAccountInfoConstant.emailSubject,
+                                        verificationCode);
                                 Toast.makeText(ReSetPassWord.this, "Verify successfully", Toast.LENGTH_SHORT).show();
                             } else {
                                 // Verify failed

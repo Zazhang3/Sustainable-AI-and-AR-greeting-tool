@@ -89,7 +89,7 @@ public class SetPasswordActivity extends AppCompatActivity {
                 MediaType.get("application/json;charset=utf-8"));
 
         Request request = new Request.Builder()
-                .url(URLConstant.BASIC_USER_URL)
+                .url(URLConstant.UPDATE_URL)
                 .put(body)
                 .build();
 

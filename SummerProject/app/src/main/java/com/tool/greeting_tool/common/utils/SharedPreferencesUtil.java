@@ -33,16 +33,27 @@ public class SharedPreferencesUtil {
         editor.apply();
     }
 
-
     /**
-     * save email address
+     * save verificationCode
      * @param context
      * @param email
      */
-    public static void saveUserEmail(Context context,String email) {
+    public static void saveEmail(Context context,String email) {
         SharedPreferences sharedPreferences = context.getSharedPreferences("user_prefs", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("email", email);
+        editor.apply();
+    }
+
+    /**
+     * save verificationCode
+     * @param context
+     * @param verificationCode
+     */
+    public static void saveVerificationCode(Context context,String verificationCode) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences("user_prefs", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("verificationCode", verificationCode);
         editor.apply();
     }
     /**
@@ -73,6 +84,16 @@ public class SharedPreferencesUtil {
     public static String getEmail(Context context) {
         SharedPreferences sharedPreferences = context.getSharedPreferences(userPrefs, Context.MODE_PRIVATE);
         return sharedPreferences.getString("email","");
+    }
+
+    /**
+     * get verificationCode
+     * @param context
+     * @return
+     */
+    public static String getVerificationCode(Context context) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(userPrefs, Context.MODE_PRIVATE);
+        return sharedPreferences.getString("verificationCode","");
     }
 
 }
