@@ -15,6 +15,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.google.ar.core.ArCoreApk;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
@@ -80,21 +81,35 @@ public class HomeFragment extends Fragment {
                 });
 
         nearByMessage.setOnClickListener(v->{
-            locationHelper.getLocation(this, postcode -> {
+            showNearbyMessageWithAR();
+           /* locationHelper.getLocation(this, postcode -> {
                 if(postcode == null || postcode.isEmpty()){
                     Toast.makeText(getActivity(), ErrorMessage.POSTCODE_NOT_FOUND, Toast.LENGTH_SHORT).show();
                 }else{
                     Toast.makeText(getActivity(), postcode, Toast.LENGTH_SHORT).show();
                     getNearbyGreetingCards(postcode);
+                    //TODO:open the camera and load the ar model.
+                    showNearbyMessageWithAR();
                 }
 
-            });
-            //getNearbyGreetingCards("BS2 0BU");
+            });*/
         });
 
         final TextView textView = binding.textHome;
         homeViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
         return root;
+    }
+
+    private void showNearbyMessageWithAR() {
+        // Check if AR features are supported
+        if (ArCoreApk.getInstance().checkAvailability(getContext()) == ArCoreApk.Availability.SUPPORTED_INSTALLED) {
+            // Intent to launch AR Activity
+            Intent intent = new Intent(getActivity(), ArActivity.class);
+            intent.putExtra("greetingCards", nearbyGreetingCards);
+            startActivity(intent);
+        } else {
+            Toast.makeText(getContext(), "AR features not supported on this device", Toast.LENGTH_LONG).show();
+        }
     }
 
     @Override
