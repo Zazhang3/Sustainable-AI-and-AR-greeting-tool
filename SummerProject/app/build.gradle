@@ -36,7 +36,6 @@ android {
 }
 
 dependencies {
-
             implementation libs.android.mail
             implementation libs.android.activation
             implementation libs.play.services.location
@@ -54,8 +53,8 @@ dependencies {
             implementation libs.converter.gson
             implementation libs.annotation
             implementation libs.ibm.watson
+            implementation libs.work.runtime
             testImplementation libs.junit
             androidTestImplementation libs.ext.junit
             androidTestImplementation libs.espresso.core
-            implementation project(':watson-tts')
 }
