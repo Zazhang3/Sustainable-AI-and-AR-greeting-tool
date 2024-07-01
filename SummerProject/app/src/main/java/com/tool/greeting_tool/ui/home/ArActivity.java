@@ -1,6 +1,5 @@
 package com.tool.greeting_tool.ui.home;
 
-import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.MotionEvent;
@@ -14,6 +13,8 @@ import com.google.ar.core.HitResult;
 import com.google.ar.core.Plane;
 import com.google.ar.sceneform.AnchorNode;
 import com.google.ar.sceneform.Sceneform;
+import com.google.ar.sceneform.math.Quaternion;
+import com.google.ar.sceneform.math.Vector3;
 import com.google.ar.sceneform.rendering.ModelRenderable;
 import com.google.ar.sceneform.rendering.Renderable;
 import com.google.ar.sceneform.rendering.RenderableInstance;
@@ -21,23 +22,22 @@ import com.google.ar.sceneform.ux.ArFragment;
 import com.google.ar.sceneform.ux.BaseArFragment;
 import com.google.ar.sceneform.ux.TransformableNode;
 import com.tool.greeting_tool.R;
-import com.tool.greeting_tool.pojo.dto.GreetingCard;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
-import com.google.ar.sceneform.ux.ArFragment;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
+import com.tool.greeting_tool.pojo.vo.CardDisplayVO;
+
 
 public class ArActivity extends AppCompatActivity implements BaseArFragment.OnTapArPlaneListener {
 
-    private ArrayList<GreetingCard> greetingCards;
+    private ArrayList<CardDisplayVO> greetingCards;
+
 
     boolean isArFragmentInitialized = false;
     private ArFragment arFragment;
-    private Renderable model;
+    private Renderable textModel;
     private Renderable emojiModel;
-    private ModelRenderable AnimationModel;
+    private Renderable animationModel;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -45,8 +45,14 @@ public class ArActivity extends AppCompatActivity implements BaseArFragment.OnTa
 
         setContentView(R.layout.activity_ar);
 
-        Intent intent = getIntent();
-        greetingCards = (ArrayList<GreetingCard>) intent.getSerializableExtra("greetingCards");
+        /*Intent intent = getIntent();
+        greetingCards = (ArrayList<GreetingCard>) intent.getSerializableExtra("greetingCards");*/
+        CardDisplayVO card1 = new CardDisplayVO("getwellsoon", "heart", "staranimation");
+       // CardDisplayVO card2 = new CardDisplayVO("happynewyear","tongue","heartanimation");
+        //CardDisplayVO card3 = new CardDisplayVO("haveaniceday","lovesmile","");
+       // greetingCards.add(card1);
+        //greetingCards.add(card2);
+        //greetingCards.add(card3);
 
 
         getSupportFragmentManager().addFragmentOnAttachListener((fragmentManager, fragment) -> {
@@ -66,10 +72,11 @@ public class ArActivity extends AppCompatActivity implements BaseArFragment.OnTa
         }
 
 
-        for (GreetingCard card : greetingCards) {
-            loadTextModel(card.getCardId());
-        }
-
+        //for (CardDisplayVO card : greetingCards) {
+            loadTextModel(card1.getTextId());
+            loadEmojiModel(card1.getEmojiId());
+            loadAnimationModel(card1.getAnimationId());
+       // }
 
     }
 
@@ -77,13 +84,13 @@ public class ArActivity extends AppCompatActivity implements BaseArFragment.OnTa
 
         WeakReference<ArActivity> weakActivity = new WeakReference<>(this);
         ModelRenderable.builder()
-                .setSource(this, Uri.parse("Emojis/cube.glb"))
+                .setSource(this, Uri.parse("Text/" + textId +".glb"))
                 .setIsFilamentGltf(true)
                 .build()
                 .thenAccept(model -> {
                     ArActivity activity = weakActivity.get();
                     if (activity != null) {
-                        activity.model = model;
+                        activity.textModel = model;
                     }
                 })
                 .exceptionally(
@@ -96,7 +103,7 @@ public class ArActivity extends AppCompatActivity implements BaseArFragment.OnTa
     private void loadEmojiModel(String emojiId) {
         WeakReference<ArActivity> weakActivity = new WeakReference<>(this);
         ModelRenderable.builder()
-                .setSource(this, Uri.parse("Emoji/happy_face.glb"))  
+                .setSource(this, Uri.parse("Emojis/" + emojiId +".glb"))
                 .setIsFilamentGltf(true)
                 .build()
                 .thenAccept(model -> {
@@ -115,25 +122,26 @@ public class ArActivity extends AppCompatActivity implements BaseArFragment.OnTa
     private void loadAnimationModel(String animationId) {
         WeakReference<ArActivity> weakActivity = new WeakReference<>(this);
         ModelRenderable.builder()
-                .setSource(this, Uri.parse("Animation/happy_face.glb"))
+                .setSource(this, Uri.parse("Animations/" + animationId + ".glb"))
                 .setIsFilamentGltf(true)
+                .setAsyncLoadEnabled(true)
                 .build()
                 .thenAccept(model -> {
                     ArActivity activity = weakActivity.get();
                     if (activity != null) {
-                        activity.AnimationModel = model;
+                        activity.animationModel = model;
                     }
                 })
-                .exceptionally(
-                        throwable -> {
-                            Toast.makeText(this, "Unable to load emoji model", Toast.LENGTH_LONG).show();
-                            return null;
-                        });
+                .exceptionally(throwable -> {
+                    Toast.makeText(
+                            this, "Unable to load animation model", Toast.LENGTH_LONG).show();
+                    return null;
+                });
     }
 
     @Override
     public void onTapPlane(HitResult hitResult, Plane plane, MotionEvent motionEvent) {
-        if (model == null ) {
+        if (textModel == null && animationModel == null && emojiModel == null) {
             Toast.makeText(this, "Loading...", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -142,20 +150,31 @@ public class ArActivity extends AppCompatActivity implements BaseArFragment.OnTa
         Anchor anchor = hitResult.createAnchor();
         AnchorNode anchorNode = new AnchorNode(anchor);
         anchorNode.setParent(arFragment.getArSceneView().getScene());
+        Quaternion rotation = new Quaternion(Vector3.up(),-90);
 
         // Create the transformable model and add it to the anchor.
         //Currently only show one model for test.
-        TransformableNode modelNode = new TransformableNode(arFragment.getTransformationSystem());
-        modelNode.setParent(anchorNode);
-        RenderableInstance modelInstance = modelNode.setRenderable(this.model);
-        modelInstance.getMaterial().setInt("baseColorIndex", 0);
-        //modelInstance.getMaterial().setTexture("baseColorMap", texture);
-        //modelNode.setLocalPosition(new Vector3(1f, 2f, 1f));
+        TransformableNode textModelNode = new TransformableNode(arFragment.getTransformationSystem());
+        textModelNode.setParent(anchorNode);
+        RenderableInstance modelInstance = textModelNode.setRenderable(this.textModel);
+        textModelNode.setLocalPosition(new Vector3(0, 2f, -6f));
         //modelNode.setLocalScale(new Vector3(0.5f, 0.5f, 0.5f));
+        textModelNode.setLocalRotation(rotation);
+        textModelNode.select();
 
-        modelNode.select();
+        TransformableNode emojiModelNode = new TransformableNode(arFragment.getTransformationSystem());
+        emojiModelNode.setParent(anchorNode);
+        emojiModelNode.setRenderable(this.emojiModel);
+        //modelNode.setLocalPosition(new Vector3(1f, 2f, 1f));
+        emojiModelNode.setLocalPosition(new Vector3(0, 2f, -6f));
+        emojiModelNode.setLocalRotation(rotation);
+        emojiModelNode.select();
 
+        TransformableNode animationModelNode = new TransformableNode(arFragment.getTransformationSystem());
+        animationModelNode.setParent(anchorNode);
+        animationModelNode.setRenderable(this.animationModel).animate(true).start();
+        animationModelNode.setLocalPosition(new Vector3(0, 5f, -18f));
+        //modelNode.setLocalScale(new Vector3(0.5f, 0.5f, 0.5f));
+        animationModelNode.select();
     }
-
-
 }
