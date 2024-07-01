@@ -14,7 +14,6 @@ import com.google.ar.core.HitResult;
 import com.google.ar.core.Plane;
 import com.google.ar.sceneform.AnchorNode;
 import com.google.ar.sceneform.Sceneform;
-import com.google.ar.sceneform.math.Vector3;
 import com.google.ar.sceneform.rendering.ModelRenderable;
 import com.google.ar.sceneform.rendering.Renderable;
 import com.google.ar.sceneform.rendering.RenderableInstance;
@@ -26,11 +25,15 @@ import com.tool.greeting_tool.pojo.dto.GreetingCard;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+import com.google.ar.sceneform.ux.ArFragment;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
 public class ArActivity extends AppCompatActivity implements BaseArFragment.OnTapArPlaneListener {
 
     private ArrayList<GreetingCard> greetingCards;
 
+    boolean isArFragmentInitialized = false;
     private ArFragment arFragment;
     private Renderable model;
     private Renderable emojiModel;
@@ -45,10 +48,12 @@ public class ArActivity extends AppCompatActivity implements BaseArFragment.OnTa
         Intent intent = getIntent();
         greetingCards = (ArrayList<GreetingCard>) intent.getSerializableExtra("greetingCards");
 
+
         getSupportFragmentManager().addFragmentOnAttachListener((fragmentManager, fragment) -> {
-            if (fragment.getId() == R.id.arFragment) {
+            if (fragment.getId() == R.id.arFragment && !isArFragmentInitialized) {
                 arFragment = (ArFragment) fragment;
                 arFragment.setOnTapArPlaneListener(ArActivity.this);
+                isArFragmentInitialized=true;
             }
         });
 
@@ -60,9 +65,12 @@ public class ArActivity extends AppCompatActivity implements BaseArFragment.OnTa
             }
         }
 
+
         for (GreetingCard card : greetingCards) {
             loadTextModel(card.getCardId());
         }
+
+
     }
 
     private void loadTextModel(String textId) {
@@ -148,4 +156,6 @@ public class ArActivity extends AppCompatActivity implements BaseArFragment.OnTa
         modelNode.select();
 
     }
+
+
 }
