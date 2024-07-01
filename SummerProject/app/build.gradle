@@ -54,6 +54,7 @@ dependencies {
             implementation libs.annotation
             implementation libs.ibm.watson
             implementation libs.work.runtime
+            implementation libs.commons.io
             testImplementation libs.junit
             androidTestImplementation libs.ext.junit
             androidTestImplementation libs.espresso.core

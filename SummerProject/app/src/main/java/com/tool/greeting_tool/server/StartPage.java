@@ -45,7 +45,8 @@ public class StartPage extends AppCompatActivity {
             if(data.getStringExtra(KeySet.ReSetKey)==null){
                 String account = data.getStringExtra(KeySet.UserKey);
                 Intent intent = new Intent(this, MainActivity.class);
-                intent.putExtra(KeySet.UserKey, account);
+                //intent.putExtra(KeySet.UserKey, account);
+                //intent.putExtra("source", "login");
                 startActivity(intent);
                 finish();
             }
