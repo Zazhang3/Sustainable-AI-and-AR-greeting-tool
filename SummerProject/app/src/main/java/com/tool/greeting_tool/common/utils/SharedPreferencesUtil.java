@@ -100,6 +100,11 @@ public class SharedPreferencesUtil {
         return sharedPreferences.getString("verificationCode","");
     }
 
+    public static String getUsername(Context context) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences("user_prefs", Context.MODE_PRIVATE);
+        return sharedPreferences.getString("username", null);
+    }
+
     public static void saveNotificationMessage(Context context, String message) {
         SharedPreferences sharedPreferences = context.getSharedPreferences(notificationPrefs, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();

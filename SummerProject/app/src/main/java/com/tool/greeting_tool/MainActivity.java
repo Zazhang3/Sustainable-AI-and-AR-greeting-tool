@@ -38,9 +38,9 @@ public class MainActivity extends AppCompatActivity {
         String userName = getIntent().getStringExtra(KeySet.UserKey);
 
         // Initialize UserViewModel
-        userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
+        //userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
         // Set the username in UserViewModel
-        userViewModel.setText(userName);
+        //userViewModel.setText(userName);
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
