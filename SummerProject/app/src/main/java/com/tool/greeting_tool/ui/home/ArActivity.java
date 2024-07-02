@@ -18,7 +18,6 @@ import com.google.ar.sceneform.math.Quaternion;
 import com.google.ar.sceneform.math.Vector3;
 import com.google.ar.sceneform.rendering.ModelRenderable;
 import com.google.ar.sceneform.rendering.Renderable;
-import com.google.ar.sceneform.rendering.RenderableInstance;
 import com.google.ar.sceneform.ux.ArFragment;
 import com.google.ar.sceneform.ux.BaseArFragment;
 import com.google.ar.sceneform.ux.TransformableNode;
@@ -37,9 +36,6 @@ public class ArActivity extends AppCompatActivity implements BaseArFragment.OnTa
     private ArrayList<CardDisplayVO> greetingCards;
     private HashMap<CardDisplayVO,ArModelSet> arModelMap = new HashMap<>();
     private ArFragment arFragment;
-    private Renderable textModel;
-    private Renderable emojiModel;
-    private Renderable animationModel;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -50,6 +46,7 @@ public class ArActivity extends AppCompatActivity implements BaseArFragment.OnTa
 
         /*Intent intent = getIntent();
         greetingCards = (ArrayList<GreetingCard>) intent.getSerializableExtra("greetingCards");*/
+        //for display and test
         CardDisplayVO card1 = new CardDisplayVO("getwellsoon", "heart", "staranimation");
         CardDisplayVO card2 = new CardDisplayVO("happynewyear","tongue","staranimation");
         CardDisplayVO card3 = new CardDisplayVO("haveaniceday","lovesmile","staranimation");
@@ -73,16 +70,14 @@ public class ArActivity extends AppCompatActivity implements BaseArFragment.OnTa
             }
         }
 
-
-        //for (CardDisplayVO card : greetingCards) {
-            //loadTextModel(card1.getTextId());
-            //loadEmojiModel(card1.getEmojiId());
-            //loadAnimationModel(card1.getAnimationId());
-       // }
         greetingCards.forEach(this::loadModelsFromCard);
 
     }
 
+    /**
+     * Get the card value from arraylist and put them to hashmap
+     * @param card
+     */
     private void loadModelsFromCard(CardDisplayVO card) {
         ArModelSet set = new ArModelSet();
         loadModel("Text/" + card.getTextId() + ".glb", model -> set.textModel = model);
@@ -91,6 +86,11 @@ public class ArActivity extends AppCompatActivity implements BaseArFragment.OnTa
         arModelMap.put(card,set);
     }
 
+    /**
+     * Load ar models from files
+     * @param path
+     * @param loadModel
+     */
     private void loadModel(String path, Consumer<Renderable> loadModel) {
 
         WeakReference<ArActivity> weakActivity = new WeakReference<>(this);
@@ -112,103 +112,12 @@ public class ArActivity extends AppCompatActivity implements BaseArFragment.OnTa
 
     }
 
-    private void loadTextModel(String textId) {
-
-        WeakReference<ArActivity> weakActivity = new WeakReference<>(this);
-        ModelRenderable.builder()
-                .setSource(this, Uri.parse("Text/" + textId +".glb"))
-                .setIsFilamentGltf(true)
-                .build()
-                .thenAccept(model -> {
-                    ArActivity activity = weakActivity.get();
-                    if (activity != null) {
-                        activity.textModel = model;
-                    }
-                })
-                .exceptionally(
-                        throwable -> {
-                            Toast.makeText(this, "Unable to load text model", Toast.LENGTH_LONG).show();
-                            return null;
-                        });
-    }
-
-    private void loadEmojiModel(String emojiId) {
-        WeakReference<ArActivity> weakActivity = new WeakReference<>(this);
-        ModelRenderable.builder()
-                .setSource(this, Uri.parse("Emojis/" + emojiId +".glb"))
-                .setIsFilamentGltf(true)
-                .build()
-                .thenAccept(model -> {
-                    ArActivity activity = weakActivity.get();
-                    if (activity != null) {
-                        activity.emojiModel = model;
-                    }
-                })
-                .exceptionally(
-                        throwable -> {
-                            Toast.makeText(this, "Unable to load emoji model", Toast.LENGTH_LONG).show();
-                            return null;
-                        });
-    }
-
-    private void loadAnimationModel(String animationId) {
-        WeakReference<ArActivity> weakActivity = new WeakReference<>(this);
-        ModelRenderable.builder()
-                .setSource(this, Uri.parse("Animations/" + animationId + ".glb"))
-                .setIsFilamentGltf(true)
-                .setAsyncLoadEnabled(true)
-                .build()
-                .thenAccept(model -> {
-                    ArActivity activity = weakActivity.get();
-                    if (activity != null) {
-                        activity.animationModel = model;
-                    }
-                })
-                .exceptionally(throwable -> {
-                    Toast.makeText(
-                            this, "Unable to load animation model", Toast.LENGTH_LONG).show();
-                    return null;
-                });
-    }
-
-    /*@Override
-    public void onTapPlane(HitResult hitResult, Plane plane, MotionEvent motionEvent) {
-        if (textModel == null && animationModel == null && emojiModel == null) {
-            Toast.makeText(this, "Loading...", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        // Create the Anchor.
-        Anchor anchor = hitResult.createAnchor();
-        AnchorNode anchorNode = new AnchorNode(anchor);
-        anchorNode.setParent(arFragment.getArSceneView().getScene());
-        Quaternion rotation = new Quaternion(Vector3.up(),-90);
-
-        // Create the transformable model and add it to the anchor.
-        //Currently only show one model for test.
-        TransformableNode textModelNode = new TransformableNode(arFragment.getTransformationSystem());
-        textModelNode.setParent(anchorNode);
-        RenderableInstance modelInstance = textModelNode.setRenderable(this.textModel);
-        textModelNode.setLocalPosition(new Vector3(0, 2f, -6f));
-        //modelNode.setLocalScale(new Vector3(0.5f, 0.5f, 0.5f));
-        textModelNode.setLocalRotation(rotation);
-        textModelNode.select();
-
-        TransformableNode emojiModelNode = new TransformableNode(arFragment.getTransformationSystem());
-        emojiModelNode.setParent(anchorNode);
-        emojiModelNode.setRenderable(this.emojiModel);
-        //modelNode.setLocalPosition(new Vector3(1f, 2f, 1f));
-        emojiModelNode.setLocalPosition(new Vector3(0, 2f, -6f));
-        emojiModelNode.setLocalRotation(rotation);
-        emojiModelNode.select();
-
-        TransformableNode animationModelNode = new TransformableNode(arFragment.getTransformationSystem());
-        animationModelNode.setParent(anchorNode);
-        animationModelNode.setRenderable(this.animationModel).animate(true).start();
-        animationModelNode.setLocalPosition(new Vector3(0, 5f, -18f));
-        //modelNode.setLocalScale(new Vector3(0.5f, 0.5f, 0.5f));
-        animationModelNode.select();
-    }*/
+    /**
+     * Help cards displayed in correct positions
+     * @param hitResult   The ARCore hit result that occurred when tapping the plane
+     * @param plane       The ARCore Plane that was tapped
+     * @param motionEvent the motion event that triggered the tap
+     */
     @Override
     public void onTapPlane(HitResult hitResult, Plane plane, MotionEvent motionEvent) {
         if (arModelMap.isEmpty()) {
@@ -249,27 +158,30 @@ public class ArActivity extends AppCompatActivity implements BaseArFragment.OnTa
         }
     }
 
+    /**
+     * Method to display static model like text and emoji
+     * @param anchorNode
+     * @param model
+     * @param position
+     * @param rotation
+     */
     private void createStaticTransformableNode(AnchorNode anchorNode, Renderable model, Vector3 position, Quaternion rotation ) {
-        TransformableNode textModelNode = new TransformableNode(arFragment.getTransformationSystem());
-        textModelNode.setParent(anchorNode);
-        textModelNode.setRenderable(model);
-        textModelNode.setLocalPosition(position);
-        textModelNode.setLocalRotation(rotation);
-        textModelNode.select();
+        TransformableNode staticModelNode = new TransformableNode(arFragment.getTransformationSystem());
+        staticModelNode.setParent(anchorNode);
+        staticModelNode.setRenderable(model);
+        staticModelNode.setLocalPosition(position);
+        staticModelNode.setLocalRotation(rotation);
+        staticModelNode.select();
 
     }
 
-    private void createEmojiTransformableNode(AnchorNode anchorNode, Renderable model, Vector3 position) {
-        Quaternion rotation = new Quaternion(Vector3.up(),-90);
-        TransformableNode emojiModelNode = new TransformableNode(arFragment.getTransformationSystem());
-        emojiModelNode.setParent(anchorNode);
-        emojiModelNode.setRenderable(model);
-        emojiModelNode.setLocalPosition(position);
-        emojiModelNode.setLocalRotation(rotation);
-        emojiModelNode.select();
-
-    }
-
+    /**
+     * Display animation models
+     * @param anchorNode
+     * @param model
+     * @param position
+     * @param rotation
+     */
     private void createAnimationTransformableNode(AnchorNode anchorNode, Renderable model, Vector3 position, Quaternion rotation) {
         TransformableNode animationModelNode = new TransformableNode(arFragment.getTransformationSystem());
         animationModelNode.setParent(anchorNode);
