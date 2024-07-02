@@ -59,8 +59,6 @@ public class SignUpController extends AppCompatActivity {
 
                 String username = usernameEditText.getText().toString();
                 String password = passwordEditText.getText().toString();
-                //TODO
-                //here is the email string
                 String email = emailEditText.getText().toString();
                 if (checkPassword(password)) {
                     if (password.equals(rePasswordEditText.getText().toString())) {

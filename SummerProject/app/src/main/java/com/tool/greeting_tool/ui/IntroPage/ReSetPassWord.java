@@ -23,6 +23,7 @@ import com.tool.greeting_tool.common.constant.KeySet;
 import com.tool.greeting_tool.common.constant.TAGConstant;
 import com.tool.greeting_tool.common.constant.TempAccountInfoConstant;
 import com.tool.greeting_tool.common.constant.URLConstant;
+import com.tool.greeting_tool.common.utils.FormatCheckerUtil;
 import com.tool.greeting_tool.common.utils.SharedPreferencesUtil;
 import com.tool.greeting_tool.pojo.vo.UserEmailVO;
 import com.tool.greeting_tool.server.MailSender;
@@ -57,9 +58,12 @@ public class ReSetPassWord extends AppCompatActivity {
                 Toast.makeText(ReSetPassWord.this, "Please fill out all fields", Toast.LENGTH_SHORT).show();
                 return;
             }
-            //TODO
-            //Add Email format check
+            if (!FormatCheckerUtil.checkEmail(email)) {
+                Toast.makeText(ReSetPassWord.this, "Please fill with email!", Toast.LENGTH_SHORT).show();
+                return;
+            }
 
+            //TODO
             //check username and email and return verificationCode
             userVerification(username,email);
 

@@ -20,6 +20,7 @@ import com.tool.greeting_tool.common.constant.URLConstant;
 import com.tool.greeting_tool.databinding.FragmentUserBinding;
 import com.tool.greeting_tool.server.StartPage;
 import com.tool.greeting_tool.ui.user.History.HistoryActivity;
+import com.tool.greeting_tool.ui.user.History.HistoryDialogFragment;
 
 import java.io.IOException;
 
@@ -47,12 +48,18 @@ public class UserFragment extends Fragment {
 
         final TextView textView = binding.textUser;
 
+        String username = SharedPreferencesUtil.getUsername(requireContext());
+        System.out.println(username);
+        userViewModel.setText(username);
+
         userViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
 
         History = binding.history;
         History.setOnClickListener(v->{
-            Intent intent = new Intent(getActivity(), HistoryActivity.class);
-            startActivity(intent);
+            /*Intent intent = new Intent(getActivity(), HistoryActivity.class);
+            startActivity(intent);*/
+            HistoryDialogFragment historyDialog = HistoryDialogFragment.newInstance();
+            historyDialog.show(getParentFragmentManager(), "historyDialog");
         });
 
         AccountCancel = binding.cancelButton;
