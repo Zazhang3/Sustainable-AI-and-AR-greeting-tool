@@ -6,6 +6,10 @@ import android.content.SharedPreferences;
 public class SharedPreferencesUtil {
     private static final String userPrefs = "user_prefs";
 
+    private static final String notificationPrefs = "notification_prefs";
+
+    private static final String KEY_NOTIFICATION_POSTED = "posted_message";
+
     /**
      * clear user data
      * @param context
@@ -96,4 +100,22 @@ public class SharedPreferencesUtil {
         return sharedPreferences.getString("verificationCode","");
     }
 
+    public static void saveNotificationMessage(Context context, String message) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(notificationPrefs, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(notificationPrefs, message);
+        editor.apply();
+    }
+
+    public static String getNotificationMessage(Context context) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(notificationPrefs, Context.MODE_PRIVATE);
+        return sharedPreferences.getString(notificationPrefs, "");
+    }
+
+    public static void setNotificationPostedFlag(Context context, boolean isPosted) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(notificationPrefs, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean(KEY_NOTIFICATION_POSTED, isPosted);
+        editor.apply();
+    }
 }
