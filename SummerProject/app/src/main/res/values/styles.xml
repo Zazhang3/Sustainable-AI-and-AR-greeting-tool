@@ -15,4 +15,10 @@
         <item name="colorPrimaryDark">@android:color/black</item>
     </style>
 
+    <!-- res/values/styles.xml -->
+    <style name="CustomToolbarTitle" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
+        <item name="android:fontFamily">@font/candal</item>
+        <item name="android:textSize">30sp</item> <!-- 根据需要修改字体大小 -->
+    </style>
+
 </resources>

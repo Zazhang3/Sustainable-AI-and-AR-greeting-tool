@@ -6,15 +6,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".WordsSelect">
+    tools:context=".WordsSelect"
+    android:background="@color/background_light">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimaryVariant"
+        android:background="@color/background_light"
         app:title="Select Your Text"
-        app:titleTextColor="@color/white" />
+        app:titleTextColor="@color/black"
+        app:titleTextAppearance="@style/CustomToolbarTitle"
+        />
 
     <ListView
         android:id="@+id/words"

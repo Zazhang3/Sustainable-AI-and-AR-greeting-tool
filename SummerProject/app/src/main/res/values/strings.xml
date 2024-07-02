@@ -42,5 +42,6 @@
     <string name="please_enter_userid_and_email">Please Enter UserID and Email</string>
     <string name="please_re_set_password">Please Re-Set Password</string>
     <string name="enter_security_code">Enter Security Code</string>
+    <string name="happynewyear">Happy new year</string>
     <!--<string name="title_notifications">Notifications</string>-->
 </resources>
