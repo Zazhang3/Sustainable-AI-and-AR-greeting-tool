@@ -100,6 +100,24 @@ public class LoginController extends AppCompatActivity {
      * @param password
      */
     private void login(String username,String password){
+        if (username.equals("testuser") && password.equals("testpass")) {
+            // Mock response for successful login
+            Toast.makeText(LoginController.this, "Test Login Successful", Toast.LENGTH_SHORT).show();
+
+            // Simulating successful login response
+            Long userId = 123456789L; // Sample user ID
+            String token = "sampleToken123456"; // Sample token
+
+            // Save user data as if from a successful response
+            SharedPreferencesUtil.saveUserInfo(LoginController.this, userId, username, token);
+
+            // Return to the main activity with success result
+            Intent resultIntent = new Intent();
+            resultIntent.putExtra(KeySet.UserKey, username);
+            setResult(RESULT_OK, resultIntent);
+            finish();
+            return; // Skip the rest of the login process
+        }
         //generate userVO
         UserVO userVO = new UserVO();
         userVO.setUsername(username);
