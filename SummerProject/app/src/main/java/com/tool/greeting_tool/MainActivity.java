@@ -1,28 +1,35 @@
 package com.tool.greeting_tool;
 
-import static android.app.NotificationManager.IMPORTANCE_HIGH;
-
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.tool.greeting_tool.common.constant.KeySet;
-import com.tool.greeting_tool.server.NotificationGenerater;
+import com.tool.greeting_tool.common.utils.SharedPreferencesUtil;
+import com.tool.greeting_tool.server.NotificationWorker;
+import com.tool.greeting_tool.ui.home.HomeViewModel;
 import com.tool.greeting_tool.ui.user.UserViewModel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
+import androidx.work.ExistingPeriodicWorkPolicy;
+import androidx.work.PeriodicWorkRequest;
+import androidx.work.WorkManager;
 
 import com.tool.greeting_tool.databinding.ActivityMainBinding;
+
+import java.util.concurrent.TimeUnit;
 
 public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
+
     private UserViewModel userViewModel;
-    private NotificationGenerater notificationGenerater;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,9 +38,9 @@ public class MainActivity extends AppCompatActivity {
         String userName = getIntent().getStringExtra(KeySet.UserKey);
 
         // Initialize UserViewModel
-        userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
+        //userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
         // Set the username in UserViewModel
-        userViewModel.setText(userName);
+        //userViewModel.setText(userName);
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -50,12 +57,36 @@ public class MainActivity extends AppCompatActivity {
         //NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(binding.navView, navController);
 
+        /*Intent intent = getIntent();
+        boolean fromNotification = intent != null && intent.hasExtra("source") && "notification".equals(intent.getStringExtra("source"));
+
+        if (fromNotification) {
+            // Clear the notification posted flag
+            SharedPreferencesUtil.clearNotificationPostedFlag(this);
+
+            // Pass the notification message to the fragment
+            String message = SharedPreferencesUtil.getNotificationMessage(this);
+            System.out.println(message + " get postcode");
+            Bundle bundle = new Bundle();
+            bundle.putString("notification_message", message);
+
+        }*/
+
         //Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
-        // Init NotificationGenerater
-        String postcode = "BS1 4TT"; // A tmp postcode for testing
-        //notificationGenerater = new NotificationGenerater(this, IMPORTANCE_HIGH, postcode);
-        //notificationGenerater.startTimer();
+        scheduleWork();
     }
 
+    private void scheduleWork() {
+        //because the background limit, the minimum interval is 15min
+        //It will set a background workManager to repeat the LocationWorker action each 15min
+        PeriodicWorkRequest locationWorkRequest = new PeriodicWorkRequest.Builder(NotificationWorker.class, 15, TimeUnit.MINUTES)
+                //.setInitialDelay(15, TimeUnit.MINUTES)
+                .build();
 
+        //WorkManager.getInstance(this).enqueue(locationWorkRequest);
+        WorkManager.getInstance(this).enqueueUniquePeriodicWork(
+                "LocationWork",
+                ExistingPeriodicWorkPolicy.UPDATE, // Ensures only one work request is active at a time
+                locationWorkRequest);
+    }
 }

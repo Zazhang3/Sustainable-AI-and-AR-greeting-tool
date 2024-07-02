@@ -12,4 +12,6 @@ public class KeySet {
     public static final String SelectedList = "selectList";
 
     public static final String ReSetKey = "resetpassword";
+
+    public static final String NotificationKey = "notification";
 }
