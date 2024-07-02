@@ -123,4 +123,13 @@ public class SharedPreferencesUtil {
         editor.putBoolean(KEY_NOTIFICATION_POSTED, isPosted);
         editor.apply();
     }
+
+    public static boolean isNotificationPosted(Context context) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(notificationPrefs, Context.MODE_PRIVATE);
+        return sharedPreferences.getBoolean(KEY_NOTIFICATION_POSTED, false);
+    }
+
+    public static void clearNotificationPostedFlag(Context context) {
+        setNotificationPostedFlag(context, false);
+    }
 }

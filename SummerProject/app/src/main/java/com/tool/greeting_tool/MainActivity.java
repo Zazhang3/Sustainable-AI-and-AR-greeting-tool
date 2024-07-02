@@ -57,19 +57,12 @@ public class MainActivity extends AppCompatActivity {
         //NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(binding.navView, navController);
 
-        /*Intent intent = getIntent();
-        boolean fromNotification = intent != null && intent.hasExtra("source") && "notification".equals(intent.getStringExtra("source"));
+        //Intent intent = getIntent();
+        //boolean fromNotification = intent != null && intent.hasExtra("source") && "notification".equals(intent.getStringExtra("source"));
 
-        if (fromNotification) {
+        /*if (fromNotification) {
             // Clear the notification posted flag
-            SharedPreferencesUtil.clearNotificationPostedFlag(this);
-
-            // Pass the notification message to the fragment
-            String message = SharedPreferencesUtil.getNotificationMessage(this);
-            System.out.println(message + " get postcode");
-            Bundle bundle = new Bundle();
-            bundle.putString("notification_message", message);
-
+            SharedPreferencesUtil.setNotificationPostedFlag(this, true);
         }*/
 
         //Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
@@ -86,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
         //WorkManager.getInstance(this).enqueue(locationWorkRequest);
         WorkManager.getInstance(this).enqueueUniquePeriodicWork(
                 "LocationWork",
-                ExistingPeriodicWorkPolicy.UPDATE, // Ensures only one work request is active at a time
+                ExistingPeriodicWorkPolicy.KEEP, // Ensures only one work request is active at a time
                 locationWorkRequest);
     }
 }

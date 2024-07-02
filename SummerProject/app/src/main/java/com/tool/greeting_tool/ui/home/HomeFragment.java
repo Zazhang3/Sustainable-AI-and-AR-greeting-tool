@@ -92,12 +92,17 @@ public class HomeFragment extends Fragment {
                 System.out.println("no Permission");
                 ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_WRITE_STORAGE);
             } else {
-                System.out.println("Goto tts");
-                textToSpeechHelper.startSynthesizeThread("You have 3 Message in " + postcode_notification);
-                //playAudio();
+                if(SharedPreferencesUtil.isNotificationPosted(getContext())){
+                    System.out.println("Goto tts");
+                    SharedPreferencesUtil.clearNotificationPostedFlag(getContext());
+                    textToSpeechHelper.startSynthesizeThread("You have 3 Message in " + postcode_notification);
+                    //playAudio();
+                }else{
+                    System.out.println("Not from Notification");
+                }
             }
         }else{
-            System.out.println("Didn't get Arguments");
+            System.out.println("Didn't get argument");
         }
 
         ImageButton wordButton = binding.button;
