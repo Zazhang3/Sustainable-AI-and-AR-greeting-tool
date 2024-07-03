@@ -39,7 +39,7 @@ public class LoginController extends AppCompatActivity {
     private EditText usernameEditText;
     private EditText passwordEditText;
     private ImageButton backButton;
-    private Button ForgetPassWord;
+    private ImageButton ForgetPassWord;
 
     /**
      * Use to ask user enter the ID and Password

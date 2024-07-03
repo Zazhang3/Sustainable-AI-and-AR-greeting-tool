@@ -8,17 +8,19 @@
     tools:context=".server.SignUpController">
 
     <ImageView
+        android:id="@+id/signup_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="?attr/selectableItemBackground"
         android:contentDescription="@string/signup_text"
         android:src="@drawable/signup"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.14"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.147" />
+        app:layout_constraintTop_toBottomOf="@+id/id_back_signup"
+        app:layout_constraintVertical_bias="0.147"
+        android:layout_marginTop="10dp"
+        />
 
     <ImageButton
         android:id="@+id/id_back_signup"
@@ -27,11 +29,12 @@
         android:background="?attr/selectableItemBackground"
         android:contentDescription="@string/signup_back"
         android:src="@drawable/back"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="40dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.121"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+
         app:layout_constraintVertical_bias="0.04" />
 
     <ImageButton
@@ -41,11 +44,11 @@
         android:background="?attr/selectableItemBackground"
         android:contentDescription="@string/signup"
         android:src="@drawable/sign_up_button"
-        app:layout_constraintBottom_toBottomOf="parent"
+       android:layout_marginTop="32dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.476"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/email_set"
         app:layout_constraintVertical_bias="0.751" />
 
 
@@ -56,11 +59,11 @@
         android:background="@drawable/round_background"
         android:hint="@string/password"
         android:inputType="textPassword"
-        app:layout_constraintBottom_toTopOf="@+id/id_signup_button"
+        android:layout_marginTop="24dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.512"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/id_signup_id"
         app:layout_constraintVertical_bias="0.577" />
 
     <EditText
@@ -70,7 +73,7 @@
         android:background="@drawable/round_background"
         android:hint="@string/re_enter_password"
         android:inputType="textPassword"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="24dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.487"
         app:layout_constraintStart_toStartOf="parent"
@@ -85,26 +88,27 @@
         android:hint="@string/user_id"
         android:inputType="text"
         android:maxLength="30"
-        app:layout_constraintBottom_toTopOf="@+id/id_signup_password"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.487"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/signup_title"
+        android:layout_marginTop="40dp"
         app:layout_constraintVertical_bias="0.867" />
 
     <EditText
         android:id="@+id/email_set"
         android:layout_width="329dp"
         android:layout_height="53dp"
-        android:layout_marginBottom="260dp"
+        android:layout_marginBottom="20dp"
         android:background="@drawable/round_background"
         android:hint="@string/email"
         android:inputType="textEmailAddress"
-        app:layout_constraintBottom_toBottomOf="parent"
+
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.512"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/id_signup_password_re"
+        android:layout_marginTop="24dp"
         app:layout_constraintVertical_bias="1.0" />
 
 

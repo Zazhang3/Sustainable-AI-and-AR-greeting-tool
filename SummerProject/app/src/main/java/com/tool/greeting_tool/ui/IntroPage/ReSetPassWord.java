@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -47,7 +48,7 @@ public class ReSetPassWord extends AppCompatActivity {
 
         EditText usernameEditText = findViewById(R.id.userID_reset);
         EditText emailEditText = findViewById(R.id.re_set_email);
-        Button submitButton = findViewById(R.id.ResetButton);
+        ImageButton submitButton = findViewById(R.id.ResetButton);
 
         submitButton.setOnClickListener(v->{
             String username = usernameEditText.getText().toString();
