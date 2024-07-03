@@ -64,8 +64,6 @@ public class HomeFragment extends Fragment {
 
     private TextToSpeechHelper textToSpeechHelper;
 
-    private MediaPlayer mediaPlayer;
-    private String audioPath;
     private static final int REQUEST_CODE_SELECT_1 = 1;
     private static final int REQUEST_CODE_SELECT_2 = 2;
 
@@ -163,13 +161,15 @@ public class HomeFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_CODE_SELECT_1&&data!=null) {
+            showNearbyMessageWithAR();
+            //ArrayList<Integer> selectedItems = data.getIntegerArrayListExtra(KeySet.SelectedList);
             //String postcode = data.getStringExtra(KeySet.PostKey);
             //ArrayList<String> SelectedItems = data.getStringArrayListExtra(KeySet.SelectedList);
             //System.out.println(postcode);
             //System.out.println(SelectedItems);
         } else if (requestCode == REQUEST_CODE_SELECT_2&&data!=null) {
             String postcode = data.getStringExtra(KeySet.PostKey);
-            ArrayList<Integer> SelectedItems = data.getIntegerArrayListExtra(KeySet.SelectedList);
+            ArrayList<String> SelectedItems = data.getStringArrayListExtra(KeySet.SelectedList);
             sendGreetingCard(SelectedItems,postcode);
         }
     }
@@ -268,7 +268,7 @@ public class HomeFragment extends Fragment {
      * @param selectionList
      * @param postcode
      */
-    private void sendGreetingCard(ArrayList<Integer> selectionList, String postcode) {
+    private void sendGreetingCard(ArrayList<String> selectionList, String postcode) {
 
         //Just for test, disable it while it can receive message
         /*GreetingCard greetingCard = new GreetingCard();
