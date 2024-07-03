@@ -64,8 +64,6 @@ public class HomeFragment extends Fragment {
 
     private TextToSpeechHelper textToSpeechHelper;
 
-    private MediaPlayer mediaPlayer;
-    private String audioPath;
     private static final int REQUEST_CODE_SELECT_1 = 1;
     private static final int REQUEST_CODE_SELECT_2 = 2;
 
@@ -84,6 +82,7 @@ public class HomeFragment extends Fragment {
         locationHelper = new LocationHelper(requireContext());
 
         String postcode_notification = SharedPreferencesUtil.getNotificationMessage(requireContext());
+        int messageCount = SharedPreferencesUtil.getMessageCount(requireContext());
         textToSpeechHelper = new TextToSpeechHelper(requireContext());
 
         if (postcode_notification != null) {
@@ -93,12 +92,20 @@ public class HomeFragment extends Fragment {
                 System.out.println("no Permission");
                 ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_WRITE_STORAGE);
             } else {
-                System.out.println("Goto tts");
-                textToSpeechHelper.startSynthesizeThread("You have 3 Message in " + postcode_notification);
-                //playAudio();
+                if(SharedPreferencesUtil.isNotificationPosted(getContext())){
+                    System.out.println("Goto tts");
+                    SharedPreferencesUtil.clearNotificationPostedFlag(getContext());
+                    String text = "You have " + messageCount + " Message in " + postcode_notification;
+                    textToSpeechHelper.startSynthesizeThread(text);
+                    //playAudio();
+                }else if(postcode_notification.isEmpty()){
+                    System.out.println("postcode is empty");
+                }else{
+                    System.out.println("Not from Notification");
+                }
             }
         }else{
-            System.out.println("Didn't get Arguments");
+            System.out.println("Didn't get argument");
         }
 
         ImageButton wordButton = binding.button;
@@ -158,6 +165,11 @@ public class HomeFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_CODE_SELECT_1&&data!=null) {
+            ArrayList<String> selectedItems = data.getStringArrayListExtra(KeySet.SelectedList);
+            //TODO
+            //pick user selected items and pass into AR
+            showNearbyMessageWithAR();
+            //ArrayList<Integer> selectedItems = data.getIntegerArrayListExtra(KeySet.SelectedList);
             //String postcode = data.getStringExtra(KeySet.PostKey);
             //ArrayList<String> SelectedItems = data.getStringArrayListExtra(KeySet.SelectedList);
             //System.out.println(postcode);
@@ -170,8 +182,15 @@ public class HomeFragment extends Fragment {
     }
 
     @Override
+    public void onPause() {
+        super.onPause();
+        textToSpeechHelper.stopAudio();
+    }
+
+    @Override
     public void onDestroyView() {
         super.onDestroyView();
+        textToSpeechHelper.stopAudio();
         binding = null;
     }
 
