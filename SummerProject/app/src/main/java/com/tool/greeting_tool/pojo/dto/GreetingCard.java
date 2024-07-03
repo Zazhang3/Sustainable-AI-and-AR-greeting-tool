@@ -3,26 +3,26 @@ package com.tool.greeting_tool.pojo.dto;
 public class GreetingCard {
     private Long user_id;
 
-    private String card_id;
+    private Integer card_id;
 
     private String postcode;
 
-    private String emoji_id;
+    private Integer emoji_id;
 
-    private String animation_id;
+    private Integer animation_id;
 
     private Long id;
 
-    public String getCardId() {
+    public Integer getCardId() {
         return card_id;
     }
 
 
-    public void setText(String text) {
+    public void setText(Integer text) {
         this.card_id = text;
     }
 
-    public void setEmoji(String emoji) {
+    public void setEmoji(Integer emoji) {
         this.emoji_id = emoji;
     }
 
@@ -30,7 +30,7 @@ public class GreetingCard {
         this.postcode = postcode;
     }
 
-    public void setAnimation(String animation) {
+    public void setAnimation(Integer animation) {
         this.animation_id = animation;
     }
 

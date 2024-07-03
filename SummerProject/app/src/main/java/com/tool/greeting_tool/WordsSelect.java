@@ -159,7 +159,7 @@ public class WordsSelect extends AppCompatActivity {
             super.onActivityResult(requestCode, resultCode, data);
             if (resultCode == RESULT_OK && data != null) {
                 if (requestCode == RequestCode.REQUEST_CODE_SELECT_1) {
-                    ArrayList<Integer> selection = (ArrayList<Integer>) data.getIntegerArrayListExtra(EXTRA_SELECTION);
+                    ArrayList<Integer> selection = data.getIntegerArrayListExtra(EXTRA_SELECTION);
                     Intent resultIntent = new Intent();
                     resultIntent.putExtra(EXTRA_SELECTION, selection);
                     resultIntent.putExtra(KeySet.Request, RequestCode.REQUEST_CODE_SELECT_1);
@@ -167,7 +167,7 @@ public class WordsSelect extends AppCompatActivity {
                     finish();
                 } else if (requestCode == RequestCode.REQUEST_CODE_SELECT_2) {
                     String postCode = data.getStringExtra(KeySet.PostKey);
-                    ArrayList<Integer> backSelectedList = (ArrayList<Integer>) data.getIntegerArrayListExtra(KeySet.SelectedList);
+                    ArrayList<Integer> backSelectedList = data.getIntegerArrayListExtra(KeySet.SelectedList);
                     Intent resultIntent = new Intent();
                     resultIntent.putExtra(KeySet.PostKey, postCode);
                     resultIntent.putExtra(KeySet.SelectedList, backSelectedList);

@@ -169,7 +169,7 @@ public class HomeFragment extends Fragment {
             //System.out.println(SelectedItems);
         } else if (requestCode == REQUEST_CODE_SELECT_2&&data!=null) {
             String postcode = data.getStringExtra(KeySet.PostKey);
-            ArrayList<String> SelectedItems = data.getStringArrayListExtra(KeySet.SelectedList);
+            ArrayList<Integer> SelectedItems = data.getIntegerArrayListExtra(KeySet.SelectedList);
             sendGreetingCard(SelectedItems,postcode);
         }
     }
@@ -268,7 +268,7 @@ public class HomeFragment extends Fragment {
      * @param selectionList
      * @param postcode
      */
-    private void sendGreetingCard(ArrayList<String> selectionList, String postcode) {
+    private void sendGreetingCard(ArrayList<Integer> selectionList, String postcode) {
 
         //Just for test, disable it while it can receive message
         /*GreetingCard greetingCard = new GreetingCard();
