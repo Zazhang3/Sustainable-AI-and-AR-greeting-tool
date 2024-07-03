@@ -10,6 +10,8 @@ public class SharedPreferencesUtil {
 
     private static final String KEY_NOTIFICATION_POSTED = "posted_message";
 
+    private static final String KEY_MESSAGE_COUNT = "message_count";
+
     /**
      * clear user data
      * @param context
@@ -105,16 +107,29 @@ public class SharedPreferencesUtil {
         return sharedPreferences.getString("username", null);
     }
 
-    public static void saveNotificationMessage(Context context, String message) {
+    public static void saveNotificationMessage(Context context, String message, Integer count) {
         SharedPreferences sharedPreferences = context.getSharedPreferences(notificationPrefs, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString(notificationPrefs, message);
+        editor.putString("postcode", message);
+        editor.putInt(KEY_MESSAGE_COUNT, count);
         editor.apply();
     }
 
     public static String getNotificationMessage(Context context) {
         SharedPreferences sharedPreferences = context.getSharedPreferences(notificationPrefs, Context.MODE_PRIVATE);
-        return sharedPreferences.getString(notificationPrefs, "");
+        return sharedPreferences.getString("postcode", "");
+    }
+
+    public static void saveMessageCount(Context context, Integer count){
+        SharedPreferences sharedPreferences = context.getSharedPreferences(notificationPrefs, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt(KEY_MESSAGE_COUNT, count);
+        editor.apply();
+    }
+
+    public static Integer getMessageCount(Context context){
+        SharedPreferences sharedPreferences = context.getSharedPreferences(notificationPrefs, Context.MODE_PRIVATE);
+        return sharedPreferences.getInt(KEY_MESSAGE_COUNT, 0);
     }
 
     public static void setNotificationPostedFlag(Context context, boolean isPosted) {

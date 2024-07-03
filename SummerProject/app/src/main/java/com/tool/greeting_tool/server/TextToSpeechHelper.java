@@ -99,5 +99,15 @@ public class TextToSpeechHelper {
             }
         }
     }
+
+    public void stopAudio(){
+        if (mediaPlayer != null) {
+            if (mediaPlayer.isPlaying()) {
+                mediaPlayer.stop();
+            }
+            mediaPlayer.release();
+            mediaPlayer = null;
+        }
+    }
 }
 

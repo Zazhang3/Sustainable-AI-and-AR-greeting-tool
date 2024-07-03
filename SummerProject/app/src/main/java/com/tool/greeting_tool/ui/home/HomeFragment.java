@@ -82,6 +82,7 @@ public class HomeFragment extends Fragment {
         locationHelper = new LocationHelper(requireContext());
 
         String postcode_notification = SharedPreferencesUtil.getNotificationMessage(requireContext());
+        int messageCount = SharedPreferencesUtil.getMessageCount(requireContext());
         textToSpeechHelper = new TextToSpeechHelper(requireContext());
 
         if (postcode_notification != null) {
@@ -94,8 +95,11 @@ public class HomeFragment extends Fragment {
                 if(SharedPreferencesUtil.isNotificationPosted(getContext())){
                     System.out.println("Goto tts");
                     SharedPreferencesUtil.clearNotificationPostedFlag(getContext());
-                    textToSpeechHelper.startSynthesizeThread("You have 3 Message in " + postcode_notification);
+                    String text = "You have " + messageCount + " Message in " + postcode_notification;
+                    textToSpeechHelper.startSynthesizeThread(text);
                     //playAudio();
+                }else if(postcode_notification.isEmpty()){
+                    System.out.println("postcode is empty");
                 }else{
                     System.out.println("Not from Notification");
                 }
@@ -161,6 +165,9 @@ public class HomeFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_CODE_SELECT_1&&data!=null) {
+            ArrayList<String> selectedItems = data.getStringArrayListExtra(KeySet.SelectedList);
+            //TODO
+            //pick user selected items and pass into AR
             showNearbyMessageWithAR();
             //ArrayList<Integer> selectedItems = data.getIntegerArrayListExtra(KeySet.SelectedList);
             //String postcode = data.getStringExtra(KeySet.PostKey);
@@ -175,8 +182,15 @@ public class HomeFragment extends Fragment {
     }
 
     @Override
+    public void onPause() {
+        super.onPause();
+        textToSpeechHelper.stopAudio();
+    }
+
+    @Override
     public void onDestroyView() {
         super.onDestroyView();
+        textToSpeechHelper.stopAudio();
         binding = null;
     }
 

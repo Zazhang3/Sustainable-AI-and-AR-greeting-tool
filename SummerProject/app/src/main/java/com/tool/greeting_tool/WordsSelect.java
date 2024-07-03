@@ -3,6 +3,7 @@ package com.tool.greeting_tool;
 import com.tool.greeting_tool.common.constant.ButtonString;
 import com.tool.greeting_tool.common.constant.RequestCode;
 import com.tool.greeting_tool.common.constant.KeySet;
+import com.tool.greeting_tool.common.utils.AssetManager;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -19,10 +20,6 @@ import java.util.Objects;
 
 
 public class WordsSelect extends AppCompatActivity {
-
-    private final int[] dataList = {R.drawable.happynewyear, R.drawable.happyhoolidays, R.drawable.getwellsoon, R.drawable.haveaniceday};
-    private final int[] emoji = {R.drawable.heart, R.drawable.loveeye, R.drawable.lovesmile, R.drawable.tonge, R.drawable.star};
-    private final int[] animation = {R.drawable.staranmation, R.drawable.heartanimation};
     public static final String EXTRA_SELECTION = "com.tool.appname.greeting_tool";
 
     private ArrayList<String> selectList;
@@ -63,14 +60,14 @@ public class WordsSelect extends AppCompatActivity {
         ListView listView = findViewById(R.id.words);
 
         if(Objects.equals(selectType, "Words")){
-            items = dataList;
+            items = AssetManager.getDataList();
         }else if(Objects.equals(selectType, "Emoji")){
             //set toolbar text title to 'Emoji' and set item list to emoji type
             updateToolbarTitle("Select Emoji");
-            items = emoji;
+            items = AssetManager.getEmojiList();
         }else if(Objects.equals(selectType, "Animation")){
             updateToolbarTitle("Select Animation");
-            items = animation;
+            items = AssetManager.getAnimationList();
         }
 
         ImageAdapter theAdapter = new ImageAdapter(WordsSelect.this, items);
@@ -86,14 +83,14 @@ public class WordsSelect extends AppCompatActivity {
             int selectedItem = items[position];
             Intent intent = new Intent(WordsSelect.this, WordsSelect.class);
             if (Objects.equals(selectType, "Words")) {
-                String text = mapResourceIdToText(selectedItem);
+                String text = AssetManager.mapResourceIdToText(selectedItem);
                 selectList.add(text);
                 intent.putExtra(KeySet.SelectedList, selectList);
                 intent.putExtra(KeySet.SelectedType, "Emoji");
                 intent.putExtra(KeySet.Request, request);
                 startActivityForResult(intent, 2);
             } else if (Objects.equals(selectType, "Emoji")) {
-                String emoji = mapResourceIdToEmoji(selectedItem);
+                String emoji = AssetManager.mapResourceIdToEmoji(selectedItem);
                 selectList.add(emoji);
                 intent.putExtra(KeySet.SelectedType, "Animation");
                 intent.putExtra(KeySet.SelectedList, selectList);
@@ -104,7 +101,7 @@ public class WordsSelect extends AppCompatActivity {
                     startActivityForResult(intent, 2);
                 }
             } else if (Objects.equals(selectType, "Animation")) {
-                String animation = mapResourceIdToAnimation(selectedItem);
+                String animation = AssetManager.mapResourceIdToAnimation(selectedItem);
                 selectList.add(animation);
                 if (request == RequestCode.REQUEST_CODE_SELECT_1) {
                     showSelectionDialog(selectList);
@@ -163,7 +160,7 @@ public class WordsSelect extends AppCompatActivity {
             super.onActivityResult(requestCode, resultCode, data);
             if (resultCode == RESULT_OK && data != null) {
                 if (requestCode == RequestCode.REQUEST_CODE_SELECT_1) {
-                    ArrayList<String> selection = data.getStringArrayListExtra(EXTRA_SELECTION);
+                    ArrayList<String> selection = data.getStringArrayListExtra(KeySet.SelectedList);
                     Intent resultIntent = new Intent();
                     resultIntent.putExtra(KeySet.SelectedList, selection);
                     resultIntent.putExtra(KeySet.Request, RequestCode.REQUEST_CODE_SELECT_1);
@@ -181,49 +178,4 @@ public class WordsSelect extends AppCompatActivity {
                 }
             }
         }
-
-    private String mapResourceIdToText(int resourceId) {
-        switch (resourceId) {
-            case R.drawable.happynewyear:
-                return "Happy New Year";
-            case R.drawable.happyhoolidays:
-                return "Happy Holidays";
-            case R.drawable.getwellsoon:
-                return "Get well soon";
-            case R.drawable.haveaniceday:
-                return "Have a nice day";
-
-
-            default:
-                return "Unknown";
-        }
-    }
-
-    private String mapResourceIdToEmoji(int resourceId) {
-        switch (resourceId) {
-            case R.drawable.heart:
-                return "Heart";
-            case R.drawable.loveeye:
-                return "Love eye";
-            case R.drawable.lovesmile:
-                return "Love Smile";
-            case R.drawable.tonge:
-                return "Tongue";
-            case R.drawable.star:
-                return "Star";
-            default:
-                return "Unknown";
-        }
-    }
-
-    private String mapResourceIdToAnimation(int resourceId) {
-        switch (resourceId) {
-            case R.drawable.staranmation:
-                return "Star animation";
-            case R.drawable.heartanimation:
-                return "Heart animation";
-            default:
-                return "Unknown";
-        }
-    }
 }
