@@ -128,6 +128,7 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public String generateVerificationCode(Long id) {
+
         String verificationCode = VerificationCodeGenerator.generateVerificationCode();
         userMapper.saveVerificationCode(id,verificationCode,LocalDateTime.now());
 

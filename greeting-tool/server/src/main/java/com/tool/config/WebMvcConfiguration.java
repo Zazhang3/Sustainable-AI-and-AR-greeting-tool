@@ -47,7 +47,7 @@ public class WebMvcConfiguration extends WebMvcConfigurationSupport {
 
     /**
      * Generate interface documentation with Knife4j
-     * @return
+     * @return Docket
      */
     @Bean
     public Docket docket() {
@@ -73,6 +73,8 @@ public class WebMvcConfiguration extends WebMvcConfigurationSupport {
     protected void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/doc.html").addResourceLocations("classpath:/META-INF/resources/");
         registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/");
+        registry.addResourceHandler("/favicon.ico")
+                .addResourceLocations("classpath:/static/");
     }
 
     /**

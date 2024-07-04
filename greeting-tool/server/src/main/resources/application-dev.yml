@@ -1,8 +1,8 @@
 tool:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    host: localhost
+    host: greetingtool.cn4ee2iwicrv.eu-west-2.rds.amazonaws.com
     port: 3306
     database: greeting_tool
-    username: root
-    password: 123456
+    username: admin
+    password: 123

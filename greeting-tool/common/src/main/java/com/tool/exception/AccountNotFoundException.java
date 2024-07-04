@@ -1,7 +1,7 @@
 package com.tool.exception;
 
 /**
- * 账号不存在异常
+ * Account not found
  */
 public class AccountNotFoundException extends BaseException {
 
