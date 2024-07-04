@@ -6,7 +6,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 @Data
-@ApiModel("user login info model")
+@ApiModel("user email info model")
 public class UserEmailDTO {
 
     @ApiModelProperty

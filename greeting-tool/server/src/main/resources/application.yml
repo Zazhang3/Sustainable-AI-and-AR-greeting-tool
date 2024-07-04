@@ -31,7 +31,7 @@ logging:
 tool:
   jwt:
     # Set the secret key used for jwt signature encryption
-    admin-secret-key: itcast
+    admin-secret-key: ${tool.jwt.admin-secret-key}
     # Set the jwt expiration time
     admin-ttl: 7200000
     # Set the name of the token passed from the front end

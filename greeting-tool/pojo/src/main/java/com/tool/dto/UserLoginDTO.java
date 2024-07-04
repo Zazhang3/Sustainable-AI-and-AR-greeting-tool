@@ -13,7 +13,7 @@ public class UserLoginDTO implements Serializable {
     @ApiModelProperty
     private String username;
 
-    @ApiModelProperty
+    @ApiModelProperty("password")
     private String password;
 
 }
