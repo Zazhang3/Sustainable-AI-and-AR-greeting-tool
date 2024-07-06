@@ -18,6 +18,7 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 import androidx.work.ExistingPeriodicWorkPolicy;
+import androidx.work.OneTimeWorkRequest;
 import androidx.work.PeriodicWorkRequest;
 import androidx.work.WorkManager;
 
@@ -67,11 +68,22 @@ public class MainActivity extends AppCompatActivity {
 
         //Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
         scheduleWork();
+        //scheduleOneTimeWork();
+    }
+
+    private void scheduleOneTimeWork() {
+        System.out.println("Start one-time work schedule");
+        OneTimeWorkRequest oneTimeWorkRequest = new OneTimeWorkRequest.Builder(NotificationWorker.class)
+                .build();
+
+        WorkManager.getInstance(this).enqueue(oneTimeWorkRequest);
+        System.out.println("Finish one-time work schedule");
     }
 
     private void scheduleWork() {
         //because the background limit, the minimum interval is 15min
         //It will set a background workManager to repeat the LocationWorker action each 15min
+        System.out.println("Start schedule");
         PeriodicWorkRequest locationWorkRequest = new PeriodicWorkRequest.Builder(NotificationWorker.class, 15, TimeUnit.MINUTES)
                 //.setInitialDelay(15, TimeUnit.MINUTES)
                 .build();
@@ -81,5 +93,7 @@ public class MainActivity extends AppCompatActivity {
                 "LocationWork",
                 ExistingPeriodicWorkPolicy.UPDATE, // Ensures only one work request is active at a time
                 locationWorkRequest);
+
+        System.out.println("Finish schedule");
     }
 }

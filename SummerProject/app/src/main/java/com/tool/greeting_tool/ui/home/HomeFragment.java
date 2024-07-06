@@ -181,18 +181,7 @@ public class HomeFragment extends Fragment {
         }
     }
 
-    @Override
-    public void onPause() {
-        super.onPause();
-        textToSpeechHelper.stopAudio();
-    }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        textToSpeechHelper.stopAudio();
-        binding = null;
-    }
 
     /*private void playAudio() {
         if (audioPath != null) {
@@ -419,5 +408,17 @@ public class HomeFragment extends Fragment {
         }
     }
 
+    @Override
+    public void onPause() {
+        textToSpeechHelper.stopAudio();
+        super.onPause();
+    }
+
+    @Override
+    public void onDestroyView() {
+        textToSpeechHelper.stopAudio();
+        super.onDestroyView();
+        binding = null;
+    }
 
 }

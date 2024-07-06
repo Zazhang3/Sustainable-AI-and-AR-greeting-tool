@@ -47,15 +47,19 @@ public class NotificationWorker extends Worker {
                         //TODO
                         //Add sending action to back-end here and get back integer value
                         int count = 2;
+                        System.out.println("goto sending");
                         sendNotification(postcode, count);
                     }
                 });
+                return Result.success();
             } else {
                 return Result.failure();
             }
+        }else{
+            System.out.println("have skip");
         }
 
-        return Result.success();
+        return Result.failure();
     }
 
     private boolean shouldSkipInitialExecution() {
@@ -77,6 +81,7 @@ public class NotificationWorker extends Worker {
     }
 
     private void sendNotification(String postcode, int count) {
+        System.out.println("Start sending");
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
         SharedPreferencesUtil.saveNotificationMessage(context, postcode, count);
@@ -110,6 +115,9 @@ public class NotificationWorker extends Worker {
 
         if (notificationManager != null) {
             notificationManager.notify(1, builder.build());
+            System.out.println("finish sending");
+        }else{
+            System.out.println("notificationManager is null");
         }
     }
 }
