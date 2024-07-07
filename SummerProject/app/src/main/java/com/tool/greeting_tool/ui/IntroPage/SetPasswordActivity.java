@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -46,7 +47,7 @@ public class SetPasswordActivity extends AppCompatActivity {
         String username = data.getStringExtra(KeySet.UserKey);
 
 
-        Button submitButton = findViewById(R.id.reset_password_button);
+        ImageButton submitButton = findViewById(R.id.reset_password_button);
         submitButton.setOnClickListener(v->{
             //TODO
             //Whether to send request

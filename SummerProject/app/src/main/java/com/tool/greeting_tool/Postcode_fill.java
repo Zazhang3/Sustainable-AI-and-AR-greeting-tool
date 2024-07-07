@@ -41,8 +41,6 @@ public class Postcode_fill extends AppCompatActivity{
         submitButton.setOnClickListener(v -> {
             String postcode = postCode.getText().toString().trim();
             if(FormatCheckerUtil.checkPostcode(postcode)){
-                //TODO
-                //send card request
                 showPostCodeDialog(postcode, selectList);
             }else{
                 Toast.makeText(Postcode_fill.this, ErrorMessage.INVALID_POSTCODE, Toast.LENGTH_SHORT).show();

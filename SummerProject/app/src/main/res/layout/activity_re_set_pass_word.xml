@@ -7,14 +7,31 @@
     android:layout_height="match_parent"
     tools:context=".ui.IntroPage.ReSetPassWord">
 
-    <TextView
+    <ImageButton
+        android:id="@+id/id_back_signup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/please_enter_userid_and_email"
-        app:layout_constraintBottom_toTopOf="@+id/userID_reset"
+        android:background="?attr/selectableItemBackground"
+        android:contentDescription="@string/signup_back"
+        android:src="@drawable/back"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="40dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.121"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintVertical_bias="0.04" />
+
+    <ImageView
+        android:id="@+id/please_enter_title"
+        android:layout_width="340dp"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/please_enter_userid_and_email"
+        android:src="@drawable/enter_title"
+        android:scaleType="centerInside"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/id_back_signup"
+        android:layout_marginTop="10dp"
         app:layout_constraintVertical_bias="0.52" />
 
     <EditText
@@ -27,12 +44,11 @@
         android:maxLength="30"
         android:padding="16dp"
         android:textColorHint="#808080"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.286" />
+        app:layout_constraintTop_toBottomOf="@+id/please_enter_title"
+        android:layout_marginTop="30dp" />
 
     <EditText
         android:id="@+id/re_set_email"
@@ -43,22 +59,24 @@
         android:inputType="textEmailAddress"
         android:padding="16dp"
         android:textColorHint="#808080"
-        app:layout_constraintBottom_toTopOf="@+id/ResetButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/userID_reset" />
+        app:layout_constraintTop_toBottomOf="@+id/userID_reset"
+        android:layout_marginTop="30dp"/>
 
-    <Button
+    <ImageButton
         android:id="@+id/ResetButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/submit"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_width="200dp"
+        android:layout_height="60dp"
+        android:contentDescription="@string/submit"
+        android:src="@drawable/submit_1"
+        android:background="?attr/selectableItemBackground"
+        android:scaleType="centerInside"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.628" />
+        app:layout_constraintTop_toBottomOf="@+id/re_set_email"
+        android:layout_marginTop="40dp"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

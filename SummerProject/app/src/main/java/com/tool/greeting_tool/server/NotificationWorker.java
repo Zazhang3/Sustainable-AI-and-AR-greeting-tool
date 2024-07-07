@@ -45,16 +45,21 @@ public class NotificationWorker extends Worker {
                     public void onPostcodeResult(String postcode) {
                         //because the background limit, must have background location permission
                         //TODO
-                        //Add sending action to back-end here
-                        sendNotification(postcode);
+                        //Add sending action to back-end here and get back integer value
+                        int count = 2;
+                        System.out.println("goto sending");
+                        sendNotification(postcode, count);
                     }
                 });
+                return Result.success();
             } else {
                 return Result.failure();
             }
+        }else{
+            System.out.println("have skip");
         }
 
-        return Result.success();
+        return Result.failure();
     }
 
     private boolean shouldSkipInitialExecution() {
@@ -75,10 +80,11 @@ public class NotificationWorker extends Worker {
         // Request a new location update if needed
     }
 
-    private void sendNotification(String postcode) {
+    private void sendNotification(String postcode, int count) {
+        System.out.println("Start sending");
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
-        SharedPreferencesUtil.saveNotificationMessage(context, postcode);
+        SharedPreferencesUtil.saveNotificationMessage(context, postcode, count);
         SharedPreferencesUtil.setNotificationPostedFlag(context, true);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -101,15 +107,17 @@ public class NotificationWorker extends Worker {
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, CHANNEL_ID)
                 .setSmallIcon(R.mipmap.ic_launcher)
-                .setContentTitle("Location Update")
-                .setContentText("Your current postcode: " + postcode)
+                .setContentTitle("Greeting Card Update")
+                .setContentText("Your current postcode " + postcode + " have " + count + " message ")
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setContentIntent(pendingIntent)
                 .setAutoCancel(true);
 
         if (notificationManager != null) {
             notificationManager.notify(1, builder.build());
-
+            System.out.println("finish sending");
+        }else{
+            System.out.println("notificationManager is null");
         }
     }
 }

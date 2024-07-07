@@ -3,6 +3,7 @@ package com.tool.greeting_tool;
 import com.tool.greeting_tool.common.constant.ButtonString;
 import com.tool.greeting_tool.common.constant.RequestCode;
 import com.tool.greeting_tool.common.constant.KeySet;
+import com.tool.greeting_tool.common.utils.AssetManager;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -17,17 +18,14 @@ import androidx.appcompat.widget.Toolbar;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class WordsSelect extends AppCompatActivity {
 
-    private final String[] dataList = new String[]{"Text1", "Text2", "Text3"};
-    private final String[] emoji = new String[]{"First", "Second", "Third"};
-    private final String[] animation = new String[]{"tes1", "tes2", "tes3"};
+public class WordsSelect extends AppCompatActivity {
     public static final String EXTRA_SELECTION = "com.tool.appname.greeting_tool";
 
     private ArrayList<String> selectList;
     private String selectType;
     private int request;
-    private String[] items;
+    private int[] items;
 
     private Toolbar toolbar;
 
@@ -59,58 +57,56 @@ public class WordsSelect extends AppCompatActivity {
             selectList = new ArrayList<>();
         }
 
+        ListView listView = findViewById(R.id.words);
+
         if(Objects.equals(selectType, "Words")){
-            items = dataList;
+            items = AssetManager.getDataList();
         }else if(Objects.equals(selectType, "Emoji")){
             //set toolbar text title to 'Emoji' and set item list to emoji type
             updateToolbarTitle("Select Emoji");
-            items = emoji;
+            items = AssetManager.getEmojiList();
         }else if(Objects.equals(selectType, "Animation")){
             updateToolbarTitle("Select Animation");
-            items = animation;
+            items = AssetManager.getAnimationList();
         }
 
+        ImageAdapter theAdapter = new ImageAdapter(WordsSelect.this, items);
+        listView.setAdapter(theAdapter);
         //Adapter to setup ListView
         //Now Adapter Generics type set to string, Will update to a Bundle to store more data
-        ArrayAdapter<String> theAdapter = new ArrayAdapter<String>(WordsSelect.this,
-                android.R.layout.simple_list_item_1, items);
 
-        ListView ListView = findViewById(R.id.words);
-        ListView.setAdapter(theAdapter);
+        //ListView listView = findViewById(R.id.words);
+        //listView.setAdapter(theAdapter);
 
         //Item selection logic
-        //Temporarily only have two selections and will add last selection
-        ListView.setOnItemClickListener((parent, view, position, id) -> {
-            String selectedItem = items[position];
-            if(Objects.equals(selectType, "Words")){
-                //Store User's first Selection in an Intent and send to next
-                Intent intent = new Intent(WordsSelect.this, WordsSelect.class);
-                selectList.add(selectedItem);
+        listView.setOnItemClickListener((parent, view, position, id) -> {
+            int selectedItem = items[position];
+            Intent intent = new Intent(WordsSelect.this, WordsSelect.class);
+            if (Objects.equals(selectType, "Words")) {
+                String text = AssetManager.mapResourceIdToText(selectedItem);
+                selectList.add(text);
                 intent.putExtra(KeySet.SelectedList, selectList);
                 intent.putExtra(KeySet.SelectedType, "Emoji");
                 intent.putExtra(KeySet.Request, request);
                 startActivityForResult(intent, 2);
-            }else if(Objects.equals(selectType, "Emoji")){
-                Intent intent = new Intent(WordsSelect.this, WordsSelect.class);
-                selectList.add(selectedItem);
+            } else if (Objects.equals(selectType, "Emoji")) {
+                String emoji = AssetManager.mapResourceIdToEmoji(selectedItem);
+                selectList.add(emoji);
                 intent.putExtra(KeySet.SelectedType, "Animation");
                 intent.putExtra(KeySet.SelectedList, selectList);
                 intent.putExtra(KeySet.Request, request);
-                if(request == 1){
+                if (request == 1) {
                     startActivityForResult(intent, 1);
-                }else{
+                } else {
                     startActivityForResult(intent, 2);
                 }
-            }else if(Objects.equals(selectType, "Animation")){
-                if(request == RequestCode.REQUEST_CODE_SELECT_1){
-                    //Situation for Preview
-                    selectList.add(selectedItem);
+            } else if (Objects.equals(selectType, "Animation")) {
+                String animation = AssetManager.mapResourceIdToAnimation(selectedItem);
+                selectList.add(animation);
+                if (request == RequestCode.REQUEST_CODE_SELECT_1) {
                     showSelectionDialog(selectList);
-                }else if(request == RequestCode.REQUEST_CODE_SELECT_2){
-                    //Finish Item selection and move to postcode enter
-                    //Back to Home page
-                    selectList.add(selectedItem);
-                    Intent intent = new Intent(WordsSelect.this, Postcode_fill.class);
+                } else if (request == RequestCode.REQUEST_CODE_SELECT_2) {
+                    intent = new Intent(WordsSelect.this, Postcode_fill.class);
                     intent.putExtra(KeySet.SelectedList, selectList);
                     startActivityForResult(intent, 2);
                 }
@@ -122,26 +118,30 @@ public class WordsSelect extends AppCompatActivity {
      * Use to update Toolbar title in each selection page
      * @param title
      */
-    private void updateToolbarTitle(String title) {
-        if (toolbar != null) {
-            toolbar.setTitle(title);
+        private void updateToolbarTitle(String title) {
+            if (toolbar != null) {
+                toolbar.setTitle(title);
+            }
         }
-    }
 
     /**
      * Show dialog page after selection and back to Home page in Preview situation
      */
     private void showSelectionDialog(ArrayList<String> selectList) {
+        String text = selectList.get(0);
+        String emoji = selectList.get(1);
+        String animation = selectList.get(2);
+
         new AlertDialog.Builder(this).setTitle("Your Selection")
-                .setMessage("Text: " + selectList.get(0) + "\nEmoji: " + selectList.get(1) + "\nAnimation: " + selectList.get(2))
-                .setPositiveButton(ButtonString.positiveSet, (dialog, which) -> {
-                    Intent resultIntent = new Intent();
-                    resultIntent.putExtra(EXTRA_SELECTION, selectList);
-                    resultIntent.putExtra(KeySet.Request, RequestCode.REQUEST_CODE_SELECT_1);
-                    setResult(Activity.RESULT_OK, resultIntent);
-                    finish();
-                })
-                .show();
+                    .setMessage("Text: " + text+ "\nEmoji: " + emoji + "\nAnimation: " + animation)
+                    .setPositiveButton(ButtonString.positiveSet, (dialog, which) -> {
+                        Intent resultIntent = new Intent();
+                        resultIntent.putExtra(EXTRA_SELECTION, selectList);
+                        resultIntent.putExtra(KeySet.Request, RequestCode.REQUEST_CODE_SELECT_1);
+                        setResult(Activity.RESULT_OK, resultIntent);
+                        finish();
+                    })
+                    .show();
     }
 
     /** Store the selected result and back to home page
@@ -155,25 +155,27 @@ public class WordsSelect extends AppCompatActivity {
      *               (various data can be attached to Intent "extras").
      *
      */
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK && data != null && requestCode == RequestCode.REQUEST_CODE_SELECT_1) {
-            ArrayList<String> selection = data.getStringArrayListExtra(EXTRA_SELECTION);
-            Intent resultIntent = new Intent();
-            resultIntent.putExtra(EXTRA_SELECTION, selection);
-            resultIntent.putExtra(KeySet.Request, RequestCode.REQUEST_CODE_SELECT_1);
-            setResult(Activity.RESULT_OK, resultIntent);
-            finish();
-        }else if(requestCode == RequestCode.REQUEST_CODE_SELECT_2 && resultCode == RESULT_OK && data != null){
-            String postCode = data.getStringExtra(KeySet.PostKey);
-            ArrayList<String> backSelectedList = data.getStringArrayListExtra(KeySet.SelectedList);
-            Intent resultIntent = new Intent();
-            resultIntent.putExtra(KeySet.PostKey, postCode);
-            resultIntent.putExtra(KeySet.SelectedList, backSelectedList);
-            resultIntent.putExtra(KeySet.Request, RequestCode.REQUEST_CODE_SELECT_2);
-            setResult(Activity.RESULT_OK, resultIntent);
-            finish();
+        @Override
+        protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+            super.onActivityResult(requestCode, resultCode, data);
+            if (resultCode == RESULT_OK && data != null) {
+                if (requestCode == RequestCode.REQUEST_CODE_SELECT_1) {
+                    ArrayList<String> selection = data.getStringArrayListExtra(KeySet.SelectedList);
+                    Intent resultIntent = new Intent();
+                    resultIntent.putExtra(KeySet.SelectedList, selection);
+                    resultIntent.putExtra(KeySet.Request, RequestCode.REQUEST_CODE_SELECT_1);
+                    setResult(Activity.RESULT_OK, resultIntent);
+                    finish();
+                } else if (requestCode == RequestCode.REQUEST_CODE_SELECT_2) {
+                    String postCode = data.getStringExtra(KeySet.PostKey);
+                    ArrayList<String> backSelectedList = data.getStringArrayListExtra(KeySet.SelectedList);
+                    Intent resultIntent = new Intent();
+                    resultIntent.putExtra(KeySet.PostKey, postCode);
+                    resultIntent.putExtra(KeySet.SelectedList, backSelectedList);
+                    resultIntent.putExtra(KeySet.Request, RequestCode.REQUEST_CODE_SELECT_2);
+                    setResult(Activity.RESULT_OK, resultIntent);
+                    finish();
+                }
+            }
         }
-    }
 }
