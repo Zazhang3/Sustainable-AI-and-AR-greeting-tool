@@ -1,5 +1,6 @@
 package com.tool.greeting_tool.ui.home;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.MotionEvent;
@@ -44,15 +45,15 @@ public class ArActivity extends AppCompatActivity implements BaseArFragment.OnTa
         setContentView(R.layout.activity_ar);
         greetingCards = new ArrayList<>();
 
-        /*Intent intent = getIntent();
-        greetingCards = (ArrayList<GreetingCard>) intent.getSerializableExtra("greetingCards");*/
+        Intent intent = getIntent();
+        greetingCards = (ArrayList<CardDisplayVO>) intent.getSerializableExtra("greetingCards");
         //for display and test
-        CardDisplayVO card1 = new CardDisplayVO("getwellsoon", "heart", "staranimation");
+        /*CardDisplayVO card1 = new CardDisplayVO("getwellsoon", "heart", "staranimation");
         CardDisplayVO card2 = new CardDisplayVO("happynewyear","tongue","staranimation");
         CardDisplayVO card3 = new CardDisplayVO("haveaniceday","lovesmile","staranimation");
         greetingCards.add(card1);
         greetingCards.add(card2);
-        greetingCards.add(card3);
+        greetingCards.add(card3);*/
 
 
         getSupportFragmentManager().addFragmentOnAttachListener((fragmentManager, fragment) -> {
