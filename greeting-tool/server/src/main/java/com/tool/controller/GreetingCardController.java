@@ -85,5 +85,15 @@ public class GreetingCardController {
         return Result.success();
     }
 
+    @DeleteMapping("/userId/{userId}")
+    @ApiOperation("delete all the cards belongs to a user")
+    public Result deleteCardByUserId(@PathVariable Long userId) {
+        log.info("Delete user:{} cards",userId);
+
+        greetingCardService.deleteByUserId(userId);
+
+        return Result.success();
+    }
+
 
 }
