@@ -35,4 +35,10 @@ public interface GreetingCardService {
      */
 
     void deleteByUser(Long cardId);
+
+    /**
+     * delete card by user's ID
+     * @param userId
+     */
+    void deleteByUserId(Long userId);
 }

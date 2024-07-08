@@ -58,4 +58,7 @@ public interface GreetingCardMapper {
      */
     @Delete("DELETE FROM greeting_cards WHERE id=#{cardId}")
     void deleteCardByUser(Long cardId);
+
+    @Delete("DELETE FROM greeting_cards WHERE user_id=#{userId}")
+    void deleteCardByUserId(Long userId);
 }

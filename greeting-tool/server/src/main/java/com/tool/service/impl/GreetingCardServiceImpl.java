@@ -76,4 +76,16 @@ public class GreetingCardServiceImpl implements GreetingCardService {
        greetingCardMapper.deleteCardByUser(cardId);
    }
 
+    /**
+     * Delete user's cards
+     * @param userId
+     */
+   @Override
+    public void deleteByUserId(Long userId) {
+        ArrayList<GreetingCard> cards = greetingCardMapper.getByUserId(userId);
+        if (!cards.isEmpty()) {
+            greetingCardMapper.deleteCardByUserId(userId);
+        }
+    }
+
 }
