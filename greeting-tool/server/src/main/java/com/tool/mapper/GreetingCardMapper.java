@@ -26,7 +26,8 @@ public interface GreetingCardMapper {
             @Result(property = "card_id", column = "card_id", javaType = String.class),
             @Result(property = "user_id", column = "user_id", javaType = Long.class),
             @Result(property = "emoji_id", column = "emoji_id", javaType = String.class),
-            @Result(property = "animation_id", column = "animation_id",javaType = String.class)
+            @Result(property = "animation_id", column = "animation_id",javaType = String.class),
+            @Result(property = "create_time", column = "create_time",javaType = String.class)
     })
     ArrayList<GreetingCard> getByUserId(Long id);
 

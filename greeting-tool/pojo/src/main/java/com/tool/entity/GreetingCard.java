@@ -25,4 +25,5 @@ public class GreetingCard implements Serializable {
 
     private String animation_id;
 
+    private String create_time;
 }
