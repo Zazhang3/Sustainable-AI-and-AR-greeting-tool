@@ -19,10 +19,11 @@ public class History_Message {
         this.create_time = create_time;
     }
 
-    public History_Message(int id, String Message, Long cardId){
+    public History_Message(int id, String Message, Long cardId, String create_time){
         this.Message = Message;
         this.id = id;
         this.cardId = cardId;
+        this.create_time = create_time;
     }
 
     public void setId(int id) {

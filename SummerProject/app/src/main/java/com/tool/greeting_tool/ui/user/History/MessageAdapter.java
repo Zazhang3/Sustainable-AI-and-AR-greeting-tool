@@ -29,7 +29,9 @@ public class MessageAdapter extends ArrayAdapter<History_Message> {
         }
 
         TextView messageText = convertView.findViewById(R.id.message_text);
+        TextView messageTime = convertView.findViewById(R.id.message_time);
         messageText.setText(message.getMessage());
+        messageTime.setText(message.getCreate_time());
 
         return convertView;
     }
