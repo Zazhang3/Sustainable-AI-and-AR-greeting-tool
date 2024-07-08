@@ -157,7 +157,10 @@ public class HomeFragment extends Fragment {
             Intent intent = new Intent(getActivity(), ArActivity.class);
             updateArMessageList();
             intent.putExtra("greetingCards", nearbyGreetingCards);
+
             startActivity(intent);
+
+
         } else {
             Toast.makeText(getContext(), "AR features not supported on this device", Toast.LENGTH_LONG).show();
         }
