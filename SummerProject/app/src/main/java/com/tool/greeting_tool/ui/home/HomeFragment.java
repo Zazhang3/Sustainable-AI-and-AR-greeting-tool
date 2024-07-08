@@ -1,6 +1,7 @@
 package com.tool.greeting_tool.ui.home;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -23,6 +24,7 @@ import com.google.ar.core.ArCoreApk;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
+import com.tool.greeting_tool.R;
 import com.tool.greeting_tool.WordsSelect;
 import com.tool.greeting_tool.common.constant.ErrorMessage;
 import com.tool.greeting_tool.common.constant.KeySet;
@@ -37,6 +39,9 @@ import com.tool.greeting_tool.server.TextToSpeechHelper;
 import org.jetbrains.annotations.NotNull;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.MediaType;
@@ -58,6 +63,10 @@ public class HomeFragment extends Fragment {
     private static final int REQUEST_WRITE_STORAGE = 112;
 
     private ArrayList<CardDisplayVO> nearbyGreetingCards = new ArrayList<>();
+    private List<Integer> imageResources = new ArrayList<>(Arrays.asList(
+            R.drawable.butterfly, R.drawable.allwell, R.drawable.baseline_person_24,
+            R.drawable.biting, R.drawable.back, R.drawable.enjoyyourday,
+            R.drawable.goodafternoon, R.drawable.hello, R.drawable.happynewyear, R.drawable.goodday));
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -99,6 +108,7 @@ public class HomeFragment extends Fragment {
         ImageButton wordButton = binding.button;
         ImageButton nearByMessage = binding.button2;
         ImageButton sendButton = binding.button3;
+        ImageButton helpButton = binding.button4;
 
         //Button Listener for Preview
         wordButton.setOnClickListener(v->{
@@ -129,9 +139,28 @@ public class HomeFragment extends Fragment {
 
         });
 
+        helpButton.setOnClickListener(v->{
+            showCustomDialogue();
+        });
+
         final TextView textView = binding.textHome;
         homeViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
         return root;
+    }
+
+    private void showCustomDialogue() {
+        LayoutInflater inflater = requireActivity().getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.dialogue, null);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setView(dialogView);
+
+        AlertDialog dialog = builder.create();
+
+        ImageButton buttonClose = dialogView.findViewById(R.id.buttonClose);
+        buttonClose.setOnClickListener(v -> dialog.dismiss());
+
+        dialog.show();
     }
 
     private void showNearbyMessageWithAR() {
@@ -338,5 +367,7 @@ public class HomeFragment extends Fragment {
         super.onDestroyView();
         binding = null;
     }
+
+
 
 }
