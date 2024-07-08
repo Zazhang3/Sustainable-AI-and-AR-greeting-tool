@@ -1,5 +1,4 @@
 package com.tool.constant;
-
 /**
  * Info Tip Constant Class
  */

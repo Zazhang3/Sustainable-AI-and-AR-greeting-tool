@@ -1,6 +1,7 @@
 package com.tool.controller;
 
 import com.tool.constant.JwtClaimsConstant;
+import com.tool.context.BaseContext;
 import com.tool.dto.UserDTO;
 import com.tool.dto.UserEmailDTO;
 import com.tool.dto.UserLoginDTO;
@@ -35,8 +36,8 @@ public class UserController {
     private JwtProperties jwtProperties;
     /**
      * login
-     * @param userLoginDTO
-     * @return
+     * @param userLoginDTO user login data
+     * @return all user data
      */
     @PostMapping("/login")
     @ApiOperation("User login")
@@ -60,13 +61,13 @@ public class UserController {
                 .id(user.getId())
                 .username(user.getUsername())
                 .token(token).build();
-
+        BaseContext.setCurrentId(user.getId());
         return Result.success(userLoginVO);
     }
 
     /**
      * User register
-     * @param userDTO
+     * @param userDTO user data
      */
     @PostMapping("/register")
     @ApiOperation("User register")
@@ -81,12 +82,12 @@ public class UserController {
 
     /**
      * Update user data
-     * @param userUpdateDTO
-     * @return
+     * @param userUpdateDTO info need to be updated
+     * @return success/fail
      */
     @PutMapping("/update")
     @ApiOperation("Update user data")
-    public Result updateUser(@RequestBody UserUpdateDTO userUpdateDTO) {
+    public Result<Void> updateUser(@RequestBody UserUpdateDTO userUpdateDTO) {
         log.info("Update User: {}", userUpdateDTO);
         userService.updateUser(userUpdateDTO);
         return Result.success();
@@ -94,8 +95,8 @@ public class UserController {
 
     /**
      * Delete user
-     * @param id
-     * @return
+     * @param id user id
+     * @return success/fail
      */
     @DeleteMapping("/{id}")
     @ApiOperation("delete user")
@@ -105,8 +106,8 @@ public class UserController {
     }
 
     /**
-     * get user eamil by userId & generate verification code
-     * @param userEmailDTO
+     * get user email by userId & generate verification code
+     * @param userEmailDTO user data with email
      * @return :userEmailVO
      */
     @PostMapping("/verification")

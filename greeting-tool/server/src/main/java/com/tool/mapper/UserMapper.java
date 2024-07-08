@@ -10,28 +10,28 @@ public interface UserMapper {
 
     /**
      * Search for user by username
-     * @param username
+     * @param username username
      */
     @Select("SELECT * FROM user WHERE username=#{username}")
     User getByUsername(String username);
 
     /**
      * Search for users by id
-     * @param id
+     * @param id user id
      */
     @Select("SELECT * FROM user WHERE id=#{id}")
     User getById(Long id);
 
     /**
      * Add new user(insert)
-     * @param user
+     * @param user user
      */
     @Insert("INSERT INTO user (username, password,email) VALUES (#{username},#{password},#{email})")
     void userRegister(User user);
 
     /**
      * Update user data(update)
-     * @param user :user class
+     * @param user user class
      */
     @Update("UPDATE user " +
             "set " +
@@ -42,7 +42,7 @@ public interface UserMapper {
 
     /**
      * Delete user by id
-     * @param id :user id
+     * @param id user id
      */
     @Delete("DELETE FROM user WHERE id=#{id}")
     void deleteUserById(Long id);

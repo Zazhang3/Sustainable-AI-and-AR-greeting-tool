@@ -1,6 +1,5 @@
 package com.tool.interceptor;
 
-import com.aliyun.oss.HttpMethod;
 import com.tool.constant.JwtClaimsConstant;
 import com.tool.context.BaseContext;
 import com.tool.properties.JwtProperties;
@@ -18,6 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * Interceptor for jwt token verification
  */
+@SuppressWarnings("ALL")
 @Component
 @Slf4j
 public class JwtTokenAdminInterceptor implements HandlerInterceptor {
@@ -27,11 +27,11 @@ public class JwtTokenAdminInterceptor implements HandlerInterceptor {
 
     /**
      * Check JWT
-     * @param request
-     * @param response
-     * @param handler
-     * @return
-     * @throws Exception
+     * @param request request
+     * @param response response
+     * @param handler handler
+     * @return boolean
+     * @throws Exception Exception
      */
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         //Check whether the current intercept is a Controller method or another resource
@@ -52,7 +52,7 @@ public class JwtTokenAdminInterceptor implements HandlerInterceptor {
             log.info("JWT :{}",jwtProperties);
             Claims claims = JwtUtil.parseJWT(jwtProperties.getAdminSecretKey(), token);
             Long userId = Long.valueOf(claims.get(JwtClaimsConstant.USER_ID).toString());
-            log.info("Current User_id：", userId);
+            log.info("Current User_id：{}", userId);
             BaseContext.setCurrentId(userId);
             //Calibration passes, release
             return true;

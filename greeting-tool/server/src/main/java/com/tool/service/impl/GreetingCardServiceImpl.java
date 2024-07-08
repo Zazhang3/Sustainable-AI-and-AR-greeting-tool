@@ -21,7 +21,7 @@ public class GreetingCardServiceImpl implements GreetingCardService {
 
     /**
      * Create card
-     * @param greetingCardsDTO
+     * @param greetingCardsDTO data from frontend
      */
     @Override
     public void createCard(GreetingCardsDTO greetingCardsDTO) {
@@ -35,13 +35,13 @@ public class GreetingCardServiceImpl implements GreetingCardService {
    /**
     * Select cards by user id
     *
-    * @param userId
-    * @return
+    * @param userId user id
+    * @return Arraylist of greeting cards
     */
    @Override
     public ArrayList<GreetingCard> selectByUserId(Long userId) {
 
-       ArrayList<GreetingCard> greetingCards= new ArrayList<>();
+       ArrayList<GreetingCard> greetingCards;
        greetingCards = greetingCardMapper.getByUserId(userId);
 
        return greetingCards;
@@ -50,13 +50,13 @@ public class GreetingCardServiceImpl implements GreetingCardService {
   /**
    * Select cards by postcode
    *
-   * @param postcode
-   * @return
+   * @param postcode :position
+   * @return Arraylist of greeting cards
    */
    @Override
     public ArrayList<GreetingCard> selectByPostcode(String postcode) {
 
-       ArrayList<GreetingCard> greetingCards= new ArrayList<>();
+       ArrayList<GreetingCard> greetingCards;
        greetingCards = greetingCardMapper.getByPostcode(postcode);
 
        return greetingCards;
@@ -64,7 +64,7 @@ public class GreetingCardServiceImpl implements GreetingCardService {
 
     /**
      * Delete card by users
-     * @param cardId
+     * @param cardId card id = text id
      */
    @Override
    public void deleteByUser(Long cardId) {
@@ -78,7 +78,7 @@ public class GreetingCardServiceImpl implements GreetingCardService {
 
     /**
      * Delete user's cards
-     * @param userId
+     * @param userId user id
      */
    @Override
     public void deleteByUserId(Long userId) {
@@ -86,6 +86,17 @@ public class GreetingCardServiceImpl implements GreetingCardService {
         if (!cards.isEmpty()) {
             greetingCardMapper.deleteCardByUserId(userId);
         }
+    }
+
+    /**
+     * Count cards by postcode
+     * @param postcode :position
+     * @return :number of cards
+     */
+    @Override
+    public int countCardsByPostcode(String postcode) {
+
+        return greetingCardMapper.countByPostcode(postcode);
     }
 
 }

@@ -11,41 +11,41 @@ public interface UserService {
 
     /**
      * User login
-     * @param userLoginDTO
-     * @return
+     * @param userLoginDTO user login data
+     * @return user
      */
     User login(UserLoginDTO userLoginDTO);
 
     /**
      * User register
-     * @param userDTO
+     * @param userDTO user data
      */
     void userRegister(UserDTO userDTO) ;
 
     /**
      * Update user data
-     * @param userUpdateDTO
+     * @param userUpdateDTO user update data
      */
     void updateUser(UserUpdateDTO userUpdateDTO);
 
     /**
      * Delete user
-     * @param id
+     * @param id user id
      */
     void deleteById(Long id);
 
 
     /**
      * verify Username And Email
-     * @param userEmailDTO
-     * @return
+     * @param userEmailDTO user data with email
+     * @return user
      */
     User verifyUsernameAndEmail(UserEmailDTO userEmailDTO);
 
     /**
      * generate Verification Code
-     * @param id
-     * @return
+     * @param id user id
+     * @return verification code
      */
     String generateVerificationCode(Long id);
 }

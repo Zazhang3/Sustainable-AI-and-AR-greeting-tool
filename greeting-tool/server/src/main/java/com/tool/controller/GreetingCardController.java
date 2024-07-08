@@ -22,12 +22,12 @@ public class GreetingCardController {
 
     /**
      * Create card
-     * @param greetingCardsDTO
-     * @return
+     * @param greetingCardsDTO card info
+     * @return success/fail
      */
     @PostMapping
     @ApiOperation("Create card")
-    public Result createCard(@RequestBody GreetingCardsDTO greetingCardsDTO) {
+    public Result<Void> createCard(@RequestBody GreetingCardsDTO greetingCardsDTO) {
         log.info("Create card: {}", greetingCardsDTO);
         //Insert card
         greetingCardService.createCard(greetingCardsDTO);
@@ -37,8 +37,8 @@ public class GreetingCardController {
 
     /**
      * Select cards by user id
-     * @param id
-     * @return
+     * @param id user id
+     * @return cards
      */
     @PostMapping("/user/{id}")
     @ApiOperation("Select by user id")
@@ -55,8 +55,8 @@ public class GreetingCardController {
 
     /**
      * Select card by postcode
-     * @param postcode
-     * @return
+     * @param postcode postcode
+     * @return Arraylist of cards
      */
     @PostMapping("/postcode/{postcode}")
     @ApiOperation("Select by postcode")
@@ -71,12 +71,12 @@ public class GreetingCardController {
 
     /**
      * Delete card by users
-     * @param cardId
-     * @return
+     * @param cardId card id
+     * @return Result
      */
     @DeleteMapping("/{cardId}")
     @ApiOperation("User delete certain card")
-    public Result deleteCardByUser(@PathVariable Long cardId) {
+    public Result<Void> deleteCardByUser(@PathVariable Long cardId) {
         log.info("Delete card:{} by user.",cardId);
 
         //Delete card by user
@@ -87,7 +87,7 @@ public class GreetingCardController {
 
     @DeleteMapping("/userId/{userId}")
     @ApiOperation("delete all the cards belongs to a user")
-    public Result deleteCardByUserId(@PathVariable Long userId) {
+    public Result<Void> deleteCardByUserId(@PathVariable Long userId) {
         log.info("Delete user:{} cards",userId);
 
         greetingCardService.deleteByUserId(userId);
@@ -95,5 +95,19 @@ public class GreetingCardController {
         return Result.success();
     }
 
+    /**
+     * count greeting cards by postcode
+     * @param postcode :position
+     * @return :number of cards
+     */
+    @PostMapping("/count/{postcode}")
+    @ApiOperation("count cards by postcode")
+    public Result<Integer> countCardsByPostcode(@PathVariable String postcode) {
+        log.info("Count card by postcode: {}", postcode);
+
+        Integer numberOfCards = greetingCardService.countCardsByPostcode(postcode);
+
+        return Result.success(numberOfCards);
+    }
 
 }

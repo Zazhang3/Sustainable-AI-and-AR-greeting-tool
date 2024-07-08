@@ -32,7 +32,7 @@ public class WebMvcConfiguration extends WebMvcConfigurationSupport {
 
     /**
      * Register a Custom Interceptor
-     * @param registry
+     * @param registry config
      */
     protected void addInterceptors(InterceptorRegistry registry) {
         log.info("Registering a Custom Interceptor...");
@@ -42,7 +42,8 @@ public class WebMvcConfiguration extends WebMvcConfigurationSupport {
                 .excludePathPatterns("/user/login")
                 .excludePathPatterns("/user/register")
                 .excludePathPatterns("/user/update")
-                .excludePathPatterns("/user/verification");
+                .excludePathPatterns("/user/verification")
+                .excludePathPatterns("/greeting_card/count/**");
     }
 
     /**
@@ -57,18 +58,17 @@ public class WebMvcConfiguration extends WebMvcConfigurationSupport {
                 .version("1.0")
                 .description("GreetingTool Api Documentation")
                 .build();
-        Docket docket = new Docket(DocumentationType.SWAGGER_2)
+        return new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(apiInfo)
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("com.tool.controller"))
                 .paths(PathSelectors.any())
                 .build();
-        return docket;
     }
 
     /**
      * Set up static resource mapping
-     * @param registry
+     * @param registry registry
      */
     protected void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/doc.html").addResourceLocations("classpath:/META-INF/resources/");
@@ -79,7 +79,7 @@ public class WebMvcConfiguration extends WebMvcConfigurationSupport {
 
     /**
      * Extend the SpringMVC Message Converter
-     * @param converters
+     * @param converters converters
      */
     @Override
     protected void extendMessageConverters(List<HttpMessageConverter<?>> converters) {

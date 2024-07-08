@@ -62,6 +62,13 @@ public interface GreetingCardMapper {
     @Delete("DELETE FROM greeting_cards WHERE id=#{cardId}")
     void deleteCardByUser(Long cardId);
 
+    /**
+     * search by user id and delete cards
+     * @param userId :user id
+     */
     @Delete("DELETE FROM greeting_cards WHERE user_id=#{userId}")
     void deleteCardByUserId(Long userId);
+
+    @Select("SELECT COUNT(*) FROM greeting_cards WHERE postcode = #{postcode}")
+    int countByPostcode(String postcode);
 }

@@ -1,6 +1,4 @@
 package com.tool.constant;
-
-
 /**
  * Info To Generate Random Code
  */

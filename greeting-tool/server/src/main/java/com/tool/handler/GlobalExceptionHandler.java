@@ -18,21 +18,21 @@ public class GlobalExceptionHandler {
 
     /**
      * get exception
-     * @param ex
-     * @return
+     * @param ex BaseException
+     * @return Result
      */
     @ExceptionHandler
-    public Result exceptionHandler(BaseException ex){
+    public Result<Void> exceptionHandler(BaseException ex){
         log.error("Exception Message：{}", ex.getMessage());
         return Result.error(ex.getMessage());
     }
     /**
      * handle SQL exceptions
-     * @param ex
-     * @return
+     * @param ex SQLIntegrityConstraintViolationException
+     * @return Result
      */
     @ExceptionHandler
-    public Result exceptionHandler(SQLIntegrityConstraintViolationException ex){
+    public Result<Void> exceptionHandler(SQLIntegrityConstraintViolationException ex){
 
         String message = ex.getMessage();
         if(message.contains("Duplicate entry")){
