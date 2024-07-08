@@ -3,9 +3,7 @@ package com.tool.greeting_tool.ui.home;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.os.Environment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,10 +23,6 @@ import com.google.ar.core.ArCoreApk;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
-import com.ibm.cloud.sdk.core.security.IamAuthenticator;
-import com.ibm.watson.text_to_speech.v1.TextToSpeech;
-import com.ibm.watson.text_to_speech.v1.model.SynthesizeOptions;
-import com.ibm.watson.text_to_speech.v1.util.WaveUtils;
 import com.tool.greeting_tool.WordsSelect;
 import com.tool.greeting_tool.common.constant.ErrorMessage;
 import com.tool.greeting_tool.common.constant.KeySet;
@@ -40,16 +34,9 @@ import com.tool.greeting_tool.pojo.dto.GreetingCard;
 import com.tool.greeting_tool.pojo.vo.CardDisplayVO;
 import com.tool.greeting_tool.server.LocationHelper;
 import com.tool.greeting_tool.server.TextToSpeechHelper;
-
 import org.jetbrains.annotations.NotNull;
-
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.ArrayList;
-
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.MediaType;
@@ -139,7 +126,6 @@ public class HomeFragment extends Fragment {
 
                 }
             });
-            showNearbyMessageWithAR();
 
         });
 
@@ -253,7 +239,6 @@ public class HomeFragment extends Fragment {
      * @param currentPostcode
      */
     private void getNearbyGreetingCards(String currentPostcode) {
-        System.out.println(currentPostcode);
         String jwtToken = SharedPreferencesUtil.getToken(requireContext());
 
         // Create empty JSON body
@@ -325,6 +310,7 @@ public class HomeFragment extends Fragment {
                     greetingCard.getEmojiId(),greetingCard.getAnimationId());
             nearbyGreetingCards.add(card);
         }
+        showNearbyMessageWithAR();
     }
 
     /**
@@ -332,9 +318,9 @@ public class HomeFragment extends Fragment {
      */
     private void updateArMessageList() {
 
-        CardDisplayVO card1 = new CardDisplayVO("getwellsoon", "heart", "staranimation");
-        CardDisplayVO card2 = new CardDisplayVO("happynewyear","tongue","staranimation");
-        CardDisplayVO card3 = new CardDisplayVO("haveaniceday","lovesmile","staranimation");
+        CardDisplayVO card1 = new CardDisplayVO("GetWellSoon", "Heart", "StarAnimation");
+        CardDisplayVO card2 = new CardDisplayVO("HappyNewYear","Tongue","StarAnimation");
+        CardDisplayVO card3 = new CardDisplayVO("HaveaNiceDay","LoveSmile","StarAnimation");
         nearbyGreetingCards.add(card1);
         nearbyGreetingCards.add(card2);
         nearbyGreetingCards.add(card3);

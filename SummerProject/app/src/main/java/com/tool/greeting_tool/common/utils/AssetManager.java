@@ -125,9 +125,9 @@ public class AssetManager {
     public static String mapResourceIdToAnimation(int resourceId) {
         switch (resourceId) {
             case R.drawable.staranmation:
-                return "Star animation";
+                return "Star Animation";
             case R.drawable.heartanimation:
-                return "Heart animation";
+                return "Heart Animation";
             case R.drawable.butterfly:
                 return "Butterfly";
             case R.drawable.pinwheel:
