@@ -10,23 +10,25 @@
 
     <ImageButton
         android:id="@+id/navigateButton_login"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:scaleType="centerInside"
         android:background="?attr/selectableItemBackground"
         android:contentDescription="@string/back_login"
         android:src="@drawable/back"
-        app:layout_constraintBottom_toTopOf="@+id/account_num"
+        android:layout_marginTop="20dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.102"
+        app:layout_constraintHorizontal_bias="0.121"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.119" />
+        app:layout_constraintVertical_bias="0.04" />
 
     <ImageButton
         android:id="@+id/signin_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
+        android:layout_width="320dp"
+        android:layout_height="80dp"
+        android:scaleType="centerInside"
+        android:layout_marginTop="40dp"
         android:background="?attr/selectableItemBackground"
         android:contentDescription="@string/Login"
         android:src="@drawable/signin"
@@ -48,14 +50,14 @@
         app:layout_constraintTop_toBottomOf="@+id/signin_button"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="70dp"
+        android:layout_marginTop="40dp"
         />
 
     <ImageView
         android:id="@+id/login_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:scaleType="centerInside"
         android:background="?attr/selectableItemBackground"
         android:contentDescription="@string/login_image"
         android:src="@drawable/login"

@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -28,6 +29,7 @@ import org.jetbrains.annotations.NotNull;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -44,6 +46,7 @@ import okhttp3.Response;
 public class HistoryDialogFragment extends DialogFragment {
 
     private MessageAdapter messageAdapter;
+    private ProgressBar progressBar;
     private List<History_Message> MessageList;
     private Long currentUserId;
 
@@ -68,6 +71,7 @@ public class HistoryDialogFragment extends DialogFragment {
 
         currentUserId = SharedPreferencesUtil.getLong(requireContext());
         ListView listView = view.findViewById(R.id.history);
+        progressBar = view.findViewById(R.id.progressBar_history);
         MessageList = new ArrayList<>();
 
         messageAdapter = new MessageAdapter(getActivity(), MessageList);
@@ -108,16 +112,13 @@ public class HistoryDialogFragment extends DialogFragment {
                 .show();
     }
 
-    //TODO
-    //The following code is directly Copy&Paste from HistoryActivity
-    //Please double check
-
     /**
      * Use to help user to check their history sent card
      * @param userId
      */
 
     private void getGreetingCards(Long userId) {
+        progressBar.setVisibility(View.VISIBLE);
         String jwtToken = SharedPreferencesUtil.getToken(getActivity());
 
         // Create empty JSON body
@@ -157,6 +158,8 @@ public class HistoryDialogFragment extends DialogFragment {
                     } catch (Exception e) {
                         Log.e(TAGConstant.HISTORY_CARD_TAG, "Exception while parsing response", e);
                         Toast.makeText(getActivity(), "Invalid response", Toast.LENGTH_SHORT).show();
+                    }finally{
+                        progressBar.setVisibility(View.GONE);
                     }
                 });
 
@@ -167,12 +170,12 @@ public class HistoryDialogFragment extends DialogFragment {
             @Override
             public void onFailure(@NotNull Call call, @NotNull IOException e) {
                 Log.e(TAGConstant.HISTORY_CARD_TAG,"Get card failed",e);
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Toast.makeText(getActivity(),"Get history card failed " + ErrorMessage.NETWORK_ERROR,Toast.LENGTH_SHORT).show();
-                    }
-                });
+                if (isAdded() && getActivity() != null) {
+                    getActivity().runOnUiThread(() -> {
+                        progressBar.setVisibility(View.GONE);
+                        Toast.makeText(getActivity(), "Get history card failed " + ErrorMessage.NETWORK_ERROR, Toast.LENGTH_SHORT).show();
+                    });
+                }
             }
         });
 
@@ -183,6 +186,7 @@ public class HistoryDialogFragment extends DialogFragment {
         for (GreetingCard card : greetingCards) {
             MessageList.add(new History_Message(id++, card.getCardId(), card.getId()));
         }
+        progressBar.setVisibility(View.GONE);
         messageAdapter.notifyDataSetChanged();
     }
 

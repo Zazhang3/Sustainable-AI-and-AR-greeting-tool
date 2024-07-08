@@ -41,4 +41,12 @@ public class GreetingCard {
     public Long getId() {
         return id;
     }
+
+    public String getAnimationId() {
+        return animation_id;
+    }
+
+    public String getEmojiId() {
+        return emoji_id;
+    }
 }

@@ -37,6 +37,7 @@ import com.tool.greeting_tool.common.constant.URLConstant;
 import com.tool.greeting_tool.common.utils.SharedPreferencesUtil;
 import com.tool.greeting_tool.databinding.FragmentHomeBinding;
 import com.tool.greeting_tool.pojo.dto.GreetingCard;
+import com.tool.greeting_tool.pojo.vo.CardDisplayVO;
 import com.tool.greeting_tool.server.LocationHelper;
 import com.tool.greeting_tool.server.TextToSpeechHelper;
 
@@ -64,14 +65,12 @@ public class HomeFragment extends Fragment {
 
     private TextToSpeechHelper textToSpeechHelper;
 
-    private MediaPlayer mediaPlayer;
-    private String audioPath;
     private static final int REQUEST_CODE_SELECT_1 = 1;
     private static final int REQUEST_CODE_SELECT_2 = 2;
 
     private static final int REQUEST_WRITE_STORAGE = 112;
 
-    private ArrayList<GreetingCard> nearbyGreetingCards = new ArrayList<>();
+    private ArrayList<CardDisplayVO> nearbyGreetingCards = new ArrayList<>();
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -84,6 +83,7 @@ public class HomeFragment extends Fragment {
         locationHelper = new LocationHelper(requireContext());
 
         String postcode_notification = SharedPreferencesUtil.getNotificationMessage(requireContext());
+        int messageCount = SharedPreferencesUtil.getMessageCount(requireContext());
         textToSpeechHelper = new TextToSpeechHelper(requireContext());
 
         if (postcode_notification != null) {
@@ -93,12 +93,20 @@ public class HomeFragment extends Fragment {
                 System.out.println("no Permission");
                 ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_WRITE_STORAGE);
             } else {
-                System.out.println("Goto tts");
-                textToSpeechHelper.startSynthesizeThread("You have 3 Message in " + postcode_notification);
-                //playAudio();
+                if(SharedPreferencesUtil.isNotificationPosted(getContext())){
+                    System.out.println("Goto tts");
+                    SharedPreferencesUtil.clearNotificationPostedFlag(getContext());
+                    String text = "You have " + messageCount + " Message in " + postcode_notification;
+                    textToSpeechHelper.startSynthesizeThread(text);
+                    //playAudio();
+                }else if(postcode_notification.isEmpty()){
+                    System.out.println("postcode is empty");
+                }else{
+                    System.out.println("Not from Notification");
+                }
             }
         }else{
-            System.out.println("Didn't get Arguments");
+            System.out.println("Didn't get argument");
         }
 
         ImageButton wordButton = binding.button;
@@ -147,6 +155,7 @@ public class HomeFragment extends Fragment {
         if (ArCoreApk.getInstance().checkAvailability(getContext()) == ArCoreApk.Availability.SUPPORTED_INSTALLED) {
             // Intent to launch AR Activity
             Intent intent = new Intent(getActivity(), ArActivity.class);
+            updateArMessageList();
             intent.putExtra("greetingCards", nearbyGreetingCards);
 
             startActivity(intent);
@@ -161,6 +170,11 @@ public class HomeFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_CODE_SELECT_1&&data!=null) {
+            ArrayList<String> selectedItems = data.getStringArrayListExtra(KeySet.SelectedList);
+            //TODO
+            //pick user selected items and pass into AR
+            showNearbyMessageWithAR();
+            //ArrayList<Integer> selectedItems = data.getIntegerArrayListExtra(KeySet.SelectedList);
             //String postcode = data.getStringExtra(KeySet.PostKey);
             //ArrayList<String> SelectedItems = data.getStringArrayListExtra(KeySet.SelectedList);
             //System.out.println(postcode);
@@ -172,11 +186,7 @@ public class HomeFragment extends Fragment {
         }
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        binding = null;
-    }
+
 
     /*private void playAudio() {
         if (audioPath != null) {
@@ -397,11 +407,37 @@ public class HomeFragment extends Fragment {
      */
     private void updateMessageList(ArrayList<GreetingCard> greetingCards) {
         nearbyGreetingCards.clear();
-        int id = 0;
         for (GreetingCard greetingCard : greetingCards) {
-            nearbyGreetingCards.add(greetingCard);
+            CardDisplayVO card = new CardDisplayVO(greetingCard.getCardId(),
+                    greetingCard.getEmojiId(),greetingCard.getAnimationId());
+            nearbyGreetingCards.add(card);
         }
     }
 
+    /**
+     * Just for test
+     */
+    private void updateArMessageList() {
+
+        CardDisplayVO card1 = new CardDisplayVO("getwellsoon", "heart", "staranimation");
+        CardDisplayVO card2 = new CardDisplayVO("happynewyear","tongue","staranimation");
+        CardDisplayVO card3 = new CardDisplayVO("haveaniceday","lovesmile","staranimation");
+        nearbyGreetingCards.add(card1);
+        nearbyGreetingCards.add(card2);
+        nearbyGreetingCards.add(card3);
+    }
+
+    @Override
+    public void onPause() {
+        textToSpeechHelper.stopAudio();
+        super.onPause();
+    }
+
+    @Override
+    public void onDestroyView() {
+        textToSpeechHelper.stopAudio();
+        super.onDestroyView();
+        binding = null;
+    }
 
 }
