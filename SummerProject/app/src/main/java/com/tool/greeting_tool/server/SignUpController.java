@@ -66,15 +66,8 @@ public class SignUpController extends AppCompatActivity {
                     intent.putExtra(KeySet.UserKey, account);
                     startActivity(intent);*/
                         if (!username.isEmpty()) {
-
                             //execute signup
                             signUp(username,password,email);
-                            //TODO
-                            //if sign up fail
-                            Intent resultIntent = new Intent();
-                            resultIntent.putExtra(KeySet.UserKey, username);
-                            setResult(RESULT_OK, resultIntent);
-                            finish();
                         } else {
                             Toast.makeText(SignUpController.this, ErrorMessage.USERNAME_EMPTY_ERROR, Toast.LENGTH_SHORT).show();
                         }
@@ -154,6 +147,10 @@ public class SignUpController extends AppCompatActivity {
                                 //save user data
                                 SharedPreferencesUtil.saveUserInfo(SignUpController.this,id,username,token);
 
+                                Intent resultIntent = new Intent();
+                                resultIntent.putExtra(KeySet.UserKey, username);
+                                setResult(RESULT_OK, resultIntent);
+                                finish();
                             } else {
                                 // login failed
                                 String msg = jsonResponse.get("msg").getAsString();

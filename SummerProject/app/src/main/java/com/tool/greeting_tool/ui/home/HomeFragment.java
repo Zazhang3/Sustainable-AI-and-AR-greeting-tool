@@ -174,11 +174,6 @@ public class HomeFragment extends Fragment {
             //TODO
             //pick user selected items and pass into AR
             showNearbyMessageWithAR();
-            //ArrayList<Integer> selectedItems = data.getIntegerArrayListExtra(KeySet.SelectedList);
-            //String postcode = data.getStringExtra(KeySet.PostKey);
-            //ArrayList<String> SelectedItems = data.getStringArrayListExtra(KeySet.SelectedList);
-            //System.out.println(postcode);
-            //System.out.println(SelectedItems);
         } else if (requestCode == REQUEST_CODE_SELECT_2&&data!=null) {
             String postcode = data.getStringExtra(KeySet.PostKey);
             ArrayList<String> SelectedItems = data.getStringArrayListExtra(KeySet.SelectedList);
