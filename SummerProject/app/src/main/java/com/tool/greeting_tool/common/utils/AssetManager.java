@@ -41,41 +41,41 @@ public class AssetManager {
     public static String mapResourceIdToText(int resourceId) {
         switch (resourceId) {
             case R.drawable.happynewyear:
-                return "Happy New Year";
+                return "HappyNewYear";
             case R.drawable.happyhoolidays:
-                return "Happy Holidays";
+                return "HappyHolidays";
             case R.drawable.getwellsoon:
-                return "Get Well Soon";
+                return "GetWellSoon";
             case R.drawable.haveaniceday:
-                return "Have a Nice Day";
+                return "HaveaNiceDay";
             case R.drawable.allwell:
-                return "All well";
+                return "Allwell";
             case R.drawable.enjoyyourday:
-                return "Enjoy your day";
+                return "Enjoyyourday";
             case R.drawable.goodafternoon:
-                return "Good afternoon";
+                return "Goodfternoon";
             case R.drawable.goodday:
-                return "Good day";
+                return "Goodday";
             case R.drawable.goodevening:
-                return "Good evening";
+                return "Goodevening";
             case R.drawable.goodmorning:
-                return "Good morning";
+                return "Goodmorning";
             case R.drawable.goodnight:
-                return "Good nignt";
+                return "Goodnignt";
             case R.drawable.hello:
                 return "Hello";
             case R.drawable.heyfolks:
-                return "Hey folks";
+                return "Heyfolks";
             case R.drawable.heythere:
-                return "Hey there";
+                return "Heythere";
             case R.drawable.keepwell:
-                return "Keep well";
+                return "Keepwell";
             case R.drawable.nicetomeetyou:
-                return "Nice to meet you";
+                return "Nicetomeetyou";
             case R.drawable.seeyousoon:
-                return "See you soon";
+                return "Seeyousoon";
             case R.drawable.thankyou:
-                return "Thank you";
+                return "Thankyou";
             // Add remaining mappings here...
             default:
                 return "Unknown";
@@ -87,9 +87,9 @@ public class AssetManager {
             case R.drawable.heart:
                 return "Heart";
             case R.drawable.loveeye:
-                return "Love eye";
+                return "LoveEye";
             case R.drawable.lovesmile:
-                return "Love Smile";
+                return "LoveSmile";
             case R.drawable.tonge:
                 return "Tongue";
             case R.drawable.star:
@@ -97,13 +97,13 @@ public class AssetManager {
             case R.drawable.biting:
                 return "Biting";
             case R.drawable.coldsweat:
-                return "Cold Sweat";
+                return "ColdSweat";
             case R.drawable.newloveeye:
-                return "New love eye";
+                return "Newloveeye";
             case R.drawable.newsmile:
-                return "New Smile";
+                return "NewSmile";
             case R.drawable.partypopper:
-                return "Party Popper";
+                return "PartyPopper";
             case R.drawable.sad:
                 return "Sad";
             case R.drawable.shit:
@@ -125,9 +125,9 @@ public class AssetManager {
     public static String mapResourceIdToAnimation(int resourceId) {
         switch (resourceId) {
             case R.drawable.staranmation:
-                return "Star Animation";
+                return "StarAnimation";
             case R.drawable.heartanimation:
-                return "Heart Animation";
+                return "HeartAnimation";
             case R.drawable.butterfly:
                 return "Butterfly";
             case R.drawable.pinwheel:
