@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@color/background_light"
+    >
+
+    <TextView
+        android:id="@+id/dialog_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Your Selection"
+        android:textSize="20sp"
+        android:fontFamily="@font/candal"
+        android:textColor="@color/black"
+        android:gravity="center"
+        android:paddingVertical="8dp"
+
+        android:background="@color/background_light_yellow"/>
+
+    <TextView
+        android:id="@+id/dialog_message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textSize="16sp"
+        android:padding="16dp"
+        android:fontFamily="@font/raleway"
+        android:textColor="@color/black"
+        android:gravity="left"
+        android:lineSpacingExtra="8dp"
+        android:lineSpacingMultiplier="1.2"/>
+
+</LinearLayout>
