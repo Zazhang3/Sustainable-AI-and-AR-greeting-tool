@@ -2,7 +2,8 @@ name: Maven Build and Deploy
 
 on:
   push:
-    branches:  Backend-Dev 
+    branches:  
+      -Backend-Dev 
 
 jobs:
   build-and-deploy:
