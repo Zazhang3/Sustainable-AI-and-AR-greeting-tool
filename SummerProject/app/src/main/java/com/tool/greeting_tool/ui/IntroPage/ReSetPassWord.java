@@ -82,7 +82,7 @@ public class ReSetPassWord extends AppCompatActivity {
         dialog.show();
 
         EditText securityCode = dialogView.findViewById(R.id.security_code_input);
-        Button submitSecurityCodeButton = dialogView.findViewById(R.id.submit_security_code_button);
+        ImageButton submitSecurityCodeButton = dialogView.findViewById(R.id.submit_security_code_button);
 
         submitSecurityCodeButton.setOnClickListener(v->{
             String enterSecurityCode = securityCode.getText().toString();

@@ -43,6 +43,7 @@
         android:id="@+id/loginButton"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:scaleType="centerInside"
         android:background="?attr/selectableItemBackground"
         android:contentDescription="@string/intro"
         android:src="@drawable/buttonlogin"
@@ -52,13 +53,14 @@
         app:layout_constraintWidth_default="percent"
         app:layout_constraintHeight_default="percent"
         app:layout_constraintWidth_percent="1"
-        app:layout_constraintHeight_percent="0.11"
+        app:layout_constraintHeight_percent="0.12"
         android:layout_marginTop="20dp"/>
 
     <ImageButton
         android:id="@+id/signupButton"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:scaleType="centerInside"
         android:background="?attr/selectableItemBackground"
         android:contentDescription="@string/sign_in"
         android:src="@drawable/buttonsignup"
@@ -68,7 +70,7 @@
         app:layout_constraintWidth_default="percent"
         app:layout_constraintHeight_default="percent"
         app:layout_constraintWidth_percent="1"
-        app:layout_constraintHeight_percent="0.11"
-        android:layout_marginTop="10dp"/>
+        app:layout_constraintHeight_percent="0.12"
+        android:layout_marginTop="0dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

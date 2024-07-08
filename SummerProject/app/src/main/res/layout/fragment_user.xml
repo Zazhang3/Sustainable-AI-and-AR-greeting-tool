@@ -104,7 +104,7 @@
         android:id="@+id/cancel_button"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginBottom="60dp"
+        android:layout_marginBottom="40dp"
         android:background="@android:color/transparent"
         android:contentDescription="@string/cancel_text"
         android:scaleType="fitCenter"
@@ -113,7 +113,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_default="percent"
         app:layout_constraintHeight_percent="0.1"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintWidth_default="percent"
         app:layout_constraintWidth_percent="0.14" />
@@ -126,13 +125,13 @@
         android:contentDescription="@string/cancel_account"
         android:scaleType="fitCenter"
         android:src="@drawable/cancel_account_text"
-        app:layout_constraintBottom_toBottomOf="parent"
+
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_default="percent"
         app:layout_constraintHeight_percent="0.05"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cancel_button"
-        app:layout_constraintVertical_bias="0.21"
+        android:layout_marginTop="0dp"
         app:layout_constraintWidth_default="percent"
         app:layout_constraintWidth_percent="0.3" />
 
