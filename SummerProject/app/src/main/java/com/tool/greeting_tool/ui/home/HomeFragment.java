@@ -123,7 +123,6 @@ public class HomeFragment extends Fragment {
                 @Override
                 public void onPostcodeResult(String postcode) {
                     getNearbyGreetingCards(postcode);
-
                 }
             });
 

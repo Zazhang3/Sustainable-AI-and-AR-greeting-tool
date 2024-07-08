@@ -39,7 +39,7 @@ public class Postcode_fill extends AppCompatActivity{
         ImageButton submitButton = findViewById(R.id.submit_postcode_button);
 
         submitButton.setOnClickListener(v -> {
-            String postcode = postCode.getText().toString().trim();
+            String postcode = postCode.getText().toString().trim().toUpperCase();
             if(FormatCheckerUtil.checkPostcode(postcode)){
                 showPostCodeDialog(postcode, selectList);
             }else{
