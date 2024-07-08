@@ -13,6 +13,16 @@ public class GreetingCard {
 
     private Long id;
 
+    public String getCreate_time() {
+        return create_time;
+    }
+
+    public void setCreate_time(String create_time) {
+        this.create_time = create_time;
+    }
+
+    private String create_time;
+
     public String getCardId() {
         return card_id;
     }

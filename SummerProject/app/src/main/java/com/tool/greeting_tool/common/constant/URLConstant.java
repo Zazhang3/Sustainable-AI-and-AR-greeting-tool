@@ -2,7 +2,7 @@ package com.tool.greeting_tool.common.constant;
 
 public class URLConstant {
 
-    public static final String BASIC_URL = "http://ec2-18-134-156-68.eu-west-2.compute.amazonaws.com:8080/";
+    public static final String BASIC_URL = "http:/18.130.196.224:8080/";
     public static final String BASIC_USER_URL = BASIC_URL+"user";
 
     public static final String BASIC_GREETING_CARD_URL = BASIC_URL+"greeting_card";

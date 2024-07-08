@@ -9,6 +9,16 @@ public class History_Message {
 
     private String Message;
 
+    private String create_time;
+
+    public String getCreate_time() {
+        return create_time;
+    }
+
+    public void setCreate_time(String create_time) {
+        this.create_time = create_time;
+    }
+
     public History_Message(int id, String Message, Long cardId){
         this.Message = Message;
         this.id = id;
