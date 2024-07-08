@@ -23,6 +23,7 @@ public interface GreetingCardMapper {
      */
     @Select("SELECT * FROM greeting_cards WHERE user_id=#{id}")
     @Results({
+            @Result(property = "id", column = "id", javaType = Long.class),
             @Result(property = "card_id", column = "card_id", javaType = String.class),
             @Result(property = "user_id", column = "user_id", javaType = Long.class),
             @Result(property = "emoji_id", column = "emoji_id", javaType = String.class),
@@ -38,6 +39,7 @@ public interface GreetingCardMapper {
      */
     @Select("SELECT * FROM greeting_cards WHERE postcode=#{postcode}")
     @Results({
+            @Result(property = "id", column = "id", javaType = Long.class),
             @Result(property = "card_id", column = "card_id", javaType = String.class),
             @Result(property = "user_id", column = "user_id", javaType = Long.class),
             @Result(property = "emoji_id", column = "emoji_id", javaType = String.class),

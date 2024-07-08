@@ -15,6 +15,8 @@ public class GreetingCard implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    private Long id;
+
     private Long user_id;
 
     private String card_id;
