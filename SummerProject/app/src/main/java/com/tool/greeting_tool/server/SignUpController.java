@@ -69,7 +69,8 @@ public class SignUpController extends AppCompatActivity {
 
                             //execute signup
                             signUp(username,password,email);
-
+                            //TODO
+                            //if sign up fail
                             Intent resultIntent = new Intent();
                             resultIntent.putExtra(KeySet.UserKey, username);
                             setResult(RESULT_OK, resultIntent);
@@ -124,7 +125,7 @@ public class SignUpController extends AppCompatActivity {
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(@NonNull Call call, @NonNull IOException e) {
-                Log.e(TAGConstant.SIGN_UP_TAG,"Login failed",e);
+                Log.e(TAGConstant.SIGN_UP_TAG,"Sign up failed",e);
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
