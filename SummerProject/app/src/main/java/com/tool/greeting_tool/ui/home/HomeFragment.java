@@ -3,9 +3,7 @@ package com.tool.greeting_tool.ui.home;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.os.Environment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,10 +23,6 @@ import com.google.ar.core.ArCoreApk;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
-import com.ibm.cloud.sdk.core.security.IamAuthenticator;
-import com.ibm.watson.text_to_speech.v1.TextToSpeech;
-import com.ibm.watson.text_to_speech.v1.model.SynthesizeOptions;
-import com.ibm.watson.text_to_speech.v1.util.WaveUtils;
 import com.tool.greeting_tool.WordsSelect;
 import com.tool.greeting_tool.common.constant.ErrorMessage;
 import com.tool.greeting_tool.common.constant.KeySet;
@@ -40,16 +34,9 @@ import com.tool.greeting_tool.pojo.dto.GreetingCard;
 import com.tool.greeting_tool.pojo.vo.CardDisplayVO;
 import com.tool.greeting_tool.server.LocationHelper;
 import com.tool.greeting_tool.server.TextToSpeechHelper;
-
 import org.jetbrains.annotations.NotNull;
-
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.ArrayList;
-
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.MediaType;
@@ -129,19 +116,16 @@ public class HomeFragment extends Fragment {
                     startActivityForResult(intent, 2);
                 });
 
+        //Button Listener for Nearby message
         nearByMessage.setOnClickListener(v->{
-            showNearbyMessageWithAR();
-           /* locationHelper.getLocation(this, postcode -> {
-                if(postcode == null || postcode.isEmpty()){
-                    Toast.makeText(getActivity(), ErrorMessage.POSTCODE_NOT_FOUND, Toast.LENGTH_SHORT).show();
-                }else{
-                    Toast.makeText(getActivity(), postcode, Toast.LENGTH_SHORT).show();
+            //showNearbyMessageWithAR();
+            locationHelper.getLastLocation(new LocationHelper.PostcodeCallback() {
+                @Override
+                public void onPostcodeResult(String postcode) {
                     getNearbyGreetingCards(postcode);
-                    //TODO:open the camera and load the ar model.
-                    showNearbyMessageWithAR();
-                }
 
-            });*/
+                }
+            });
 
         });
 
@@ -155,7 +139,6 @@ public class HomeFragment extends Fragment {
         if (ArCoreApk.getInstance().checkAvailability(getContext()) == ArCoreApk.Availability.SUPPORTED_INSTALLED) {
             // Intent to launch AR Activity
             Intent intent = new Intent(getActivity(), ArActivity.class);
-            updateArMessageList();
             intent.putExtra("greetingCards", nearbyGreetingCards);
 
             startActivity(intent);
@@ -181,90 +164,6 @@ public class HomeFragment extends Fragment {
         }
     }
 
-
-
-    /*private void playAudio() {
-        if (audioPath != null) {
-            mediaPlayer = new MediaPlayer();
-            try {
-                mediaPlayer.setDataSource(audioPath);
-                mediaPlayer.prepare();
-                mediaPlayer.start();
-                Toast.makeText(getContext(), "Playing Audio", Toast.LENGTH_SHORT).show();
-
-                mediaPlayer.setOnCompletionListener(mp -> {
-                    mp.release();
-                    mediaPlayer = null;
-                });
-            } catch (IOException e) {
-                e.printStackTrace();
-                Toast.makeText(getContext(), "Error playing audio", Toast.LENGTH_SHORT).show();
-            }
-        } else {
-            Toast.makeText(getContext(), "Audio file path is null", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    private void startSynthesizeThread(final String text) {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                synthesizeTextToSpeech(text);
-            }
-        }).start();
-    }
-
-    private void synthesizeTextToSpeech(String text) {
-        IamAuthenticator authenticator = new IamAuthenticator("5QNOe6RBy9UBI_4kHQ8iTisGsrIAusAxQfIMydNq8O63");
-        TextToSpeech textToSpeech = new TextToSpeech(authenticator);
-        textToSpeech.setServiceUrl("https://api.eu-gb.text-to-speech.watson.cloud.ibm.com/instances/1766a68d-26f1-439c-a612-370c829aeb42");
-
-        try {
-            SynthesizeOptions synthesizeOptions =
-                    new SynthesizeOptions.Builder()
-                            .text(text)
-                            .accept("audio/mp3")
-                            .voice("en-US_AllisonV3Voice")
-                            .build();
-
-            InputStream inputStream = textToSpeech.synthesize(synthesizeOptions).execute().getResult();
-            InputStream in = WaveUtils.reWriteWaveHeader(inputStream);
-
-            File externalFilesDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC);
-            if (externalFilesDir != null) {
-                File outputFile = new File(externalFilesDir, "hello_world_test.mp3");
-                System.out.println("find it");
-
-                try (OutputStream out = new FileOutputStream(outputFile)) {
-                    byte[] buffer = new byte[1024];
-                    int length;
-                    while ((length = in.read(buffer)) > 0) {
-                        out.write(buffer, 0, length);
-                    }
-
-                    Log.i("MainActivity", "Audio file saved at: " + outputFile.getAbsolutePath());
-                    audioPath = outputFile.getAbsolutePath();
-                    System.out.println("find it" + outputFile.getAbsolutePath());
-
-                    if (isAdded() && getActivity() != null) {
-                        getActivity().runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                playAudio();
-                            }
-                        });
-                    }
-                }
-                in.close();
-                inputStream.close();
-            }else{
-                System.out.println("Fail to find dir");
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-            Log.e("MainActivity", "Failed to save audio file: " + e.getMessage());
-        }
-    }*/
 
     /**
      * Help user to send card
@@ -335,7 +234,6 @@ public class HomeFragment extends Fragment {
      * @param currentPostcode
      */
     private void getNearbyGreetingCards(String currentPostcode) {
-        System.out.println(currentPostcode);
         String jwtToken = SharedPreferencesUtil.getToken(requireContext());
 
         // Create empty JSON body
@@ -407,6 +305,7 @@ public class HomeFragment extends Fragment {
                     greetingCard.getEmojiId(),greetingCard.getAnimationId());
             nearbyGreetingCards.add(card);
         }
+        showNearbyMessageWithAR();
     }
 
     /**
@@ -414,9 +313,9 @@ public class HomeFragment extends Fragment {
      */
     private void updateArMessageList() {
 
-        CardDisplayVO card1 = new CardDisplayVO("getwellsoon", "heart", "staranimation");
-        CardDisplayVO card2 = new CardDisplayVO("happynewyear","tongue","staranimation");
-        CardDisplayVO card3 = new CardDisplayVO("haveaniceday","lovesmile","staranimation");
+        CardDisplayVO card1 = new CardDisplayVO("GetWellSoon", "Heart", "StarAnimation");
+        CardDisplayVO card2 = new CardDisplayVO("HappyNewYear","Tongue","StarAnimation");
+        CardDisplayVO card3 = new CardDisplayVO("HaveaNiceDay","LoveSmile","StarAnimation");
         nearbyGreetingCards.add(card1);
         nearbyGreetingCards.add(card2);
         nearbyGreetingCards.add(card3);

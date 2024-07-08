@@ -45,9 +45,9 @@ public class AssetManager {
             case R.drawable.happyhoolidays:
                 return "Happy Holidays";
             case R.drawable.getwellsoon:
-                return "Get well soon";
+                return "Get Well Soon";
             case R.drawable.haveaniceday:
-                return "Have a nice day";
+                return "Have a Nice Day";
             case R.drawable.allwell:
                 return "All well";
             case R.drawable.enjoyyourday:
@@ -125,9 +125,9 @@ public class AssetManager {
     public static String mapResourceIdToAnimation(int resourceId) {
         switch (resourceId) {
             case R.drawable.staranmation:
-                return "Star animation";
+                return "Star Animation";
             case R.drawable.heartanimation:
-                return "Heart animation";
+                return "Heart Animation";
             case R.drawable.butterfly:
                 return "Butterfly";
             case R.drawable.pinwheel:
