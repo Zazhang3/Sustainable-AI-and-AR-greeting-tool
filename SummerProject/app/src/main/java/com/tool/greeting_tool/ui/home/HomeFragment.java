@@ -129,19 +129,17 @@ public class HomeFragment extends Fragment {
                     startActivityForResult(intent, 2);
                 });
 
+        //Button Listener for Nearby message
         nearByMessage.setOnClickListener(v->{
-            showNearbyMessageWithAR();
-           /* locationHelper.getLocation(this, postcode -> {
-                if(postcode == null || postcode.isEmpty()){
-                    Toast.makeText(getActivity(), ErrorMessage.POSTCODE_NOT_FOUND, Toast.LENGTH_SHORT).show();
-                }else{
-                    Toast.makeText(getActivity(), postcode, Toast.LENGTH_SHORT).show();
+            //showNearbyMessageWithAR();
+            locationHelper.getLastLocation(new LocationHelper.PostcodeCallback() {
+                @Override
+                public void onPostcodeResult(String postcode) {
                     getNearbyGreetingCards(postcode);
-                    //TODO:open the camera and load the ar model.
-                    showNearbyMessageWithAR();
-                }
 
-            });*/
+                }
+            });
+            showNearbyMessageWithAR();
 
         });
 
@@ -155,7 +153,6 @@ public class HomeFragment extends Fragment {
         if (ArCoreApk.getInstance().checkAvailability(getContext()) == ArCoreApk.Availability.SUPPORTED_INSTALLED) {
             // Intent to launch AR Activity
             Intent intent = new Intent(getActivity(), ArActivity.class);
-            updateArMessageList();
             intent.putExtra("greetingCards", nearbyGreetingCards);
             startActivity(intent);
         } else {
@@ -183,90 +180,6 @@ public class HomeFragment extends Fragment {
         }
     }
 
-
-
-    /*private void playAudio() {
-        if (audioPath != null) {
-            mediaPlayer = new MediaPlayer();
-            try {
-                mediaPlayer.setDataSource(audioPath);
-                mediaPlayer.prepare();
-                mediaPlayer.start();
-                Toast.makeText(getContext(), "Playing Audio", Toast.LENGTH_SHORT).show();
-
-                mediaPlayer.setOnCompletionListener(mp -> {
-                    mp.release();
-                    mediaPlayer = null;
-                });
-            } catch (IOException e) {
-                e.printStackTrace();
-                Toast.makeText(getContext(), "Error playing audio", Toast.LENGTH_SHORT).show();
-            }
-        } else {
-            Toast.makeText(getContext(), "Audio file path is null", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    private void startSynthesizeThread(final String text) {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                synthesizeTextToSpeech(text);
-            }
-        }).start();
-    }
-
-    private void synthesizeTextToSpeech(String text) {
-        IamAuthenticator authenticator = new IamAuthenticator("5QNOe6RBy9UBI_4kHQ8iTisGsrIAusAxQfIMydNq8O63");
-        TextToSpeech textToSpeech = new TextToSpeech(authenticator);
-        textToSpeech.setServiceUrl("https://api.eu-gb.text-to-speech.watson.cloud.ibm.com/instances/1766a68d-26f1-439c-a612-370c829aeb42");
-
-        try {
-            SynthesizeOptions synthesizeOptions =
-                    new SynthesizeOptions.Builder()
-                            .text(text)
-                            .accept("audio/mp3")
-                            .voice("en-US_AllisonV3Voice")
-                            .build();
-
-            InputStream inputStream = textToSpeech.synthesize(synthesizeOptions).execute().getResult();
-            InputStream in = WaveUtils.reWriteWaveHeader(inputStream);
-
-            File externalFilesDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC);
-            if (externalFilesDir != null) {
-                File outputFile = new File(externalFilesDir, "hello_world_test.mp3");
-                System.out.println("find it");
-
-                try (OutputStream out = new FileOutputStream(outputFile)) {
-                    byte[] buffer = new byte[1024];
-                    int length;
-                    while ((length = in.read(buffer)) > 0) {
-                        out.write(buffer, 0, length);
-                    }
-
-                    Log.i("MainActivity", "Audio file saved at: " + outputFile.getAbsolutePath());
-                    audioPath = outputFile.getAbsolutePath();
-                    System.out.println("find it" + outputFile.getAbsolutePath());
-
-                    if (isAdded() && getActivity() != null) {
-                        getActivity().runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                playAudio();
-                            }
-                        });
-                    }
-                }
-                in.close();
-                inputStream.close();
-            }else{
-                System.out.println("Fail to find dir");
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-            Log.e("MainActivity", "Failed to save audio file: " + e.getMessage());
-        }
-    }*/
 
     /**
      * Help user to send card

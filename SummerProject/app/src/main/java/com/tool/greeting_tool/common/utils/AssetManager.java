@@ -45,9 +45,9 @@ public class AssetManager {
             case R.drawable.happyhoolidays:
                 return "Happy Holidays";
             case R.drawable.getwellsoon:
-                return "Get well soon";
+                return "Get Well Soon";
             case R.drawable.haveaniceday:
-                return "Have a nice day";
+                return "Have a Nice Day";
             case R.drawable.allwell:
                 return "All well";
             case R.drawable.enjoyyourday:

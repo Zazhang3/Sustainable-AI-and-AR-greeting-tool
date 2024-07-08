@@ -81,9 +81,9 @@ public class ArActivity extends AppCompatActivity implements BaseArFragment.OnTa
      */
     private void loadModelsFromCard(CardDisplayVO card) {
         ArModelSet set = new ArModelSet();
-        loadModel("Text/" + card.getTextId() + ".glb", model -> set.textModel = model);
-        loadModel("Emojis/" + card.getEmojiId() + ".glb", model -> set.emojiModel = model);
-        loadModel("Animations/" + card.getAnimationId() + ".glb", model -> set.animationModel = model);
+        loadModel("Text/" + card.getTextId().trim() + ".glb", model -> set.textModel = model);
+        loadModel("Emojis/" + card.getEmojiId().trim() + ".glb", model -> set.emojiModel = model);
+        loadModel("Animations/" + card.getAnimationId().trim() + ".glb", model -> set.animationModel = model);
         arModelMap.put(card,set);
     }
 
