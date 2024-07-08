@@ -203,7 +203,7 @@ public class HistoryDialogFragment extends DialogFragment {
         MessageList.clear();
         int id = 0;
         for (GreetingCard card : greetingCards) {
-            MessageList.add(new History_Message(id++, card.getCardId(), card.getId()));
+            MessageList.add(new History_Message(id++, card.getCardId(), card.getId(), card.getCreate_time()));
         }
         progressBar.setVisibility(View.GONE);
         messageAdapter.notifyDataSetChanged();
