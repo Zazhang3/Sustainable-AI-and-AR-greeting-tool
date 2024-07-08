@@ -37,6 +37,7 @@ import com.tool.greeting_tool.common.constant.URLConstant;
 import com.tool.greeting_tool.common.utils.SharedPreferencesUtil;
 import com.tool.greeting_tool.databinding.FragmentHomeBinding;
 import com.tool.greeting_tool.pojo.dto.GreetingCard;
+import com.tool.greeting_tool.pojo.vo.CardDisplayVO;
 import com.tool.greeting_tool.server.LocationHelper;
 import com.tool.greeting_tool.server.TextToSpeechHelper;
 
@@ -69,7 +70,7 @@ public class HomeFragment extends Fragment {
 
     private static final int REQUEST_WRITE_STORAGE = 112;
 
-    private ArrayList<GreetingCard> nearbyGreetingCards = new ArrayList<>();
+    private ArrayList<CardDisplayVO> nearbyGreetingCards = new ArrayList<>();
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -154,6 +155,7 @@ public class HomeFragment extends Fragment {
         if (ArCoreApk.getInstance().checkAvailability(getContext()) == ArCoreApk.Availability.SUPPORTED_INSTALLED) {
             // Intent to launch AR Activity
             Intent intent = new Intent(getActivity(), ArActivity.class);
+            updateArMessageList();
             intent.putExtra("greetingCards", nearbyGreetingCards);
             startActivity(intent);
         } else {
@@ -402,10 +404,24 @@ public class HomeFragment extends Fragment {
      */
     private void updateMessageList(ArrayList<GreetingCard> greetingCards) {
         nearbyGreetingCards.clear();
-        int id = 0;
         for (GreetingCard greetingCard : greetingCards) {
-            nearbyGreetingCards.add(greetingCard);
+            CardDisplayVO card = new CardDisplayVO(greetingCard.getCardId(),
+                    greetingCard.getEmojiId(),greetingCard.getAnimationId());
+            nearbyGreetingCards.add(card);
         }
+    }
+
+    /**
+     * Just for test
+     */
+    private void updateArMessageList() {
+
+        CardDisplayVO card1 = new CardDisplayVO("getwellsoon", "heart", "staranimation");
+        CardDisplayVO card2 = new CardDisplayVO("happynewyear","tongue","staranimation");
+        CardDisplayVO card3 = new CardDisplayVO("haveaniceday","lovesmile","staranimation");
+        nearbyGreetingCards.add(card1);
+        nearbyGreetingCards.add(card2);
+        nearbyGreetingCards.add(card3);
     }
 
     @Override

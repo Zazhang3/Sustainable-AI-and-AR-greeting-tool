@@ -1,6 +1,7 @@
 package com.tool.greeting_tool.pojo.vo;
+import java.io.Serializable;
 
-public class CardDisplayVO {
+public class CardDisplayVO implements Serializable{
 
     private String textId;
     private String emojiId;
