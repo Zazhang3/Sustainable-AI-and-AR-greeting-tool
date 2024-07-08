@@ -5,7 +5,7 @@ tool:
     port: 3306
     database: greeting_tool
     username: admin
-    password: 123
+    password: 123456789
 
   jwt:
     admin-secret-key: itcast
