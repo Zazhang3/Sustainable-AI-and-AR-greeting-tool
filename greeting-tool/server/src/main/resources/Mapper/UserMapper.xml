@@ -2,21 +2,6 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.tool.mapper.UserMapper">
-    <update id="updateUser" parameterType="User">
-        update user
-        <set>
-            <if test="password != null">password = #{password},</if>
-            <if test="email != null">email = #{email},</if>
-        </set>
-        where username = #{username}
-    </update>
-    <update id="saveVerificationCode">
-        update user
-        <set>
-            verification_code = #{verificationCode},
-            verification_create_at = #{createTime},
-        </set>
-        where id =#{id}
-    </update>
+
 
 </mapper>

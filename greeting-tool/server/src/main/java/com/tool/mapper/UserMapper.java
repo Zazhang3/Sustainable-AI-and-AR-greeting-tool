@@ -31,8 +31,13 @@ public interface UserMapper {
 
     /**
      * Update user data(update)
-     * @param user
+     * @param user :user class
      */
+    @Update("UPDATE user " +
+            "set " +
+            "password = #{password}," +
+            "email = #{email} " +
+            "WHERE username = #{username}")
     void updateUser(User user);
 
     /**
@@ -47,6 +52,8 @@ public interface UserMapper {
      * @param id :user id
      * @param verificationCode :randomly generate
      */
+    @Update("update user set verification_code = #{verificationCode}," +
+            "verification_create_at = #{createTime} where id =#{id}")
     void saveVerificationCode(Long id, String verificationCode, LocalDateTime createTime);
 
 }
