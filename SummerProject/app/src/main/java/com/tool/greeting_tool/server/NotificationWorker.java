@@ -19,6 +19,7 @@ import androidx.work.WorkerParameters;
 import com.tool.greeting_tool.MainActivity;
 import com.tool.greeting_tool.R;
 import com.tool.greeting_tool.common.constant.URLConstant;
+import com.tool.greeting_tool.common.utils.FormatCheckerUtil;
 import com.tool.greeting_tool.common.utils.SharedPreferencesUtil;
 
 import org.json.JSONException;
@@ -110,6 +111,8 @@ public class NotificationWorker extends Worker {
     private void sendNotification(String postcode, int count) {
         System.out.println("Start sending");
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+
+        postcode = FormatCheckerUtil.formatPostcode(postcode);
 
         SharedPreferencesUtil.saveNotificationMessage(context, postcode, count);
         SharedPreferencesUtil.setNotificationPostedFlag(context, true);
