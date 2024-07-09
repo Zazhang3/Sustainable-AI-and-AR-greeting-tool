@@ -66,6 +66,13 @@ public class FormatCheckerUtil {
         return emailPattern.matcher(email).matches();
     }
 
+    /**
+     *
+     * @param postcode : postcode need to process
+     * @return : string postcode that remove the space
+     * e.g. BS1 2BQ -> BS12BQ
+     *      BS10 7TW -> BS107TW
+     */
     public static String processPostcode(String postcode){
         if (postcode.contains(" ")) {
             return postcode.replace(" ", "");
@@ -73,6 +80,15 @@ public class FormatCheckerUtil {
         return postcode;
     }
 
+    /**
+     *
+     * @param postcode : postcode need to add space
+     * @return : string postcode that add space
+     *  Based on the UK postcode, if length of string is 6, add space after third character, otherwise
+     *  after forth character
+     *  e.g. BS12BQ -> BS1 2BQ
+     *       BS107TW -> BS10 7TW
+     */
     public static String formatPostcode(String postcode) {
         if (postcode.length() == 6) {
             return postcode.substring(0, 3) + " " + postcode.substring(3);
