@@ -153,14 +153,15 @@ public class HomeFragment extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_CODE_SELECT_1&&data!=null) {
             ArrayList<String> selectedItems = data.getStringArrayListExtra(KeySet.SelectedList);
-            //TODO
-            //pick user selected items and pass into AR
-            showNearbyMessageWithAR();
-            //ArrayList<Integer> selectedItems = data.getIntegerArrayListExtra(KeySet.SelectedList);
-            //String postcode = data.getStringExtra(KeySet.PostKey);
-            //ArrayList<String> SelectedItems = data.getStringArrayListExtra(KeySet.SelectedList);
-            //System.out.println(postcode);
-            //System.out.println(SelectedItems);
+            //TODO: slectedItems is null.
+            assert selectedItems != null;
+            CardDisplayVO greetingCard = new CardDisplayVO(selectedItems.get(0),selectedItems.get(1), selectedItems.get(2));
+            ArrayList<CardDisplayVO> previewCard = new ArrayList<>();
+            previewCard.add(greetingCard);
+            Intent intent = new Intent(getActivity(), ArActivity.class);
+            intent.putExtra("greetingCards", previewCard);
+            startActivity(intent);
+
         } else if (requestCode == REQUEST_CODE_SELECT_2&&data!=null) {
             String postcode = data.getStringExtra(KeySet.PostKey);
             ArrayList<String> SelectedItems = data.getStringArrayListExtra(KeySet.SelectedList);
