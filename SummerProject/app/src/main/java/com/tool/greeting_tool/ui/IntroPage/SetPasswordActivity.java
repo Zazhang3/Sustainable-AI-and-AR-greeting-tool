@@ -54,17 +54,17 @@ public class SetPasswordActivity extends AppCompatActivity {
             String email = SharedPreferencesUtil.getEmail(SetPasswordActivity.this);
             String password = reset_Password.getText().toString();
             String password_Re = reset_Password_Re.getText().toString();
-            if(!password.isEmpty()&& password.equals(password_Re)){
-
+            if(password.isEmpty()){
+                Toast.makeText(this, ErrorMessage.PASSWORD_EMPTY_ERROR, Toast.LENGTH_SHORT).show();
+            }else if(!password.equals(password_Re)){
+                Toast.makeText(this, ErrorMessage.PASSWORD_NOT_MATCH_ERROR, Toast.LENGTH_SHORT).show();
+            }else{
                 updateUserInfo(username,password,email);
 
                 Intent resultIntent = new Intent();
                 setResult(Activity.RESULT_OK, resultIntent);
                 finish();
-            }else{
-
             }
-
         });
     }
 
