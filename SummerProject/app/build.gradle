@@ -30,7 +30,7 @@ android {
 
 
     packagingOptions {
-        pickFirst 'META-INF/NOTICE.md' // 或者可以使用 exclude 'META-INF/NOTICE.md'，取决于你的具体情况
+        pickFirst 'META-INF/NOTICE.md'
         pickFirst 'META-INF/LICENSE.md'
     }
 }

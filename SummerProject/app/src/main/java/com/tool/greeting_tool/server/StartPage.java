@@ -2,7 +2,6 @@ package com.tool.greeting_tool.server;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.Button;
 import android.widget.ImageButton;
 
 import androidx.annotation.Nullable;
@@ -12,7 +11,7 @@ import com.tool.greeting_tool.MainActivity;
 import com.tool.greeting_tool.R;
 import com.tool.greeting_tool.common.constant.KeySet;
 import com.tool.greeting_tool.common.constant.RequestCode;
-import com.tool.greeting_tool.ui.IntroPage.ReSetPassWord;
+import com.tool.greeting_tool.ui.login.LoginActivity;
 
 public class StartPage extends AppCompatActivity {
     private ImageButton login;
@@ -28,7 +27,7 @@ public class StartPage extends AppCompatActivity {
 
 
         login.setOnClickListener(v -> {
-            Intent intent = new Intent(this, LoginController.class);
+            Intent intent = new Intent(this, LoginActivity.class);
             startActivityForResult(intent, RequestCode.REQUEST_LOGIN);
         });
 

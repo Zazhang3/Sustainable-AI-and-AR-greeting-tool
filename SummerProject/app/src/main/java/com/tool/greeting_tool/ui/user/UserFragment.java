@@ -19,7 +19,6 @@ import com.tool.greeting_tool.common.utils.SharedPreferencesUtil;
 import com.tool.greeting_tool.common.constant.URLConstant;
 import com.tool.greeting_tool.databinding.FragmentUserBinding;
 import com.tool.greeting_tool.server.StartPage;
-import com.tool.greeting_tool.ui.user.History.HistoryActivity;
 import com.tool.greeting_tool.ui.user.History.HistoryDialogFragment;
 
 import java.io.IOException;

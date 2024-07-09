@@ -11,14 +11,12 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-
 import com.google.ar.core.ArCoreApk;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -37,13 +35,7 @@ import com.tool.greeting_tool.server.TextToSpeechHelper;
 import org.jetbrains.annotations.NotNull;
 import java.io.IOException;
 import java.util.ArrayList;
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.MediaType;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
+import okhttp3.*;
 
 public class HomeFragment extends Fragment {
 
@@ -118,12 +110,10 @@ public class HomeFragment extends Fragment {
 
         //Button Listener for Nearby message
         nearByMessage.setOnClickListener(v->{
-            //showNearbyMessageWithAR();
             locationHelper.getLastLocation(new LocationHelper.PostcodeCallback() {
                 @Override
                 public void onPostcodeResult(String postcode) {
                     getNearbyGreetingCards(postcode);
-
                 }
             });
 
@@ -157,11 +147,6 @@ public class HomeFragment extends Fragment {
             //TODO
             //pick user selected items and pass into AR
             showNearbyMessageWithAR();
-            //ArrayList<Integer> selectedItems = data.getIntegerArrayListExtra(KeySet.SelectedList);
-            //String postcode = data.getStringExtra(KeySet.PostKey);
-            //ArrayList<String> SelectedItems = data.getStringArrayListExtra(KeySet.SelectedList);
-            //System.out.println(postcode);
-            //System.out.println(SelectedItems);
         } else if (requestCode == REQUEST_CODE_SELECT_2&&data!=null) {
             String postcode = data.getStringExtra(KeySet.PostKey);
             ArrayList<String> SelectedItems = data.getStringArrayListExtra(KeySet.SelectedList);
@@ -311,19 +296,6 @@ public class HomeFragment extends Fragment {
             nearbyGreetingCards.add(card);
         }
         showNearbyMessageWithAR();
-    }
-
-    /**
-     * Just for test
-     */
-    private void updateArMessageList() {
-
-        CardDisplayVO card1 = new CardDisplayVO("GetWellSoon", "Heart", "StarAnimation");
-        CardDisplayVO card2 = new CardDisplayVO("HappyNewYear","Tongue","StarAnimation");
-        CardDisplayVO card3 = new CardDisplayVO("HaveaNiceDay","LoveSmile","StarAnimation");
-        nearbyGreetingCards.add(card1);
-        nearbyGreetingCards.add(card2);
-        nearbyGreetingCards.add(card3);
     }
 
     @Override

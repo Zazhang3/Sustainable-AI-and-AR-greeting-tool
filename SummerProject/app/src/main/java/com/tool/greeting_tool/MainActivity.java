@@ -1,18 +1,11 @@
 package com.tool.greeting_tool;
 
-import android.content.Intent;
 import android.os.Bundle;
-
 import com.tool.greeting_tool.common.constant.KeySet;
-import com.tool.greeting_tool.common.utils.SharedPreferencesUtil;
 import com.tool.greeting_tool.server.NotificationWorker;
-import com.tool.greeting_tool.ui.home.HomeViewModel;
 import com.tool.greeting_tool.ui.user.UserViewModel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -21,9 +14,7 @@ import androidx.work.ExistingPeriodicWorkPolicy;
 import androidx.work.OneTimeWorkRequest;
 import androidx.work.PeriodicWorkRequest;
 import androidx.work.WorkManager;
-
 import com.tool.greeting_tool.databinding.ActivityMainBinding;
-
 import java.util.concurrent.TimeUnit;
 
 public class MainActivity extends AppCompatActivity {

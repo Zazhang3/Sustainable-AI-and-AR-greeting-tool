@@ -1,9 +1,0 @@
-apply plugin: 'java'
-
-dependencies {
-    implementation 'com.ibm.watson:ibm-watson:9.3.1'
-    implementation 'com.ibm.cloud:sdk-core:9.19.0'
-}
-
-group = 'com.example'
-version = '1.0-SNAPSHOT'
