@@ -153,7 +153,6 @@ public class HomeFragment extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_CODE_SELECT_1&&data!=null) {
             ArrayList<String> selectedItems = data.getStringArrayListExtra(KeySet.SelectedList);
-            //TODO: slectedItems is null.
             assert selectedItems != null;
             CardDisplayVO greetingCard = new CardDisplayVO(selectedItems.get(0),selectedItems.get(1), selectedItems.get(2));
             ArrayList<CardDisplayVO> previewCard = new ArrayList<>();
