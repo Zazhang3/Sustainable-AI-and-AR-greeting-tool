@@ -149,7 +149,7 @@ public class WordsSelect extends AppCompatActivity {
                     .setView(dialogView)
                     .setPositiveButton(ButtonString.positiveSet, (dialogInterface, which) -> {
                         Intent resultIntent = new Intent();
-                        resultIntent.putExtra(EXTRA_SELECTION, selectList);
+                        resultIntent.putExtra(KeySet.SelectedList, selectList);
                         resultIntent.putExtra(KeySet.Request, RequestCode.REQUEST_CODE_SELECT_1);
                         setResult(Activity.RESULT_OK, resultIntent);
                         finish();
@@ -181,6 +181,7 @@ public class WordsSelect extends AppCompatActivity {
             if (resultCode == RESULT_OK && data != null) {
                 if (requestCode == RequestCode.REQUEST_CODE_SELECT_1) {
                     ArrayList<String> selection = data.getStringArrayListExtra(KeySet.SelectedList);
+                    System.out.println(selection);
                     Intent resultIntent = new Intent();
                     resultIntent.putExtra(KeySet.SelectedList, selection);
                     resultIntent.putExtra(KeySet.Request, RequestCode.REQUEST_CODE_SELECT_1);

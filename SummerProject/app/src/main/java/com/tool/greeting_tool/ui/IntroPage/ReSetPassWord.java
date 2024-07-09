@@ -68,11 +68,12 @@ public class ReSetPassWord extends AppCompatActivity {
             //check username and email and return verificationCode
             userVerification(username,email);
 
-            showSecurityDialog(username,SharedPreferencesUtil.getVerificationCode(ReSetPassWord.this));
+            showSecurityDialog(username);
         });
     }
 
-    private void showSecurityDialog(String accountName, String verificationCode){
+    private void showSecurityDialog(String accountName){
+        String verificationCode = SharedPreferencesUtil.getVerificationCode(this);
         LayoutInflater inflater = LayoutInflater.from(this);
         View dialogView = inflater.inflate(R.layout.dialog_security_code, null);
 

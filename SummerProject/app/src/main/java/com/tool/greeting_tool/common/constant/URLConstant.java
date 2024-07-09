@@ -16,6 +16,6 @@ public class URLConstant {
     public static final String SEND_CARD_URL = BASIC_GREETING_CARD_URL;
     public static final String GET_NEARBY_CARD_URL = BASIC_GREETING_CARD_URL+"/postcode";
     public static final String GET_DELETE_CARD_URL = BASIC_GREETING_CARD_URL;
-
     public static final String COUNT_BY_POSTCODE = BASIC_GREETING_CARD_URL+"/count";
+
 }

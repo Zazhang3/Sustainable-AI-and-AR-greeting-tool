@@ -7,6 +7,8 @@
     <list default="true" id="2ed4e8d2-fef6-472b-8691-600fa54a534a" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SummerProject/.idea/deploymentTargetSelector.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SummerProject/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/SummerProject/.idea/misc.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -53,7 +55,7 @@
     "cidr.known.project.marker": "true",
     "git-widget-placeholder": "Front__End__Dev",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "D:/code/SAAG/SummerProject",
+    "last_opened_file_path": "D:/MyProject/Sustainable-AI-and-AR-greeting-tool/SummerProject",
     "project.structure.last.edited": "Modules",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.2",

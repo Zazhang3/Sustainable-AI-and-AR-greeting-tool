@@ -66,5 +66,11 @@ public class FormatCheckerUtil {
         return emailPattern.matcher(email).matches();
     }
 
+    public static String processPostcode(String postcode){
+        if (postcode.contains(" ")) {
+            return postcode.replace(" ", "");
+        }
+        return postcode;
+    }
 
 }
