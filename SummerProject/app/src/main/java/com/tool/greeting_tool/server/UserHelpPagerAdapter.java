@@ -1,48 +1,38 @@
 package com.tool.greeting_tool.server;
 
-import android.content.Context;
-import android.view.LayoutInflater;
+
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
+
 import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.PagerAdapter;
 
 import com.tool.greeting_tool.R;
 
-public class UserHelpPagerAdapter extends RecyclerView.Adapter<UserHelpPagerAdapter.ViewHolder> {
+import java.util.List;
 
-    private final int[] imageResIds;
-    private final LayoutInflater inflater;
-
-    public UserHelpPagerAdapter(Context context, int[] imageResIds) {
-        this.imageResIds = imageResIds;
-        this.inflater = LayoutInflater.from(context);
+public class UserHelpPagerAdapter extends PagerAdapter {
+    private List<View> views;
+    public UserHelpPagerAdapter(List<View> views) {
+        this.views = views;
     }
-
+    @Override
+    public int getCount() {
+        return views.size();
+    }
+    @Override
+    public boolean isViewFromObject(@NonNull View view, @NonNull Object object) {
+        return view == object;
+    }
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = inflater.inflate(R.layout.page_item, parent, false);
-        return new ViewHolder(view);
+    public Object instantiateItem(@NonNull ViewGroup container, int position) {
+        View view = views.get(position);
+        container.addView(view);
+        return view;
     }
-
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.imageView.setImageResource(imageResIds[position]);
-    }
-
-    @Override
-    public int getItemCount() {
-        return imageResIds.length;
-    }
-
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-        ImageView imageView;
-
-        public ViewHolder(View itemView) {
-            super(itemView);
-            imageView = itemView.findViewById(R.id.imageView);
-        }
+    public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
+        container.removeView(views.get(position));
     }
 }

@@ -1,6 +1,8 @@
 package com.tool.greeting_tool.ui.home;
 
 import android.Manifest;
+import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -8,7 +10,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,8 +22,8 @@ import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.viewpager.widget.ViewPager;
 
 import com.google.ar.core.ArCoreApk;
 import com.google.gson.Gson;
@@ -36,10 +41,13 @@ import com.tool.greeting_tool.pojo.dto.GreetingCard;
 import com.tool.greeting_tool.pojo.vo.CardDisplayVO;
 import com.tool.greeting_tool.server.LocationHelper;
 import com.tool.greeting_tool.server.TextToSpeechHelper;
+import com.tool.greeting_tool.server.UserHelpPagerAdapter;
 
 import org.jetbrains.annotations.NotNull;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -130,13 +138,37 @@ public class HomeFragment extends Fragment {
         });
 
         helpButton.setOnClickListener(v -> {
-            UserHelpFragment dialogFragment = new UserHelpFragment();
-            dialogFragment.show(getParentFragmentManager(), "user_help_dialog");
+            Dialog dialog = new Dialog(requireContext());
+            dialog.setContentView(R.layout.dialog_userhelp);
+            dialog.show();
+
+            Window window = dialog.getWindow();
+            if (window != null) {
+                WindowManager.LayoutParams layoutParams = window.getAttributes();
+                // Set the width of the dialog to 80% of the screen width
+                layoutParams.width = (int) (getResources().getDisplayMetrics().widthPixels * 0.8f);
+                // Set the height of the dialog to wrap content
+                layoutParams.height = (int) (getResources().getDisplayMetrics().heightPixels * 0.8f);
+                window.setAttributes(layoutParams);
+            }
+
+            ViewPager viewPager = dialog.findViewById(R.id.viewPager);
+            List<View> views = new ArrayList<>(Arrays.asList(
+                    createImageView(getContext(), R.drawable.butterfly),
+                    createImageView(getContext(), R.drawable.allwell),
+                    createImageView(getContext(), R.drawable.back)));
+            UserHelpPagerAdapter adapter = new UserHelpPagerAdapter(views);
+            viewPager.setAdapter(adapter);
         });
 
         final TextView textView = binding.textHome;
         homeViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
         return root;
+    }
+    private ImageView createImageView(Context context, int resId) {
+        ImageView imageView = new ImageView(context);
+        imageView.setImageResource(resId);
+        return imageView;
     }
 
     private void showNearbyMessageWithAR() {
