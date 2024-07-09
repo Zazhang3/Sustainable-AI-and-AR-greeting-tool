@@ -11,10 +11,11 @@ public class URLConstant {
     public static final String UPDATE_URL = BASIC_USER_URL+"/update";
 
     public static final String VERIFY_USERNAME_AND_EMAIL_URL = BASIC_USER_URL+"/verification";
-    public static final String LOGOUT_URL = BASIC_USER_URL+"/logout";
 
     public static final String GET_HISTORY_CARD_URL = BASIC_GREETING_CARD_URL+"/user";
     public static final String SEND_CARD_URL = BASIC_GREETING_CARD_URL;
     public static final String GET_NEARBY_CARD_URL = BASIC_GREETING_CARD_URL+"/postcode";
     public static final String GET_DELETE_CARD_URL = BASIC_GREETING_CARD_URL;
+    public static final String COUNT_BY_POSTCODE = BASIC_GREETING_CARD_URL+"/count";
+
 }
