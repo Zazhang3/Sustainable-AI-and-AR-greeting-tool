@@ -103,6 +103,7 @@ public class HomeFragment extends Fragment {
             System.out.println("Didn't get argument");
         }
 
+        // Buttons in HomeFragment
         ImageButton wordButton = binding.button;
         ImageButton nearByMessage = binding.button2;
         ImageButton sendButton = binding.button3;
@@ -136,19 +137,24 @@ public class HomeFragment extends Fragment {
             });
 
         });
-
+        // Button Listener for UserHelp
         helpButton.setOnClickListener(v -> {
             Dialog dialog = new Dialog(requireContext());
             dialog.setContentView(R.layout.dialog_userhelp);
             dialog.show();
 
+            ImageButton closeButton = dialog.findViewById(R.id.closeButton);
+            closeButton.setOnClickListener(view -> {
+                dialog.dismiss();
+            });
+            // Control size of dialog
             Window window = dialog.getWindow();
             if (window != null) {
                 WindowManager.LayoutParams layoutParams = window.getAttributes();
                 // Set the width of the dialog to 80% of the screen width
                 layoutParams.width = (int) (getResources().getDisplayMetrics().widthPixels * 0.8f);
                 // Set the height of the dialog to wrap content
-                layoutParams.height = (int) (getResources().getDisplayMetrics().heightPixels * 0.8f);
+                layoutParams.height = (int) (getResources().getDisplayMetrics().heightPixels * 0.7f);
                 window.setAttributes(layoutParams);
             }
 
