@@ -1,7 +1,6 @@
 package com.tool.greeting_tool.ui.home;
 
 import android.Manifest;
-import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -18,6 +17,7 @@ import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.google.ar.core.ArCoreApk;
@@ -36,11 +36,10 @@ import com.tool.greeting_tool.pojo.dto.GreetingCard;
 import com.tool.greeting_tool.pojo.vo.CardDisplayVO;
 import com.tool.greeting_tool.server.LocationHelper;
 import com.tool.greeting_tool.server.TextToSpeechHelper;
+
 import org.jetbrains.annotations.NotNull;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -51,22 +50,13 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class HomeFragment extends Fragment {
-
     private FragmentHomeBinding binding;
     private LocationHelper locationHelper;
-
     private TextToSpeechHelper textToSpeechHelper;
-
     private static final int REQUEST_CODE_SELECT_1 = 1;
     private static final int REQUEST_CODE_SELECT_2 = 2;
-
     private static final int REQUEST_WRITE_STORAGE = 112;
-
     private ArrayList<CardDisplayVO> nearbyGreetingCards = new ArrayList<>();
-    private List<Integer> imageResources = new ArrayList<>(Arrays.asList(
-            R.drawable.butterfly, R.drawable.allwell, R.drawable.baseline_person_24,
-            R.drawable.biting, R.drawable.back, R.drawable.enjoyyourday,
-            R.drawable.goodafternoon, R.drawable.hello, R.drawable.happynewyear, R.drawable.goodday));
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -139,28 +129,14 @@ public class HomeFragment extends Fragment {
 
         });
 
-        helpButton.setOnClickListener(v->{
-            showCustomDialogue();
+        helpButton.setOnClickListener(v -> {
+            UserHelpFragment dialogFragment = new UserHelpFragment();
+            dialogFragment.show(getParentFragmentManager(), "user_help_dialog");
         });
 
         final TextView textView = binding.textHome;
         homeViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
         return root;
-    }
-
-    private void showCustomDialogue() {
-        LayoutInflater inflater = requireActivity().getLayoutInflater();
-        View dialogView = inflater.inflate(R.layout.dialogue, null);
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        builder.setView(dialogView);
-
-        AlertDialog dialog = builder.create();
-
-        ImageButton buttonClose = dialogView.findViewById(R.id.buttonClose);
-        buttonClose.setOnClickListener(v -> dialog.dismiss());
-
-        dialog.show();
     }
 
     private void showNearbyMessageWithAR() {
@@ -197,7 +173,6 @@ public class HomeFragment extends Fragment {
             sendGreetingCard(SelectedItems,postcode);
         }
     }
-
 
     /**
      * Help user to send card

@@ -17,4 +17,10 @@
     <color name="icon_color">#F89622</color>
     <color name="orange_light">#E6D7B3</color>
     <color name="background_light">#FFFAED</color>
+    <color name="colorPrimary">#6200EE</color>
+    <color name="colorPrimaryDark">#3700B3</color>
+    <color name="colorAccent">#03DAC5</color>
+    <color name="colorBackground">#FFFFFF</color>
+    <color name="colorTextPrimary">#000000</color>
+    <color name="colorTextSecondary">#757575</color>
 </resources>
