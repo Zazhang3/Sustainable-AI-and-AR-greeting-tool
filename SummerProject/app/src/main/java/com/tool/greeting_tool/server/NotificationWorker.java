@@ -18,19 +18,32 @@ import androidx.work.WorkerParameters;
 
 import com.tool.greeting_tool.MainActivity;
 import com.tool.greeting_tool.R;
-import com.tool.greeting_tool.common.constant.KeySet;
+import com.tool.greeting_tool.common.constant.URLConstant;
 import com.tool.greeting_tool.common.utils.SharedPreferencesUtil;
-import com.tool.greeting_tool.ui.home.HomeFragment;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class NotificationWorker extends Worker {
 
     private static final String CHANNEL_ID = "location_update_channel";
-    private LocationHelper locationHelper;
-    private Context context;
+    private final LocationHelper locationHelper;
+    private final Context context;
+    private final ExecutorService executorService;
 
     public NotificationWorker(@NonNull Context context, @NonNull WorkerParameters workerParams) {
         super(context, workerParams);
         this.context = context;
+        this.executorService = Executors.newSingleThreadExecutor();
         locationHelper = new LocationHelper(context);
     }
 
@@ -38,24 +51,37 @@ public class NotificationWorker extends Worker {
     @Override
     public Result doWork() {
         System.out.println("Goto doWork");
-        if (!shouldSkipInitialExecution()){
+        if (!shouldSkipInitialExecution()) {
             if (ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-                locationHelper.getLastLocation(new LocationHelper.PostcodeCallback() {
-                    @Override
-                    public void onPostcodeResult(String postcode) {
-                        //because the background limit, must have background location permission
-                        //TODO
-                        //Add sending action to back-end here and get back integer value
-                        int count = 2;
-                        System.out.println("goto sending");
-                        sendNotification(postcode, count);
+                locationHelper.getLastLocation(postcode -> executorService.execute(() -> {
+                    int count;
+                    OkHttpClient client = new OkHttpClient();
+                    Request request = new Request.Builder()
+                            .url(URLConstant.COUNT_BY_POSTCODE + "/" + postcode)
+                            .get()
+                            .build();
+
+                    try (Response response = client.newCall(request).execute()) {
+                        if (response.isSuccessful() && response.body() != null) {
+                            String responseData = response.body().string();
+                            JSONObject jsonObject = new JSONObject(responseData);
+                            count = jsonObject.getInt("data");
+                        } else {
+                            count = -1;
+                        }
+                    } catch (IOException | JSONException e) {
+                        throw new RuntimeException(e);
                     }
-                });
+
+                    //send notification
+                    System.out.println("goto sending");
+                    sendNotification(postcode, count);
+                }));
                 return Result.success();
             } else {
                 return Result.failure();
             }
-        }else{
+        } else {
             System.out.println("have skip");
         }
 
@@ -77,6 +103,7 @@ public class NotificationWorker extends Worker {
     }
 
     private void requestNewLocationData() {
+        //TODO
         // Request a new location update if needed
     }
 
@@ -120,4 +147,5 @@ public class NotificationWorker extends Worker {
             System.out.println("notificationManager is null");
         }
     }
+
 }
