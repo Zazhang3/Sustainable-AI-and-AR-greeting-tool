@@ -26,6 +26,7 @@ import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.tool.greeting_tool.common.utils.FormatCheckerUtil;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -146,7 +147,7 @@ public class LocationHelper {
                                     JsonArray types = component.getAsJsonObject().getAsJsonArray("types");
                                     for (JsonElement type : types) {
                                         if ("postal_code".equals(type.getAsString())) {
-                                            String postcode = component.getAsJsonObject().get("long_name").getAsString();
+                                            String postcode = FormatCheckerUtil.processPostcode(component.getAsJsonObject().get("long_name").getAsString());
                                             new Handler(Looper.getMainLooper()).post(() ->
                                                     callback.onPostcodeResult(postcode)
                                             );

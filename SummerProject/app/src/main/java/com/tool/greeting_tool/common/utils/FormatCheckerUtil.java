@@ -73,4 +73,13 @@ public class FormatCheckerUtil {
         return postcode;
     }
 
+    public static String formatPostcode(String postcode) {
+        if (postcode.length() == 6) {
+            return postcode.substring(0, 3) + " " + postcode.substring(3);
+        } else if (postcode.length() == 7) {
+            return postcode.substring(0, 4) + " " + postcode.substring(4);
+        }
+        return postcode;
+    }
+
 }
