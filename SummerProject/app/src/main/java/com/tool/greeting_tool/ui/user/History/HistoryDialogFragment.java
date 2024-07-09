@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -69,6 +70,8 @@ public class HistoryDialogFragment extends DialogFragment {
         LayoutInflater inflater = requireActivity().getLayoutInflater();
         View view = inflater.inflate(R.layout.dialog_history, null);
 
+        View customTitleView = inflater.inflate(R.layout.custom_dialog_title, null);
+
         currentUserId = SharedPreferencesUtil.getLong(requireContext());
         ListView listView = view.findViewById(R.id.history);
         progressBar = view.findViewById(R.id.progressBar_history);
@@ -88,11 +91,18 @@ public class HistoryDialogFragment extends DialogFragment {
 
         getGreetingCards(currentUserId);
 
-        builder.setView(view)
-                .setTitle("Message History")
-                .setNegativeButton("Close", (dialog, id) -> dialog.dismiss());
+        builder.setCustomTitle(customTitleView)
+                .setView(view)
+                .setNegativeButton("Close", null);
 
-        return builder.create();
+       AlertDialog dialog = builder.create();
+
+        dialog.setOnShowListener(dialogInterface -> {
+            Button negativeButton = dialog.getButton(AlertDialog.BUTTON_NEGATIVE);
+            negativeButton.setTextColor(getResources().getColor(R.color.icon_color));
+        });
+
+        return dialog;
     }
 
     /**
@@ -100,16 +110,25 @@ public class HistoryDialogFragment extends DialogFragment {
      * @param message
      */
     private void showDeleteDialog(History_Message message) {
-        new AlertDialog.Builder(getActivity())
+        AlertDialog dialog = new AlertDialog.Builder(getActivity())
                 .setTitle(MessageConstant.Delete)
                 .setMessage(MessageConstant.DeleteMessage)
-                .setPositiveButton(android.R.string.yes, (dialog, which) -> {
+                .setPositiveButton(android.R.string.yes, (dialogInterface, which) -> {
                     MessageList.remove(message);
                     messageAdapter.notifyDataSetChanged();
                     Toast.makeText(getActivity(), MessageConstant.Delete, Toast.LENGTH_SHORT).show();
                 })
                 .setNegativeButton(android.R.string.no, null)
-                .show();
+                .create();
+        dialog.setOnShowListener(dialogInterface -> {
+            Button positiveButton = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
+            Button negativeButton = dialog.getButton(AlertDialog.BUTTON_NEGATIVE);
+
+            positiveButton.setTextColor(getResources().getColor(R.color.icon_color));
+            negativeButton.setTextColor(getResources().getColor(R.color.icon_color));
+        });
+
+        dialog.show();
     }
 
     /**
