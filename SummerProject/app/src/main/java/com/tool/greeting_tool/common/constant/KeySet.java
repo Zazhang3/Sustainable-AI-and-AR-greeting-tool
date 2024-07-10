@@ -13,5 +13,7 @@ public class KeySet {
 
     public static final String ReSetKey = "resetpassword";
 
+    public static final String IsSend = "is_send";
+
     public static final String NotificationKey = "notification";
 }

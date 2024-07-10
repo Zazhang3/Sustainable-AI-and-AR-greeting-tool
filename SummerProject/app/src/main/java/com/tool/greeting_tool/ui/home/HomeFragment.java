@@ -1,5 +1,7 @@
 package com.tool.greeting_tool.ui.home;
 
+import static android.app.Activity.RESULT_OK;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -19,6 +21,7 @@ import com.google.ar.core.ArCoreApk;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
+import com.tool.greeting_tool.Postcode_fill;
 import com.tool.greeting_tool.WordsSelect;
 import com.tool.greeting_tool.common.constant.ErrorMessage;
 import com.tool.greeting_tool.common.constant.KeySet;
@@ -47,9 +50,6 @@ public class HomeFragment extends Fragment {
     private LocationHelper locationHelper;
 
     private TextToSpeechHelper textToSpeechHelper;
-
-    private static final int REQUEST_CODE_SELECT_1 = 1;
-    private static final int REQUEST_CODE_SELECT_2 = 2;
 
     private ArrayList<CardDisplayVO> nearbyGreetingCards = new ArrayList<>();
 
@@ -84,23 +84,22 @@ public class HomeFragment extends Fragment {
 
         ImageButton wordButton = binding.button;
         ImageButton nearByMessage = binding.button2;
-        ImageButton sendButton = binding.button3;
 
         //Button Listener for Preview
         wordButton.setOnClickListener(v->{
             Intent intent = new Intent(getActivity(), WordsSelect.class);
             intent.putExtra(KeySet.SelectedType, "Words");
-            intent.putExtra(KeySet.Request, REQUEST_CODE_SELECT_1);
+            //intent.putExtra(KeySet.Request, REQUEST_CODE_SELECT_1);
             startActivityForResult(intent, 1);
         });
 
         //Button Listener for Send
-        sendButton.setOnClickListener(v->{
+        /*sendButton.setOnClickListener(v->{
                     Intent intent = new Intent(getActivity(), WordsSelect.class);
                     intent.putExtra(KeySet.SelectedType, "Words");
                     intent.putExtra(KeySet.Request, REQUEST_CODE_SELECT_2);
                     startActivityForResult(intent, 2);
-                });
+                });*/
 
         //Button Listener for Nearby message
         nearByMessage.setOnClickListener(v->{
@@ -128,7 +127,6 @@ public class HomeFragment extends Fragment {
 
             startActivity(intent);
 
-
         } else {
             Toast.makeText(getContext(), "AR features not supported on this device", Toast.LENGTH_LONG).show();
         }
@@ -137,7 +135,30 @@ public class HomeFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_CODE_SELECT_1&&data!=null) {
+        if(resultCode == RESULT_OK && data != null){
+            int sendState = data.getIntExtra(KeySet.IsSend, -1);
+            if(sendState == 1){
+                Intent intent = new Intent(getActivity(), Postcode_fill.class);
+                ArrayList<String> selectedItems = data.getStringArrayListExtra(KeySet.SelectedList);
+                intent.putExtra(KeySet.SelectedList, selectedItems);
+                startActivityForResult(intent, 1);
+            }else if(sendState == 0){
+                ArrayList<String> selectedItems = data.getStringArrayListExtra(KeySet.SelectedList);
+                assert selectedItems != null;
+                CardDisplayVO greetingCard = new CardDisplayVO(selectedItems.get(0),selectedItems.get(1), selectedItems.get(2));
+                ArrayList<CardDisplayVO> previewCard = new ArrayList<>();
+                previewCard.add(greetingCard);
+                Intent intent = new Intent(getActivity(), ArActivity.class);
+                intent.putExtra("greetingCards", previewCard);
+                startActivity(intent);
+            }else if(sendState == 2){
+                String postcode = data.getStringExtra(KeySet.PostKey);
+                ArrayList<String> SelectedItems = data.getStringArrayListExtra(KeySet.SelectedList);
+                sendGreetingCard(SelectedItems,postcode);
+            }
+        }
+
+        /*if (requestCode == REQUEST_CODE_SELECT_1&&data!=null) {
             ArrayList<String> selectedItems = data.getStringArrayListExtra(KeySet.SelectedList);
             assert selectedItems != null;
             CardDisplayVO greetingCard = new CardDisplayVO(selectedItems.get(0),selectedItems.get(1), selectedItems.get(2));
@@ -151,7 +172,7 @@ public class HomeFragment extends Fragment {
             String postcode = data.getStringExtra(KeySet.PostKey);
             ArrayList<String> SelectedItems = data.getStringArrayListExtra(KeySet.SelectedList);
             sendGreetingCard(SelectedItems,postcode);
-        }
+        }*/
     }
 
 
