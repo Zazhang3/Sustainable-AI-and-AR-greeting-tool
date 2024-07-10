@@ -9,8 +9,12 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -132,16 +136,32 @@ public class WordsSelect extends AppCompatActivity {
         String emoji = selectList.get(1);
         String animation = selectList.get(2);
 
-        new AlertDialog.Builder(this).setTitle("Your Selection")
-                    .setMessage("Text: " + text+ "\nEmoji: " + emoji + "\nAnimation: " + animation)
-                    .setPositiveButton(ButtonString.positiveSet, (dialog, which) -> {
+        LayoutInflater inflater = getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.dialog_custom, null);
+
+        TextView titleTextView = dialogView.findViewById(R.id.dialog_title);
+        TextView messageTextView = dialogView.findViewById(R.id.dialog_message);
+
+        titleTextView.setText("Your Selection");
+        messageTextView.setText("Text: " + text + "\nEmoji: " + emoji + "\nAnimation: " + animation);
+
+        AlertDialog dialog = new AlertDialog.Builder(this)
+                    .setView(dialogView)
+                    .setPositiveButton(ButtonString.positiveSet, (dialogInterface, which) -> {
                         Intent resultIntent = new Intent();
-                        resultIntent.putExtra(EXTRA_SELECTION, selectList);
+                        resultIntent.putExtra(KeySet.SelectedList, selectList);
                         resultIntent.putExtra(KeySet.Request, RequestCode.REQUEST_CODE_SELECT_1);
                         setResult(Activity.RESULT_OK, resultIntent);
                         finish();
                     })
-                    .show();
+                .create();
+
+        dialog.setOnShowListener(dialogInterface -> {
+            Button positiveButton = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
+            positiveButton.setTextColor(getResources().getColor(R.color.icon_color));
+        });
+
+        dialog.show();
     }
 
     /** Store the selected result and back to home page
@@ -161,6 +181,7 @@ public class WordsSelect extends AppCompatActivity {
             if (resultCode == RESULT_OK && data != null) {
                 if (requestCode == RequestCode.REQUEST_CODE_SELECT_1) {
                     ArrayList<String> selection = data.getStringArrayListExtra(KeySet.SelectedList);
+                    System.out.println(selection);
                     Intent resultIntent = new Intent();
                     resultIntent.putExtra(KeySet.SelectedList, selection);
                     resultIntent.putExtra(KeySet.Request, RequestCode.REQUEST_CODE_SELECT_1);

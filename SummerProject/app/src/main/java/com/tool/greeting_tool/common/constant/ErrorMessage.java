@@ -17,6 +17,10 @@ public class ErrorMessage {
 
     public static final String USERNAME_EMPTY_ERROR = "User Name can not be empty";
 
+    public static final String PASSWORD_EMPTY_ERROR = "Password cannot be empty";
+
+    public static final String PASSWORD_NOT_MATCH_ERROR = "Password not match. Please re-enter password";
+
     public static final String INCORRECT_SECURITY_CODE = "Incorrect Security Code!";
 
 }

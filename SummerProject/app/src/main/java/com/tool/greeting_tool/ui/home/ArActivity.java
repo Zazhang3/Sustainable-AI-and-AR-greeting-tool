@@ -190,7 +190,6 @@ public class ArActivity extends AppCompatActivity implements BaseArFragment.OnTa
         animationModelNode.setLocalPosition(position);
         animationModelNode.setLocalRotation(rotation);
         animationModelNode.select();
-
     }
 
 }

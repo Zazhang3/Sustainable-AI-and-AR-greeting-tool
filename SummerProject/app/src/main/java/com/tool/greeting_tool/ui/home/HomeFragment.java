@@ -4,7 +4,6 @@ import android.Manifest;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -19,8 +18,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager.widget.ViewPager;
@@ -64,6 +61,8 @@ public class HomeFragment extends Fragment {
     private static final int REQUEST_CODE_SELECT_1 = 1;
     private static final int REQUEST_CODE_SELECT_2 = 2;
     private static final int REQUEST_WRITE_STORAGE = 112;
+
+
     private ArrayList<CardDisplayVO> nearbyGreetingCards = new ArrayList<>();
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -81,23 +80,15 @@ public class HomeFragment extends Fragment {
         textToSpeechHelper = new TextToSpeechHelper(requireContext());
 
         if (postcode_notification != null) {
-            boolean hasPermission = (ContextCompat.checkSelfPermission(getContext(),
-                    Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED);
-            if (!hasPermission) {
-                System.out.println("no Permission");
-                ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_WRITE_STORAGE);
-            } else {
-                if(SharedPreferencesUtil.isNotificationPosted(getContext())){
-                    System.out.println("Goto tts");
-                    SharedPreferencesUtil.clearNotificationPostedFlag(getContext());
-                    String text = "You have " + messageCount + " Message in " + postcode_notification;
-                    textToSpeechHelper.startSynthesizeThread(text);
-                    //playAudio();
-                }else if(postcode_notification.isEmpty()){
-                    System.out.println("postcode is empty");
-                }else{
-                    System.out.println("Not from Notification");
-                }
+            if(SharedPreferencesUtil.isNotificationPosted(getContext())){
+                System.out.println("Goto tts");
+                SharedPreferencesUtil.clearNotificationPostedFlag(getContext());
+                String text = "You have " + messageCount + " Message in " + postcode_notification;
+                textToSpeechHelper.startSynthesizeThread(text);
+            }else if(postcode_notification.isEmpty()){
+                System.out.println("postcode is empty");
+            }else{
+                System.out.println("Not from Notification");
             }
         }else{
             System.out.println("Didn't get argument");
@@ -132,7 +123,6 @@ public class HomeFragment extends Fragment {
                 @Override
                 public void onPostcodeResult(String postcode) {
                     getNearbyGreetingCards(postcode);
-
                 }
             });
 
@@ -197,14 +187,14 @@ public class HomeFragment extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_CODE_SELECT_1&&data!=null) {
             ArrayList<String> selectedItems = data.getStringArrayListExtra(KeySet.SelectedList);
-            //TODO
-            //pick user selected items and pass into AR
-            showNearbyMessageWithAR();
-            //ArrayList<Integer> selectedItems = data.getIntegerArrayListExtra(KeySet.SelectedList);
-            //String postcode = data.getStringExtra(KeySet.PostKey);
-            //ArrayList<String> SelectedItems = data.getStringArrayListExtra(KeySet.SelectedList);
-            //System.out.println(postcode);
-            //System.out.println(SelectedItems);
+            assert selectedItems != null;
+            CardDisplayVO greetingCard = new CardDisplayVO(selectedItems.get(0),selectedItems.get(1), selectedItems.get(2));
+            ArrayList<CardDisplayVO> previewCard = new ArrayList<>();
+            previewCard.add(greetingCard);
+            Intent intent = new Intent(getActivity(), ArActivity.class);
+            intent.putExtra("greetingCards", previewCard);
+            startActivity(intent);
+
         } else if (requestCode == REQUEST_CODE_SELECT_2&&data!=null) {
             String postcode = data.getStringExtra(KeySet.PostKey);
             ArrayList<String> SelectedItems = data.getStringArrayListExtra(KeySet.SelectedList);

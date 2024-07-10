@@ -8,10 +8,6 @@ public class SharedPreferencesUtil {
 
     private static final String notificationPrefs = "notification_prefs";
 
-    private static final String KEY_NOTIFICATION_POSTED = "posted_message";
-
-    private static final String KEY_MESSAGE_COUNT = "message_count";
-
     /**
      * clear user data
      * @param context
@@ -111,7 +107,7 @@ public class SharedPreferencesUtil {
         SharedPreferences sharedPreferences = context.getSharedPreferences(notificationPrefs, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("postcode", message);
-        editor.putInt(KEY_MESSAGE_COUNT, count);
+        editor.putInt("message_count", count);
         editor.apply();
     }
 
@@ -123,25 +119,25 @@ public class SharedPreferencesUtil {
     public static void saveMessageCount(Context context, Integer count){
         SharedPreferences sharedPreferences = context.getSharedPreferences(notificationPrefs, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putInt(KEY_MESSAGE_COUNT, count);
+        editor.putInt("message_count", count);
         editor.apply();
     }
 
     public static Integer getMessageCount(Context context){
         SharedPreferences sharedPreferences = context.getSharedPreferences(notificationPrefs, Context.MODE_PRIVATE);
-        return sharedPreferences.getInt(KEY_MESSAGE_COUNT, 0);
+        return sharedPreferences.getInt("message_count", 0);
     }
 
     public static void setNotificationPostedFlag(Context context, boolean isPosted) {
         SharedPreferences sharedPreferences = context.getSharedPreferences(notificationPrefs, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putBoolean(KEY_NOTIFICATION_POSTED, isPosted);
+        editor.putBoolean("posted_message", isPosted);
         editor.apply();
     }
 
     public static boolean isNotificationPosted(Context context) {
         SharedPreferences sharedPreferences = context.getSharedPreferences(notificationPrefs, Context.MODE_PRIVATE);
-        return sharedPreferences.getBoolean(KEY_NOTIFICATION_POSTED, false);
+        return sharedPreferences.getBoolean("posted_message", false);
     }
 
     public static void clearNotificationPostedFlag(Context context) {

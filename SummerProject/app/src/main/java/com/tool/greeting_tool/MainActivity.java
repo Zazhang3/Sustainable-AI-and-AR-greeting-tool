@@ -71,6 +71,9 @@ public class MainActivity extends AppCompatActivity {
         //scheduleOneTimeWork();
     }
 
+    /**
+     * the method use to test notification, it will make a notification once login into home page
+     */
     private void scheduleOneTimeWork() {
         System.out.println("Start one-time work schedule");
         OneTimeWorkRequest oneTimeWorkRequest = new OneTimeWorkRequest.Builder(NotificationWorker.class)
@@ -80,6 +83,9 @@ public class MainActivity extends AppCompatActivity {
         System.out.println("Finish one-time work schedule");
     }
 
+    /**
+     * the method use to schedule notification sending, each 15min will send a notification
+     */
     private void scheduleWork() {
         //because the background limit, the minimum interval is 15min
         //It will set a background workManager to repeat the LocationWorker action each 15min
