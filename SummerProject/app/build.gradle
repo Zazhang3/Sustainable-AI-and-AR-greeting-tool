@@ -1,3 +1,10 @@
+plugins {
+    id "org.jetbrains.kotlin.android" version "1.5.31"
+    id("com.google.dagger.hilt.android")
+    id "org.jetbrains.kotlin.kapt" version "2.0.0"
+
+
+}
 apply plugin: 'com.android.application'
 
 android {
@@ -27,36 +34,44 @@ android {
     buildFeatures {
         viewBinding true
     }
-
-
     packagingOptions {
-        pickFirst 'META-INF/NOTICE.md'
-        pickFirst 'META-INF/LICENSE.md'
+        resources {
+            pickFirsts += ['META-INF/NOTICE.md', 'META-INF/LICENSE.md']
+        }
     }
+
+
 }
 
+
 dependencies {
-            implementation libs.android.mail
-            implementation libs.android.activation
-            implementation libs.play.services.location
-            implementation libs.appcompat
-            implementation libs.material
-            implementation libs.constraintlayout
-            implementation libs.lifecycle.livedata.ktx
-            implementation libs.lifecycle.viewmodel.ktx
-            implementation libs.navigation.fragment
-            implementation libs.navigation.ui
-            implementation libs.activity
-            implementation libs.retrofit
-            implementation libs.okhttp
-            implementation libs.gson
-            implementation libs.converter.gson
-            implementation libs.annotation
-            implementation libs.ibm.watson
-            implementation libs.work.runtime
-            implementation libs.commons.io
-            testImplementation libs.junit
-            androidTestImplementation libs.ext.junit
-            androidTestImplementation libs.espresso.core
-            implementation "com.gorisse.thomas.sceneform:sceneform:1.23.0"
+    implementation libs.android.mail
+    implementation libs.android.activation
+    implementation libs.play.services.location
+    implementation libs.appcompat
+    implementation libs.material
+    implementation libs.constraintlayout
+    implementation libs.lifecycle.livedata.ktx
+    implementation libs.lifecycle.viewmodel.ktx
+    implementation libs.navigation.fragment
+    implementation libs.navigation.ui
+    implementation libs.activity
+    implementation libs.retrofit
+    implementation libs.okhttp
+    implementation libs.gson
+    implementation libs.converter.gson
+    implementation libs.annotation
+    implementation libs.ibm.watson
+    implementation libs.work.runtime
+    implementation libs.commons.io
+    implementation libs.support.annotations
+    testImplementation libs.junit
+    androidTestImplementation libs.ext.junit
+    androidTestImplementation libs.espresso.core
+    implementation libs.sceneform
+    implementation(libs.dagger.hilt.android)
+    kapt(libs.hilt.android.compiler)
+}
+kapt {
+    correctErrorTypes = true
 }
