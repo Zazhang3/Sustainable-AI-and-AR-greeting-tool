@@ -13,14 +13,14 @@ public class AssetManager {
     };
 
     private static final int[] EMOJI_LIST = {
-            R.drawable.heart, R.drawable.loveeye, R.drawable.lovesmile, R.drawable.tonge, R.drawable.star,
+            R.drawable.empty,R.drawable.heart, R.drawable.loveeye, R.drawable.lovesmile, R.drawable.tonge, R.drawable.star,
             R.drawable.biting, R.drawable.coldsweat, R.drawable.newloveeye, R.drawable.newsmile, R.drawable.partypopper,
             R.drawable.sad, R.drawable.shit, R.drawable.shock, R.drawable.skull, R.drawable.sunglasses, R.drawable.wink
             // Add remaining assets here...
     };
 
     private static final int[] ANIMATION_LIST = {
-            R.drawable.staranmation, R.drawable.heartanimation, R.drawable.butterfly, R.drawable.pinwheel, R.drawable.snow
+            R.drawable.empty,R.drawable.staranmation, R.drawable.heartanimation, R.drawable.butterfly, R.drawable.pinwheel, R.drawable.snow,
             // Add remaining assets here...
     };
 
@@ -116,6 +116,8 @@ public class AssetManager {
                 return "Sunglasses";
             case R.drawable.wink:
                 return "Wink";
+            case R.drawable.empty:
+                return "Empty";
             // Add remaining mappings here...
             default:
                 return "Unknown";
@@ -134,6 +136,8 @@ public class AssetManager {
                 return "Pinwheel";
             case R.drawable.snow:
                 return "Snow";
+            case R.drawable.empty:
+                return "Empty";
             // Add remaining mappings here...
             default:
                 return "Unknown";
