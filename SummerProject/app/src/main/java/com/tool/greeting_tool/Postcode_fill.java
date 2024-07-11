@@ -60,6 +60,7 @@ public class Postcode_fill extends AppCompatActivity{
                     Intent resultIntent = new Intent();
                     resultIntent.putExtra(KeySet.PostKey, postCode);
                     resultIntent.putExtra(KeySet.SelectedList, selectList);
+                    resultIntent.putExtra(KeySet.IsSend, 2);
                     setResult(Activity.RESULT_OK, resultIntent);
                     finish();
                 })

@@ -55,7 +55,7 @@ public class WordsSelect extends AppCompatActivity {
 
         selectList = getIntent().getStringArrayListExtra(KeySet.SelectedList);
         selectType = getIntent().getStringExtra(KeySet.SelectedType);
-        request = getIntent().getIntExtra(KeySet.Request, -1);
+        //request = getIntent().getIntExtra(KeySet.Request, -1);
 
         if (selectList == null) {
             selectList = new ArrayList<>();
@@ -91,29 +91,32 @@ public class WordsSelect extends AppCompatActivity {
                 selectList.add(text);
                 intent.putExtra(KeySet.SelectedList, selectList);
                 intent.putExtra(KeySet.SelectedType, "Emoji");
-                intent.putExtra(KeySet.Request, request);
-                startActivityForResult(intent, 2);
+                //intent.putExtra(KeySet.Request, request);
+                startActivityForResult(intent, 1);
             } else if (Objects.equals(selectType, "Emoji")) {
                 String emoji = AssetManager.mapResourceIdToEmoji(selectedItem);
                 selectList.add(emoji);
                 intent.putExtra(KeySet.SelectedType, "Animation");
                 intent.putExtra(KeySet.SelectedList, selectList);
-                intent.putExtra(KeySet.Request, request);
-                if (request == 1) {
+                startActivityForResult(intent, 1);
+                //intent.putExtra(KeySet.Request, request);
+                /*if (request == 1) {
                     startActivityForResult(intent, 1);
                 } else {
                     startActivityForResult(intent, 2);
-                }
+                }*/
             } else if (Objects.equals(selectType, "Animation")) {
                 String animation = AssetManager.mapResourceIdToAnimation(selectedItem);
                 selectList.add(animation);
-                if (request == RequestCode.REQUEST_CODE_SELECT_1) {
+
+                showSelectionDialog(selectList);
+                /*if (request == RequestCode.REQUEST_CODE_SELECT_1) {
                     showSelectionDialog(selectList);
                 } else if (request == RequestCode.REQUEST_CODE_SELECT_2) {
                     intent = new Intent(WordsSelect.this, Postcode_fill.class);
                     intent.putExtra(KeySet.SelectedList, selectList);
                     startActivityForResult(intent, 2);
-                }
+                }*/
             }
         });
     }
@@ -147,16 +150,32 @@ public class WordsSelect extends AppCompatActivity {
 
         AlertDialog dialog = new AlertDialog.Builder(this)
                     .setView(dialogView)
-                    .setPositiveButton(ButtonString.positiveSet, (dialogInterface, which) -> {
+                    .setPositiveButton("send", (dialogInterface, which) -> {
+                        /*Intent intent = new Intent(WordsSelect.this, Postcode_fill.class);
+                        intent.putExtra(KeySet.SelectedList, selectList);
+                        startActivityForResult(intent, 1);*/
                         Intent resultIntent = new Intent();
                         resultIntent.putExtra(KeySet.SelectedList, selectList);
-                        resultIntent.putExtra(KeySet.Request, RequestCode.REQUEST_CODE_SELECT_1);
+                        resultIntent.putExtra(KeySet.IsSend, 1);
                         setResult(Activity.RESULT_OK, resultIntent);
                         finish();
                     })
-                .create();
+                    .setNeutralButton("preview", (dialogInterface, which)->{
+                        Intent resultIntent = new Intent();
+                        resultIntent.putExtra(KeySet.SelectedList, selectList);
+                        resultIntent.putExtra(KeySet.IsSend, 0);
+                        //resultIntent.putExtra(KeySet.Request, RequestCode.REQUEST_CODE_SELECT_1);
+                        setResult(Activity.RESULT_OK, resultIntent);
+                        finish();
+                    })
+                    .setNegativeButton("cancel", (dialogInterface, which)->{
+                        dialogInterface.dismiss();
+                    })
+                    .create();
 
         dialog.setOnShowListener(dialogInterface -> {
+            //TODO
+            //Modify other button format
             Button positiveButton = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
             positiveButton.setTextColor(getResources().getColor(R.color.icon_color));
         });
@@ -179,7 +198,14 @@ public class WordsSelect extends AppCompatActivity {
         protected void onActivityResult(int requestCode, int resultCode, Intent data) {
             super.onActivityResult(requestCode, resultCode, data);
             if (resultCode == RESULT_OK && data != null) {
-                if (requestCode == RequestCode.REQUEST_CODE_SELECT_1) {
+                ArrayList<String> selection = data.getStringArrayListExtra(KeySet.SelectedList);
+                int sendState = data.getIntExtra(KeySet.IsSend, -1);
+                Intent resultIntent = new Intent();
+                resultIntent.putExtra(KeySet.SelectedList, selection);
+                resultIntent.putExtra(KeySet.IsSend, sendState);
+                setResult(Activity.RESULT_OK, resultIntent);
+                finish();
+                /*if (requestCode == RequestCode.REQUEST_CODE_SELECT_1) {
                     ArrayList<String> selection = data.getStringArrayListExtra(KeySet.SelectedList);
                     System.out.println(selection);
                     Intent resultIntent = new Intent();
@@ -196,7 +222,7 @@ public class WordsSelect extends AppCompatActivity {
                     resultIntent.putExtra(KeySet.Request, RequestCode.REQUEST_CODE_SELECT_2);
                     setResult(Activity.RESULT_OK, resultIntent);
                     finish();
-                }
+                }*/
             }
         }
 }

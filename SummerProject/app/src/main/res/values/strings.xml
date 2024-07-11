@@ -43,5 +43,6 @@
     <string name="please_re_set_password">Please Re-Set Password</string>
     <string name="enter_security_code">Enter Security Code</string>
     <string name="happynewyear">Happy new year</string>
+    <string name="greeting_make">greeting_make</string>
     <!--<string name="title_notifications">Notifications</string>-->
 </resources>
