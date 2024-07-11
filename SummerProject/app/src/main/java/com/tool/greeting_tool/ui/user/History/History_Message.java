@@ -5,7 +5,7 @@ import androidx.annotation.NonNull;
 public class History_Message {
 
     private int id;
-    private Long cardId;
+    private final Long cardId;
 
     private String Message;
 
