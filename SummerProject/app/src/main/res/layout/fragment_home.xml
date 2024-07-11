@@ -87,4 +87,17 @@
         app:layout_constraintTop_toBottomOf="@+id/button2"
         app:layout_constraintWidth_percent="0.7" />
 
+    <Button
+        android:id="@+id/help_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="help"
+        app:layout_constraintBottom_toBottomOf="@+id/homepage_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.683"
+        app:layout_constraintStart_toEndOf="@+id/homepage_text"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.754" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

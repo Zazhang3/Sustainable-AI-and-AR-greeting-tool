@@ -2,12 +2,14 @@ package com.tool.greeting_tool.ui.home;
 
 import static android.app.Activity.RESULT_OK;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -16,12 +18,14 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.viewpager2.widget.ViewPager2;
 
 import com.google.ar.core.ArCoreApk;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 import com.tool.greeting_tool.Postcode_fill;
+import com.tool.greeting_tool.R;
 import com.tool.greeting_tool.WordsSelect;
 import com.tool.greeting_tool.common.constant.ErrorMessage;
 import com.tool.greeting_tool.common.constant.KeySet;
@@ -33,6 +37,8 @@ import com.tool.greeting_tool.pojo.dto.GreetingCard;
 import com.tool.greeting_tool.pojo.vo.CardDisplayVO;
 import com.tool.greeting_tool.server.LocationHelper;
 import com.tool.greeting_tool.server.TextToSpeechHelper;
+import com.tool.greeting_tool.server.UserHelpAdapter;
+
 import org.jetbrains.annotations.NotNull;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -84,6 +90,7 @@ public class HomeFragment extends Fragment {
 
         ImageButton wordButton = binding.button;
         ImageButton nearByMessage = binding.button2;
+        Button helpButton = binding.helpButton;
 
         //Button Listener for Preview
         wordButton.setOnClickListener(v->{
@@ -111,6 +118,10 @@ public class HomeFragment extends Fragment {
                 }
             });
 
+        });
+
+        helpButton.setOnClickListener(v->{
+            showImageDialog();
         });
 
         final TextView textView = binding.textHome;
@@ -173,6 +184,18 @@ public class HomeFragment extends Fragment {
             ArrayList<String> SelectedItems = data.getStringArrayListExtra(KeySet.SelectedList);
             sendGreetingCard(SelectedItems,postcode);
         }*/
+    }
+
+    private void showImageDialog() {
+        Dialog dialog = new Dialog(requireContext());
+        dialog.setContentView(R.layout.dialog_userhelp);
+
+        ViewPager2 viewPager = dialog.findViewById(R.id.viewPager);
+
+        UserHelpAdapter userHelpAdapter = new UserHelpAdapter(requireContext());
+        viewPager.setAdapter(userHelpAdapter);
+
+        dialog.show();
     }
 
 
