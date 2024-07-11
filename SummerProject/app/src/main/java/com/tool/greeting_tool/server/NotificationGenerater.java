@@ -60,7 +60,7 @@ public class NotificationGenerater {
         notificationManager.notify(NOTIFiCATION_ID, notification);
     }
     /**Get a PendingIntent to jump to an activity
-     * @param targetActivity
+     * @param targetActivity Activity
      * @return pendingIntent
      */
     private PendingIntent createPendingIntent(Class<?> targetActivity) {
