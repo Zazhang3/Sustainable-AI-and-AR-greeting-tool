@@ -88,7 +88,7 @@ public class HomeFragment extends Fragment {
 
         ImageButton wordButton = binding.button;
         ImageButton nearByMessage = binding.button2;
-        ImageButton UserHelp = binding.button3;
+        ImageButton helpButton = binding.button3;
 
         //Button Listener for Preview
         wordButton.setOnClickListener(v->{
@@ -138,7 +138,7 @@ public class HomeFragment extends Fragment {
                 layoutParams.height = (int) (getResources().getDisplayMetrics().heightPixels * 0.7f);
                 window.setAttributes(layoutParams);
             }
-        }
+        });
 
         final TextView textView = binding.textHome;
         homeViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
