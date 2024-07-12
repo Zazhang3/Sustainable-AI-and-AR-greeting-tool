@@ -3,6 +3,7 @@ package com.tool.greeting_tool.ui.home;
 import static android.app.Activity.RESULT_OK;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,6 +13,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -156,6 +158,12 @@ public class HomeFragment extends Fragment {
         final TextView textView = binding.textHome;
         homeViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
         return root;
+    }
+
+    private ImageView createImageView(Context context, int resId) {
+        ImageView imageView = new ImageView(context);
+        imageView.setImageResource(resId);
+        return imageView;
     }
 
     private void showNearbyMessageWithAR() {
