@@ -138,6 +138,7 @@ public class HomeFragment extends Fragment {
                 layoutParams.height = (int) (getResources().getDisplayMetrics().heightPixels * 0.7f);
                 window.setAttributes(layoutParams);
             }
+        }
 
         final TextView textView = binding.textHome;
         homeViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);

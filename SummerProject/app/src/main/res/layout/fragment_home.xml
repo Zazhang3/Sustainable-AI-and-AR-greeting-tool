@@ -88,7 +88,7 @@
         app:layout_constraintWidth_percent="0.7" />
 
     <ImageButton
-        android:id="@+id/button4"
+        android:id="@+id/button3"
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:layout_marginTop="40dp"
