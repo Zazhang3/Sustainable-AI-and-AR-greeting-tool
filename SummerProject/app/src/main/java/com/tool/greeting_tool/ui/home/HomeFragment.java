@@ -19,6 +19,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.viewpager.widget.ViewPager;
 
 import com.google.ar.core.ArCoreApk;
 import com.google.gson.Gson;
@@ -37,9 +38,14 @@ import com.tool.greeting_tool.pojo.dto.GreetingCard;
 import com.tool.greeting_tool.pojo.vo.CardDisplayVO;
 import com.tool.greeting_tool.server.LocationHelper;
 import com.tool.greeting_tool.server.TextToSpeechHelper;
+import com.tool.greeting_tool.server.UserHelpPagerAdapter;
+
 import org.jetbrains.annotations.NotNull;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.MediaType;
@@ -138,6 +144,13 @@ public class HomeFragment extends Fragment {
                 layoutParams.height = (int) (getResources().getDisplayMetrics().heightPixels * 0.7f);
                 window.setAttributes(layoutParams);
             }
+            ViewPager viewPager = dialog.findViewById(R.id.viewPager);
+            List<View> views = new ArrayList<>(Arrays.asList(
+                    createImageView(getContext(), R.drawable.butterfly),
+                    createImageView(getContext(), R.drawable.allwell),
+                    createImageView(getContext(), R.drawable.back)));
+            UserHelpPagerAdapter adapter = new UserHelpPagerAdapter(views);
+            viewPager.setAdapter(adapter);
         });
 
         final TextView textView = binding.textHome;
