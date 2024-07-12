@@ -2,12 +2,15 @@ package com.tool.greeting_tool.ui.home;
 
 import static android.app.Activity.RESULT_OK;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,6 +25,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 import com.tool.greeting_tool.Postcode_fill;
+import com.tool.greeting_tool.R;
 import com.tool.greeting_tool.WordsSelect;
 import com.tool.greeting_tool.common.constant.ErrorMessage;
 import com.tool.greeting_tool.common.constant.KeySet;
@@ -84,6 +88,7 @@ public class HomeFragment extends Fragment {
 
         ImageButton wordButton = binding.button;
         ImageButton nearByMessage = binding.button2;
+        ImageButton UserHelp = binding.button3;
 
         //Button Listener for Preview
         wordButton.setOnClickListener(v->{
@@ -112,6 +117,27 @@ public class HomeFragment extends Fragment {
             });
 
         });
+
+        // Button Listener for UserHelp
+        helpButton.setOnClickListener(v -> {
+            Dialog dialog = new Dialog(requireContext());
+            dialog.setContentView(R.layout.dialog_userhelp);
+            dialog.show();
+
+            ImageButton closeButton = dialog.findViewById(R.id.closeButton);
+            closeButton.setOnClickListener(view -> {
+                dialog.dismiss();
+            });
+            // Control size of dialog
+            Window window = dialog.getWindow();
+            if (window != null) {
+                WindowManager.LayoutParams layoutParams = window.getAttributes();
+                // Set the width of the dialog to 80% of the screen width
+                layoutParams.width = (int) (getResources().getDisplayMetrics().widthPixels * 0.8f);
+                // Set the height of the dialog to wrap content
+                layoutParams.height = (int) (getResources().getDisplayMetrics().heightPixels * 0.7f);
+                window.setAttributes(layoutParams);
+            }
 
         final TextView textView = binding.textHome;
         homeViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
