@@ -49,6 +49,7 @@ public class ReSetPassWord extends AppCompatActivity {
         EditText usernameEditText = findViewById(R.id.userID_reset);
         EditText emailEditText = findViewById(R.id.re_set_email);
         ImageButton submitButton = findViewById(R.id.ResetButton);
+        ImageButton backButton = findViewById(R.id.backbutton_reset);
 
         submitButton.setOnClickListener(v->{
             String username = usernameEditText.getText().toString();
@@ -69,6 +70,13 @@ public class ReSetPassWord extends AppCompatActivity {
             userVerification(username,email);
 
             showSecurityDialog(username);
+        });
+
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getOnBackPressedDispatcher().onBackPressed();
+            }
         });
     }
 

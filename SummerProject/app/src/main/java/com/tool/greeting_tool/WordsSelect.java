@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.widget.TextViewCompat;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -174,10 +175,14 @@ public class WordsSelect extends AppCompatActivity {
                     .create();
 
         dialog.setOnShowListener(dialogInterface -> {
-            //TODO
             //Modify other button format
             Button positiveButton = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
-            positiveButton.setTextColor(getResources().getColor(R.color.icon_color));
+            Button neutralButton = dialog.getButton(AlertDialog.BUTTON_NEUTRAL);
+            Button negativeButton = dialog.getButton(AlertDialog.BUTTON_NEGATIVE);
+
+            TextViewCompat.setTextAppearance(positiveButton, R.style.CustomButton_pre_se);
+            TextViewCompat.setTextAppearance(neutralButton, R.style.CustomButton_pre_se);
+            TextViewCompat.setTextAppearance(negativeButton, R.style.CustomButton_cancel);
         });
 
         dialog.show();

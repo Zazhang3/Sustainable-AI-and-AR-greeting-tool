@@ -90,7 +90,7 @@ public class HomeFragment extends Fragment {
 
         ImageButton wordButton = binding.button;
         ImageButton nearByMessage = binding.button2;
-        Button helpButton = binding.helpButton;
+        ImageButton helpButton = binding.helpButton;
 
         //Button Listener for Preview
         wordButton.setOnClickListener(v->{

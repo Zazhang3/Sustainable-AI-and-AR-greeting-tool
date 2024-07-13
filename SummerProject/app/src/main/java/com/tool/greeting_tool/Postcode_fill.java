@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Button;
 import android.widget.EditText;
 
 import com.tool.greeting_tool.common.constant.ButtonString;
@@ -54,9 +55,9 @@ public class Postcode_fill extends AppCompatActivity{
      * @param postCode
      */
     private void showPostCodeDialog(String postCode, ArrayList<String> selectList) {
-        new AlertDialog.Builder(this)
+        AlertDialog dialog = new AlertDialog.Builder(this)
                 .setMessage(MessageConstant.PostCodeMessage + postCode)
-                .setPositiveButton(ButtonString.positiveSet, (dialog, which) -> {
+                .setPositiveButton(ButtonString.positiveSet, (dialogInterface, which) -> {
                     Intent resultIntent = new Intent();
                     resultIntent.putExtra(KeySet.PostKey, postCode);
                     resultIntent.putExtra(KeySet.SelectedList, selectList);
@@ -64,7 +65,14 @@ public class Postcode_fill extends AppCompatActivity{
                     setResult(Activity.RESULT_OK, resultIntent);
                     finish();
                 })
-                .show();
+                .create();
+
+        dialog.setOnShowListener(dialogInterface -> {
+            Button positiveButton = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
+            positiveButton.setTextAppearance(R.style.CustomButton_pre_se);
+        });
+
+        dialog.show();
     }
 
 }

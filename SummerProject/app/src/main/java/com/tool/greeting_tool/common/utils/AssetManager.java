@@ -25,9 +25,8 @@ public class AssetManager {
     };
 
     private static final int[] HELPIMAGE_LIST = {
-            //TODO
             //Add user help image here
-            R.drawable.biting, R.drawable.butterfly, R.drawable.coldsweat
+            R.drawable.userpage1, R.drawable.userpage_2, R.drawable.userpage_3
     };
 
     // Methods to retrieve the asset arrays
