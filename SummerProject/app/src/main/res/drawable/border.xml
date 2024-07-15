@@ -4,5 +4,5 @@
     <stroke
         android:width="10dp"
         android:color="@color/border"/> <!-- 边框颜色和宽度 -->
-    <corners android:radius="10dp"/> <!-- 圆角半径 -->
+    <corners android:radius="30dp"/> <!-- 圆角半径 -->
 </shape>
