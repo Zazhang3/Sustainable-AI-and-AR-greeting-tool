@@ -24,6 +24,7 @@ import com.tool.greeting_tool.common.utils.SharedPreferencesUtil;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.io.IOException;
 
@@ -39,6 +40,8 @@ public class NotificationWorker extends Worker {
     private static final String CHANNEL_ID = "location_update_channel";
     private final LocationHelper locationHelper;
     private final Context context;
+
+    private final TextToSpeechHelper textToSpeechHelper;
     private final ExecutorService executorService;
 
     public NotificationWorker(@NonNull Context context, @NonNull WorkerParameters workerParams) {
@@ -46,6 +49,7 @@ public class NotificationWorker extends Worker {
         this.context = context;
         this.executorService = Executors.newSingleThreadExecutor();
         locationHelper = new LocationHelper(context);
+        textToSpeechHelper = new TextToSpeechHelper(context);
     }
 
     @NonNull
@@ -113,6 +117,9 @@ public class NotificationWorker extends Worker {
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
         postcode = FormatCheckerUtil.formatPostcode(postcode);
+
+        String text = "You have " + count + " Message in " + postcode;
+        textToSpeechHelper.startSynthesizeThread(text);
 
         SharedPreferencesUtil.saveNotificationMessage(context, postcode, count);
         SharedPreferencesUtil.setNotificationPostedFlag(context, true);

@@ -102,4 +102,9 @@ public class MainActivity extends AppCompatActivity {
 
         System.out.println("Finish schedule");
     }
+
+    public void cancelWork() {
+        WorkManager.getInstance(this).cancelUniqueWork("LocationWork");
+        System.out.println("Periodic work canceled");
+    }
 }

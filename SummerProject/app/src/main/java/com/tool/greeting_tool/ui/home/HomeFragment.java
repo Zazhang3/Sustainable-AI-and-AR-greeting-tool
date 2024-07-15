@@ -35,6 +35,7 @@ import com.tool.greeting_tool.common.utils.SharedPreferencesUtil;
 import com.tool.greeting_tool.databinding.FragmentHomeBinding;
 import com.tool.greeting_tool.pojo.dto.GreetingCard;
 import com.tool.greeting_tool.pojo.vo.CardDisplayVO;
+import com.tool.greeting_tool.server.AudioPlayer;
 import com.tool.greeting_tool.server.LocationHelper;
 import com.tool.greeting_tool.server.TextToSpeechHelper;
 import com.tool.greeting_tool.server.UserHelpAdapter;
@@ -56,6 +57,7 @@ public class HomeFragment extends Fragment {
     private LocationHelper locationHelper;
 
     private TextToSpeechHelper textToSpeechHelper;
+    private AudioPlayer audioPlayer;
 
     private ArrayList<CardDisplayVO> nearbyGreetingCards = new ArrayList<>();
 
@@ -69,18 +71,20 @@ public class HomeFragment extends Fragment {
 
         locationHelper = new LocationHelper(requireContext());
 
-        String postcode_notification = SharedPreferencesUtil.getNotificationMessage(requireContext());
-        int messageCount = SharedPreferencesUtil.getMessageCount(requireContext());
+        //String postcode_notification = SharedPreferencesUtil.getNotificationMessage(requireContext());
         textToSpeechHelper = new TextToSpeechHelper(requireContext());
+        audioPlayer = new AudioPlayer(requireContext());
+        String audioPath = SharedPreferencesUtil.getAudioPath(requireContext());
+        audioPlayer.setAudioPath(audioPath);
 
-        if (postcode_notification != null) {
+        if (audioPath != null) {
             if(SharedPreferencesUtil.isNotificationPosted(getContext())){
                 System.out.println("Goto tts");
                 SharedPreferencesUtil.clearNotificationPostedFlag(getContext());
-                String text = "You have " + messageCount + " Message in " + postcode_notification;
-                textToSpeechHelper.startSynthesizeThread(text);
-            }else if(postcode_notification.isEmpty()){
-                System.out.println("postcode is empty");
+                audioPlayer.playAudio();
+                //textToSpeechHelper.startSynthesizeThread(text);
+            }else if(audioPath.isEmpty()){
+                System.out.println("audioPath is empty");
             }else{
                 System.out.println("Not from Notification");
             }
@@ -357,13 +361,15 @@ public class HomeFragment extends Fragment {
 
     @Override
     public void onPause() {
-        textToSpeechHelper.stopAudio();
+        //textToSpeechHelper.stopAudio();
+        audioPlayer.stopAudio();
         super.onPause();
     }
 
     @Override
     public void onDestroyView() {
-        textToSpeechHelper.stopAudio();
+        //textToSpeechHelper.stopAudio();
+        audioPlayer.stopAudio();
         super.onDestroyView();
         binding = null;
     }
