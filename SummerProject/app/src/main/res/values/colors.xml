@@ -17,4 +17,13 @@
     <color name="icon_color">#F89622</color>
     <color name="orange_light">#E6D7B3</color>
     <color name="background_light">#FFFAED</color>
+    <color name="background_yellow">#FCE09E</color>
+    <color name="background_blue">#A3DBE2</color>
+    <color name="background_yellow2">#FFDD6A</color>
+    <color name="background_yellow3">#FFF9EA</color>
+    <color name="background_red">#F69A79</color>
+    <color name="button_yellow">#FAC307</color>
+    <color name="button_blue">#5CCEDB</color>
+    <color name="button_red">#F89E85</color>
+    <color name="border">#F6E9CA</color>
 </resources>

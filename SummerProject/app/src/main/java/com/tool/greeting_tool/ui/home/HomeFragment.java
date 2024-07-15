@@ -2,12 +2,14 @@ package com.tool.greeting_tool.ui.home;
 
 import static android.app.Activity.RESULT_OK;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -16,12 +18,14 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.viewpager2.widget.ViewPager2;
 
 import com.google.ar.core.ArCoreApk;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 import com.tool.greeting_tool.Postcode_fill;
+import com.tool.greeting_tool.R;
 import com.tool.greeting_tool.WordsSelect;
 import com.tool.greeting_tool.common.constant.ErrorMessage;
 import com.tool.greeting_tool.common.constant.KeySet;
@@ -31,8 +35,11 @@ import com.tool.greeting_tool.common.utils.SharedPreferencesUtil;
 import com.tool.greeting_tool.databinding.FragmentHomeBinding;
 import com.tool.greeting_tool.pojo.dto.GreetingCard;
 import com.tool.greeting_tool.pojo.vo.CardDisplayVO;
+import com.tool.greeting_tool.server.AudioPlayer;
 import com.tool.greeting_tool.server.LocationHelper;
 import com.tool.greeting_tool.server.TextToSpeechHelper;
+import com.tool.greeting_tool.server.UserHelpAdapter;
+
 import org.jetbrains.annotations.NotNull;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -50,6 +57,7 @@ public class HomeFragment extends Fragment {
     private LocationHelper locationHelper;
 
     private TextToSpeechHelper textToSpeechHelper;
+    private AudioPlayer audioPlayer;
 
     private ArrayList<CardDisplayVO> nearbyGreetingCards = new ArrayList<>();
 
@@ -63,18 +71,20 @@ public class HomeFragment extends Fragment {
 
         locationHelper = new LocationHelper(requireContext());
 
-        String postcode_notification = SharedPreferencesUtil.getNotificationMessage(requireContext());
-        int messageCount = SharedPreferencesUtil.getMessageCount(requireContext());
+        //String postcode_notification = SharedPreferencesUtil.getNotificationMessage(requireContext());
         textToSpeechHelper = new TextToSpeechHelper(requireContext());
+        audioPlayer = new AudioPlayer(requireContext());
+        String audioPath = SharedPreferencesUtil.getAudioPath(requireContext());
+        audioPlayer.setAudioPath(audioPath);
 
-        if (postcode_notification != null) {
+        if (audioPath != null) {
             if(SharedPreferencesUtil.isNotificationPosted(getContext())){
                 System.out.println("Goto tts");
                 SharedPreferencesUtil.clearNotificationPostedFlag(getContext());
-                String text = "You have " + messageCount + " Message in " + postcode_notification;
-                textToSpeechHelper.startSynthesizeThread(text);
-            }else if(postcode_notification.isEmpty()){
-                System.out.println("postcode is empty");
+                audioPlayer.playAudio();
+                //textToSpeechHelper.startSynthesizeThread(text);
+            }else if(audioPath.isEmpty()){
+                System.out.println("audioPath is empty");
             }else{
                 System.out.println("Not from Notification");
             }
@@ -84,6 +94,7 @@ public class HomeFragment extends Fragment {
 
         ImageButton wordButton = binding.button;
         ImageButton nearByMessage = binding.button2;
+        ImageButton helpButton = binding.helpButton;
 
         //Button Listener for Preview
         wordButton.setOnClickListener(v->{
@@ -111,6 +122,10 @@ public class HomeFragment extends Fragment {
                 }
             });
 
+        });
+
+        helpButton.setOnClickListener(v->{
+            showImageDialog();
         });
 
         final TextView textView = binding.textHome;
@@ -173,6 +188,18 @@ public class HomeFragment extends Fragment {
             ArrayList<String> SelectedItems = data.getStringArrayListExtra(KeySet.SelectedList);
             sendGreetingCard(SelectedItems,postcode);
         }*/
+    }
+
+    private void showImageDialog() {
+        Dialog dialog = new Dialog(requireContext());
+        dialog.setContentView(R.layout.dialog_userhelp);
+
+        ViewPager2 viewPager = dialog.findViewById(R.id.viewPager);
+
+        UserHelpAdapter userHelpAdapter = new UserHelpAdapter(requireContext());
+        viewPager.setAdapter(userHelpAdapter);
+
+        dialog.show();
     }
 
 
@@ -334,13 +361,15 @@ public class HomeFragment extends Fragment {
 
     @Override
     public void onPause() {
-        textToSpeechHelper.stopAudio();
+        //textToSpeechHelper.stopAudio();
+        audioPlayer.stopAudio();
         super.onPause();
     }
 
     @Override
     public void onDestroyView() {
-        textToSpeechHelper.stopAudio();
+        //textToSpeechHelper.stopAudio();
+        audioPlayer.stopAudio();
         super.onDestroyView();
         binding = null;
     }

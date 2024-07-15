@@ -24,6 +24,11 @@ public class AssetManager {
             // Add remaining assets here...
     };
 
+    private static final int[] HELPIMAGE_LIST = {
+            //Add user help image here
+            R.drawable.userpage1, R.drawable.userpage_2, R.drawable.userpage_3
+    };
+
     // Methods to retrieve the asset arrays
     public static int[] getDataList() {
         return DATA_LIST;
@@ -35,6 +40,10 @@ public class AssetManager {
 
     public static int[] getAnimationList() {
         return ANIMATION_LIST;
+    }
+
+    public static int[] getHelpimageList(){
+        return HELPIMAGE_LIST;
     }
 
     // Methods to map resource IDs to their corresponding string values

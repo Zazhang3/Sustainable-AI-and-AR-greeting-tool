@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -45,6 +46,7 @@ public class SetPasswordActivity extends AppCompatActivity {
         EditText reset_Password = findViewById(R.id.re_set_password);
         EditText reset_Password_Re = findViewById(R.id.re_set_password_re);
         String username = data.getStringExtra(KeySet.UserKey);
+        ImageButton backButton = findViewById(R.id.backbutton_reset2);
 
 
         ImageButton submitButton = findViewById(R.id.reset_password_button);
@@ -64,6 +66,13 @@ public class SetPasswordActivity extends AppCompatActivity {
                 Intent resultIntent = new Intent();
                 setResult(Activity.RESULT_OK, resultIntent);
                 finish();
+            }
+        });
+
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getOnBackPressedDispatcher().onBackPressed();
             }
         });
     }

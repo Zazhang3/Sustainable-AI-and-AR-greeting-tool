@@ -143,4 +143,16 @@ public class SharedPreferencesUtil {
     public static void clearNotificationPostedFlag(Context context) {
         setNotificationPostedFlag(context, false);
     }
+
+    public static void setAudioPath(Context context, String audioPath){
+        SharedPreferences sharedPreferences = context.getSharedPreferences(notificationPrefs, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("audio_path", audioPath);
+        editor.apply();;
+    }
+
+    public static String getAudioPath(Context context){
+        SharedPreferences sharedPreferences = context.getSharedPreferences(notificationPrefs, Context.MODE_PRIVATE);
+        return sharedPreferences.getString("audio_path", "");
+    }
 }

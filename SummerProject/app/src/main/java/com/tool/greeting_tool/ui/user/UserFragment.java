@@ -14,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.tool.greeting_tool.MainActivity;
 import com.tool.greeting_tool.common.constant.ErrorMessage;
 import com.tool.greeting_tool.common.utils.SharedPreferencesUtil;
 import com.tool.greeting_tool.common.constant.URLConstant;
@@ -23,6 +24,7 @@ import com.tool.greeting_tool.ui.user.History.HistoryActivity;
 import com.tool.greeting_tool.ui.user.History.HistoryDialogFragment;
 
 import java.io.IOException;
+import java.util.Objects;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -64,13 +66,7 @@ public class UserFragment extends Fragment {
 
         AccountCancel = binding.cancelButton;
         AccountCancel.setOnClickListener(v->{
-
             cancelAccount();
-
-            Intent intent = new Intent(getActivity(), StartPage.class);
-            startActivity(intent);
-            requireActivity().finish();
-            //Toast.makeText(getActivity(), "Click cancel", Toast.LENGTH_SHORT).show();
         });
 
         LogoutButton = binding.actionLogout;
@@ -79,6 +75,7 @@ public class UserFragment extends Fragment {
             //clear user data
             SharedPreferencesUtil.clearSharedPreferences(requireContext());
 
+            ((MainActivity) requireActivity()).cancelWork();
             Intent intent = new Intent(getActivity(), StartPage.class);
             startActivity(intent);
 
@@ -123,6 +120,10 @@ public class UserFragment extends Fragment {
                         @Override
                         public void run() {
                             Toast.makeText(requireContext(), "Cancel account successfully", Toast.LENGTH_SHORT).show();
+                            ((MainActivity) requireActivity()).cancelWork();
+                            Intent intent = new Intent(getActivity(), StartPage.class);
+                            startActivity(intent);
+                            requireActivity().finish();
                         }
                     });
                 } else {

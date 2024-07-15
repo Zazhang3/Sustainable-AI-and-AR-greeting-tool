@@ -5,7 +5,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/background_yellow3"
     tools:context=".ui.home.HomeFragment">
+
+    <ImageView
+        android:id="@+id/backgroundImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:scaleType="fitXY"
+        android:src="@drawable/homepage_ba"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="60dp"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
     <TextView
         android:id="@+id/text_home"
@@ -25,66 +38,66 @@
         android:id="@+id/homepage_de1"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:src="@drawable/homepage_de1"
-        android:scaleType="fitCenter"
+        android:src="@drawable/homepage_1"
+        android:scaleType="fitXY"
         android:layout_marginTop="0dp"
         android:contentDescription="@string/decoration"
         android:background="@android:color/transparent"
-        app:layout_constraintDimensionRatio="3:1"
+        app:layout_constraintDimensionRatio="H,1:1.865"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintWidth_default="percent"
-        app:layout_constraintHeight_default="percent"
-        app:layout_constraintWidth_percent="1"
-        app:layout_constraintHeight_percent="0.22"/>
+ />
 
-    <ImageView
-        android:id="@+id/homepage_text"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="28dp"
-        android:layout_marginEnd="250dp"
-        android:contentDescription="@string/decoration"
-        android:src="@drawable/text_home"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHeight_default="percent"
-        app:layout_constraintHeight_percent="0.1"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintWidth_default="percent"
-        app:layout_constraintWidth_percent="0.25" />
+
 
     <ImageButton
         android:id="@+id/button2"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="52dp"
+        android:layout_marginTop="75dp"
         android:background="@android:color/transparent"
         android:contentDescription="@string/NearbyMessage"
-        android:scaleType="fitCenter"
-        android:src="@drawable/nearby_message_button"
+        android:src="@drawable/nearby_button"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHeight_default="percent"
-        app:layout_constraintHeight_percent="0.2"
-        app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/homepage_de1"
-        app:layout_constraintWidth_default="percent"
-        app:layout_constraintWidth_percent="0.7" />
+        android:scaleType="centerInside"
+        android:layout_marginStart="55dp"
+        android:layout_marginEnd="90dp"
+        app:layout_constraintDimensionRatio="H,1.55:1"/>
 
     <ImageButton
         android:id="@+id/button"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="112dp"
+        android:layout_marginTop="24dp"
         android:background="@android:color/transparent"
         android:contentDescription="@string/greeting_make"
         android:scaleType="fitCenter"
-        android:src="@drawable/preview_button"
+        android:src="@drawable/makegreetingcard_button"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHeight_percent="0.2"
-        app:layout_constraintHorizontal_bias="0.479"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/button2"
-        app:layout_constraintWidth_percent="0.7" />
+        android:layout_marginStart="25dp"
+        android:layout_marginEnd="25dp"
+        app:layout_constraintDimensionRatio="H,2.114:1"/>
+
+    <ImageButton
+        android:id="@+id/help_button"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@android:color/transparent"
+        android:src="@drawable/userhelp"
+        android:contentDescription="@string/user_help"
+        android:scaleType="fitCenter"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="20dp"
+        app:layout_constraintHeight_default="percent"
+        app:layout_constraintWidth_default="percent"
+        app:layout_constraintHeight_percent="0.09"
+        app:layout_constraintWidth_percent="0.16"
+        app:layout_constraintTop_toBottomOf="@+id/homepage_de1"
+        android:layout_marginTop="5dp"/>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

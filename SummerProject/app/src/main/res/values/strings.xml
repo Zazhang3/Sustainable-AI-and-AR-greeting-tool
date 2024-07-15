@@ -44,5 +44,6 @@
     <string name="enter_security_code">Enter Security Code</string>
     <string name="happynewyear">Happy new year</string>
     <string name="greeting_make">greeting_make</string>
+    <string name="user_help">user help</string>
     <!--<string name="title_notifications">Notifications</string>-->
 </resources>

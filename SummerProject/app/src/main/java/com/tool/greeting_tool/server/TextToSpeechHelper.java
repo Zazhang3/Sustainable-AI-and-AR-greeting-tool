@@ -4,6 +4,7 @@ import static android.content.ContentValues.TAG;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Handler;
@@ -17,6 +18,7 @@ import com.ibm.cloud.sdk.core.security.IamAuthenticator;
 import com.ibm.watson.text_to_speech.v1.TextToSpeech;
 import com.ibm.watson.text_to_speech.v1.model.SynthesizeOptions;
 import com.ibm.watson.text_to_speech.v1.util.WaveUtils;
+import com.tool.greeting_tool.common.utils.SharedPreferencesUtil;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -43,6 +45,7 @@ public class TextToSpeechHelper {
                 synthesizeTextToSpeech(text);
             }
         }).start();
+        //new Thread(() -> synthesizeTextToSpeech(text)).start();
     }
 
     private void synthesizeTextToSpeech(String text) {
@@ -64,7 +67,8 @@ public class TextToSpeechHelper {
             Uri audioUri = saveAudioToMediaStore(in);
             if (audioUri != null) {
                 audioPath = audioUri.toString();
-                handler.post(this::playAudio);
+                SharedPreferencesUtil.setAudioPath(context, audioPath);
+                Log.d(TAG, "Audio file saved at: " + audioPath);
             }
 
             in.close();
@@ -121,7 +125,11 @@ public class TextToSpeechHelper {
         return audioUri;
     }
 
-    private void playAudio() {
+    public String getAudioPath(){
+        return audioPath;
+    }
+
+    /*private void playAudio() {
         if (audioPath != null) {
             mediaPlayer = new MediaPlayer();
             try {
@@ -160,7 +168,7 @@ public class TextToSpeechHelper {
                 e.printStackTrace();
             }
         }
-    }*/
+    }
 
     public void stopAudio(){
         if (mediaPlayer != null) {
@@ -170,6 +178,6 @@ public class TextToSpeechHelper {
             mediaPlayer.release();
             mediaPlayer = null;
         }
-    }
+    }*/
 }
 
