@@ -24,7 +24,6 @@ import com.tool.greeting_tool.common.utils.SharedPreferencesUtil;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 import java.io.IOException;
 
@@ -105,11 +104,6 @@ public class NotificationWorker extends Worker {
         }
 
         return false;
-    }
-
-    private void requestNewLocationData() {
-        //TODO
-        // Request a new location update if needed
     }
 
     private void sendNotification(String postcode, int count) {

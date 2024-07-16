@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
@@ -39,6 +38,7 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
+/** @noinspection deprecation*/
 public class ReSetPassWord extends AppCompatActivity {
 
     @Override
@@ -65,19 +65,10 @@ public class ReSetPassWord extends AppCompatActivity {
                 return;
             }
 
-            //TODO
-            //check username and email and return verificationCode
             userVerification(username,email);
-
-            showSecurityDialog(username);
         });
 
-        backButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getOnBackPressedDispatcher().onBackPressed();
-            }
-        });
+        backButton.setOnClickListener(v -> getOnBackPressedDispatcher().onBackPressed());
     }
 
     private void showSecurityDialog(String accountName){
@@ -121,8 +112,8 @@ public class ReSetPassWord extends AppCompatActivity {
 
     /**
      * verify username and email
-     * @param username
-     * @param email
+     * @param username username
+     * @param email email
      */
     private void userVerification(String username, String email) {
         //generate userVO
@@ -149,49 +140,42 @@ public class ReSetPassWord extends AppCompatActivity {
             @Override
             public void onFailure(@NonNull Call call, @NonNull IOException e) {
                 Log.e(TAGConstant.VERIFY_EMAIL,"Verify failed",e);
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Toast.makeText(ReSetPassWord.this,"Verify failed: " + ErrorMessage.NETWORK_ERROR,Toast.LENGTH_SHORT).show();
-                    }
-                });
+                runOnUiThread(() -> Toast.makeText(ReSetPassWord.this,"Verify failed: " + ErrorMessage.NETWORK_ERROR,Toast.LENGTH_SHORT).show());
             }
 
             @Override
             public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
                 final String responseBody = response.body().string();
                 Log.d(TAGConstant.SIGN_UP_TAG,"Response: "+ responseBody);
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            Gson gson = new Gson();
-                            JsonObject jsonResponse = gson.fromJson(responseBody, JsonObject.class);
-                            int code = jsonResponse.get("code").getAsInt();
-                            if (code == 1) {
-                                // Verify successfully: handle response
+                runOnUiThread(() -> {
+                    try {
+                        Gson gson1 = new Gson();
+                        JsonObject jsonResponse = gson1.fromJson(responseBody, JsonObject.class);
+                        int code = jsonResponse.get("code").getAsInt();
+                        if (code == 1) {
+                            // Verify successfully: handle response
 
-                                String userVerificationCode = jsonResponse.getAsJsonObject("data").get("verificationCode").getAsString();
-                                SharedPreferencesUtil.saveVerificationCode(ReSetPassWord.this,userVerificationCode);
-                                SharedPreferencesUtil.saveEmail(ReSetPassWord.this,email);
-                                String verificationCode = SharedPreferencesUtil.getVerificationCode(ReSetPassWord.this);
+                            String userVerificationCode = jsonResponse.getAsJsonObject("data").get("verificationCode").getAsString();
+                            SharedPreferencesUtil.saveVerificationCode(ReSetPassWord.this,userVerificationCode);
+                            SharedPreferencesUtil.saveEmail(ReSetPassWord.this,email);
+                            String verificationCode = SharedPreferencesUtil.getVerificationCode(ReSetPassWord.this);
 
-                                //send email
-                                MailSender.sendEmail(TempAccountInfoConstant.emailSenderAddress,
-                                        TempAccountInfoConstant.emailSenderPassword,
-                                        email,
-                                        TempAccountInfoConstant.emailSubject,
-                                        verificationCode);
-                                Toast.makeText(ReSetPassWord.this, "Verify successfully", Toast.LENGTH_SHORT).show();
-                            } else {
-                                // Verify failed
-                                String msg = jsonResponse.get("msg").getAsString();
-                                Toast.makeText(ReSetPassWord.this, "Verify failed: " + msg, Toast.LENGTH_SHORT).show();
-                            }
-                        } catch (Exception e) {
-                            Log.e(TAGConstant.SIGN_UP_TAG, "Exception while parsing response", e);
-                            Toast.makeText(ReSetPassWord.this, "Verify failed: " + ErrorMessage.INVALID_RESPONSE, Toast.LENGTH_SHORT).show();
+                            //send email
+                            MailSender.sendEmail(TempAccountInfoConstant.emailSenderAddress,
+                                    TempAccountInfoConstant.emailSenderPassword,
+                                    email,
+                                    TempAccountInfoConstant.emailSubject,
+                                    verificationCode);
+                            Toast.makeText(ReSetPassWord.this, "Verify successfully", Toast.LENGTH_SHORT).show();
+                            showSecurityDialog(username);
+                        } else {
+                            // Verify failed
+                            String msg = jsonResponse.get("msg").getAsString();
+                            Toast.makeText(ReSetPassWord.this, "Verify failed: " + msg, Toast.LENGTH_SHORT).show();
                         }
+                    } catch (Exception e) {
+                        Log.e(TAGConstant.SIGN_UP_TAG, "Exception while parsing response", e);
+                        Toast.makeText(ReSetPassWord.this, "Verify failed: " + ErrorMessage.INVALID_RESPONSE, Toast.LENGTH_SHORT).show();
                     }
                 });
             }

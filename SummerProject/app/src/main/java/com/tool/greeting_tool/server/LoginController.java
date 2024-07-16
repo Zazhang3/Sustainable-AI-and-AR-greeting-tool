@@ -3,8 +3,6 @@ package com.tool.greeting_tool.server;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
@@ -18,9 +16,9 @@ import com.google.gson.JsonObject;
 import com.tool.greeting_tool.R;
 import com.tool.greeting_tool.common.constant.ErrorMessage;
 import com.tool.greeting_tool.common.constant.KeySet;
-import com.tool.greeting_tool.common.utils.SharedPreferencesUtil;
 import com.tool.greeting_tool.common.constant.TAGConstant;
 import com.tool.greeting_tool.common.constant.URLConstant;
+import com.tool.greeting_tool.common.utils.SharedPreferencesUtil;
 import com.tool.greeting_tool.pojo.vo.UserVO;
 import com.tool.greeting_tool.ui.IntroPage.ReSetPassWord;
 
@@ -38,8 +36,6 @@ public class LoginController extends AppCompatActivity {
 
     private EditText usernameEditText;
     private EditText passwordEditText;
-    private ImageButton backButton;
-    private ImageButton ForgetPassWord;
 
     /**
      * Use to ask user enter the ID and Password
@@ -56,32 +52,24 @@ public class LoginController extends AppCompatActivity {
 
         usernameEditText = findViewById(R.id.account_num);
         passwordEditText = findViewById(R.id.password);
-        backButton = findViewById(R.id.navigateButton_login);
+        ImageButton backButton = findViewById(R.id.navigateButton_login);
         ImageButton loginButton = findViewById(R.id.signin_button);
-        ForgetPassWord = findViewById(R.id.test_button);
+        ImageButton forgetPassWord = findViewById(R.id.test_button);
 
-        loginButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String username = usernameEditText.getText().toString();
-                String password = passwordEditText.getText().toString();
-                //login logic
-                login(username,password);
-            }
+        loginButton.setOnClickListener(v -> {
+            String username = usernameEditText.getText().toString();
+            String password = passwordEditText.getText().toString();
+            //login logic
+            login(username,password);
         });
 
-        ForgetPassWord.setOnClickListener(v->{
+        forgetPassWord.setOnClickListener(v->{
             Intent intent = new Intent(this, ReSetPassWord.class);
             intent.putExtra(KeySet.ReSetKey, KeySet.ReSetKey);
             startActivityForResult(intent, 1);
         });
 
-        backButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
+        backButton.setOnClickListener(v -> onBackPressed());
     }
 
     @Override
@@ -96,8 +84,8 @@ public class LoginController extends AppCompatActivity {
 
     /**
      * login connection
-     * @param username
-     * @param password
+     * @param username : username
+     * @param password : password
      */
     private void login(String username,String password){
         if (username.equals("testuser") && password.equals("testpass")) {
@@ -142,48 +130,40 @@ public class LoginController extends AppCompatActivity {
             @Override
             public void onFailure(@NonNull Call call, @NonNull IOException e) {
                 Log.e(TAGConstant.LOGIN_TAG,"Login failed",e);
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Toast.makeText(LoginController.this,"Login failed " + ErrorMessage.NETWORK_ERROR,Toast.LENGTH_SHORT).show();
-                    }
-                });
+                runOnUiThread(() -> Toast.makeText(LoginController.this,"Login failed " + ErrorMessage.NETWORK_ERROR,Toast.LENGTH_SHORT).show());
             }
 
             @Override
             public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
                 final String responseBody = response.body().string();
                 Log.d(TAGConstant.LOGIN_TAG,"Response: "+ responseBody);
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            Gson gson = new Gson();
-                            JsonObject jsonResponse = gson.fromJson(responseBody, JsonObject.class);
-                            int code = jsonResponse.get("code").getAsInt();
-                            if (code == 1) {
-                                // login successfully: handle response
-                                Long userId = jsonResponse.get("data").getAsJsonObject().get("id").getAsLong();
-                                String token = jsonResponse.get("data").getAsJsonObject().get("token").getAsString();
-                                Toast.makeText(LoginController.this, "Login successful", Toast.LENGTH_SHORT).show();
+                runOnUiThread(() -> {
+                    try {
+                        Gson gson1 = new Gson();
+                        JsonObject jsonResponse = gson1.fromJson(responseBody, JsonObject.class);
+                        int code = jsonResponse.get("code").getAsInt();
+                        if (code == 1) {
+                            // login successfully: handle response
+                            Long userId = jsonResponse.get("data").getAsJsonObject().get("id").getAsLong();
+                            String token = jsonResponse.get("data").getAsJsonObject().get("token").getAsString();
+                            Toast.makeText(LoginController.this, "Login successful", Toast.LENGTH_SHORT).show();
 
-                                System.out.println(token);
-                                //save user data
-                                SharedPreferencesUtil.saveUserInfo(LoginController.this,userId,username,token);
+                            System.out.println(token);
+                            //save user data
+                            SharedPreferencesUtil.saveUserInfo(LoginController.this,userId,username,token);
 
-                                Intent resultIntent = new Intent();
-                                resultIntent.putExtra(KeySet.UserKey, username);
-                                setResult(RESULT_OK, resultIntent);
-                                finish();
-                            } else {
-                                // login failed
-                                String msg = jsonResponse.get("msg").getAsString();
-                                Toast.makeText(LoginController.this, "Login failed: " + msg, Toast.LENGTH_SHORT).show();
-                            }
-                        } catch (Exception e) {
-                            Log.e(TAGConstant.LOGIN_TAG, "Exception while parsing response", e);
-                            Toast.makeText(LoginController.this, "Login failed " + ErrorMessage.INVALID_RESPONSE, Toast.LENGTH_SHORT).show();
+                            Intent resultIntent = new Intent();
+                            resultIntent.putExtra(KeySet.UserKey, username);
+                            setResult(RESULT_OK, resultIntent);
+                            finish();
+                        } else {
+                            // login failed
+                            String msg = jsonResponse.get("msg").getAsString();
+                            Toast.makeText(LoginController.this, "Login failed: " + msg, Toast.LENGTH_SHORT).show();
                         }
+                    } catch (Exception e) {
+                        Log.e(TAGConstant.LOGIN_TAG, "Exception while parsing response", e);
+                        Toast.makeText(LoginController.this, "Login failed " + ErrorMessage.INVALID_RESPONSE, Toast.LENGTH_SHORT).show();
                     }
                 });
             }
