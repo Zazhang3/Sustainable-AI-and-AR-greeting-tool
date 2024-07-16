@@ -56,10 +56,6 @@
             android:name=".ui.IntroPage.ReSetPassWord"
             android:exported="false" />
         <activity
-            android:name=".ui.user.History.HistoryActivity"
-            android:exported="false"
-            android:theme="@style/Theme.SampleApp.NoActionBar" />
-        <activity
             android:name=".server.SignUpController"
             android:exported="false"
             android:theme="@style/Theme.SampleApp.NoActionBar" />

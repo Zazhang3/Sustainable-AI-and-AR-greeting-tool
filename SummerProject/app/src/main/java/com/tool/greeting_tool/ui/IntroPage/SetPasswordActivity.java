@@ -4,8 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
@@ -22,8 +20,6 @@ import com.tool.greeting_tool.common.constant.TAGConstant;
 import com.tool.greeting_tool.common.constant.URLConstant;
 import com.tool.greeting_tool.common.utils.SharedPreferencesUtil;
 import com.tool.greeting_tool.pojo.vo.UserVO;
-import com.tool.greeting_tool.server.SignUpController;
-import com.tool.greeting_tool.server.StartPage;
 
 import java.io.IOException;
 
@@ -51,8 +47,6 @@ public class SetPasswordActivity extends AppCompatActivity {
 
         ImageButton submitButton = findViewById(R.id.reset_password_button);
         submitButton.setOnClickListener(v->{
-            //TODO
-            //Whether to send request
             String email = SharedPreferencesUtil.getEmail(SetPasswordActivity.this);
             String password = reset_Password.getText().toString();
             String password_Re = reset_Password_Re.getText().toString();
@@ -69,19 +63,14 @@ public class SetPasswordActivity extends AppCompatActivity {
             }
         });
 
-        backButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getOnBackPressedDispatcher().onBackPressed();
-            }
-        });
+        backButton.setOnClickListener(v -> getOnBackPressedDispatcher().onBackPressed());
     }
 
     /**
      * update user data
-     * @param username
-     * @param password
-     * @param email
+     * @param username :username
+     * @param password : pwd
+     * @param email:user email
      */
     private void updateUserInfo(String username, String password, String email) {
         //generate userVO
@@ -109,37 +98,30 @@ public class SetPasswordActivity extends AppCompatActivity {
             @Override
             public void onFailure(@NonNull Call call, @NonNull IOException e) {
                 Log.e(TAGConstant.UPDATE_USER_DATA,"Update failed",e);
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Toast.makeText(SetPasswordActivity.this,"Update failed: " + ErrorMessage.NETWORK_ERROR,Toast.LENGTH_SHORT).show();
-                    }
-                });
+                runOnUiThread(() -> Toast.makeText(SetPasswordActivity.this,"Update failed: " + ErrorMessage.NETWORK_ERROR,Toast.LENGTH_SHORT).show());
             }
 
             @Override
             public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                assert response.body() != null;
                 final String responseBody = response.body().string();
                 Log.d(TAGConstant.SIGN_UP_TAG,"Response: "+ responseBody);
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            Gson gson = new Gson();
-                            JsonObject jsonResponse = gson.fromJson(responseBody, JsonObject.class);
-                            int code = jsonResponse.get("code").getAsInt();
-                            if (code == 1) {
-                                // Update successfully: handle response
-                                Toast.makeText(SetPasswordActivity.this, "Update successfully", Toast.LENGTH_SHORT).show();
-                            } else {
-                                // login failed
-                                String msg = jsonResponse.get("msg").getAsString();
-                                Toast.makeText(SetPasswordActivity.this, "Update failed: " + msg, Toast.LENGTH_SHORT).show();
-                            }
-                        } catch (Exception e) {
-                            Log.e(TAGConstant.SIGN_UP_TAG, "Exception while parsing response", e);
-                            Toast.makeText(SetPasswordActivity.this, "Update failed: " + ErrorMessage.INVALID_RESPONSE, Toast.LENGTH_SHORT).show();
+                runOnUiThread(() -> {
+                    try {
+                        Gson gson1 = new Gson();
+                        JsonObject jsonResponse = gson1.fromJson(responseBody, JsonObject.class);
+                        int code = jsonResponse.get("code").getAsInt();
+                        if (code == 1) {
+                            // Update successfully: handle response
+                            Toast.makeText(SetPasswordActivity.this, "Update successfully", Toast.LENGTH_SHORT).show();
+                        } else {
+                            // login failed
+                            String msg = jsonResponse.get("msg").getAsString();
+                            Toast.makeText(SetPasswordActivity.this, "Update failed: " + msg, Toast.LENGTH_SHORT).show();
                         }
+                    } catch (Exception e) {
+                        Log.e(TAGConstant.SIGN_UP_TAG, "Exception while parsing response", e);
+                        Toast.makeText(SetPasswordActivity.this, "Update failed: " + ErrorMessage.INVALID_RESPONSE, Toast.LENGTH_SHORT).show();
                     }
                 });
             }

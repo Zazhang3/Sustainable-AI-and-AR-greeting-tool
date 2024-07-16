@@ -35,7 +35,7 @@ import com.tool.greeting_tool.pojo.vo.CardDisplayVO;
 public class ArActivity extends AppCompatActivity implements BaseArFragment.OnTapArPlaneListener {
 
     private ArrayList<CardDisplayVO> greetingCards;
-    private HashMap<CardDisplayVO,ArModelSet> arModelMap = new HashMap<>();
+    private final HashMap<CardDisplayVO,ArModelSet> arModelMap = new HashMap<>();
     private ArFragment arFragment;
     private boolean tapFlag;
 
@@ -48,15 +48,7 @@ public class ArActivity extends AppCompatActivity implements BaseArFragment.OnTa
 
         Intent intent = getIntent();
         greetingCards = (ArrayList<CardDisplayVO>) intent.getSerializableExtra("greetingCards");
-        //for display and test
-        /*CardDisplayVO card1 = new CardDisplayVO("getwellsoon", "heart", "staranimation");
-        CardDisplayVO card2 = new CardDisplayVO("happynewyear","tongue","staranimation");
-        CardDisplayVO card3 = new CardDisplayVO("haveaniceday","lovesmile","staranimation");
-        greetingCards.add(card1);
-        greetingCards.add(card2);
-        greetingCards.add(card3);*/
 
-        tapFlag = false;
         getSupportFragmentManager().addFragmentOnAttachListener((fragmentManager, fragment) -> {
             if (fragment.getId() == R.id.arFragment ) {
                 arFragment = (ArFragment) fragment;
@@ -78,7 +70,7 @@ public class ArActivity extends AppCompatActivity implements BaseArFragment.OnTa
 
     /**
      * Get the card value from arraylist and put them to hashmap
-     * @param card
+     * @param card : the greeting card will display
      */
     private void loadModelsFromCard(CardDisplayVO card) {
         ArModelSet set = new ArModelSet();
@@ -90,8 +82,8 @@ public class ArActivity extends AppCompatActivity implements BaseArFragment.OnTa
 
     /**
      * Load ar models from files
-     * @param path
-     * @param loadModel
+     * @param path : the path that asset in
+     * @param loadModel : the model that need to load
      */
     private void loadModel(String path, Consumer<Renderable> loadModel) {
 

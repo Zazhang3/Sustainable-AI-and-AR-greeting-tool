@@ -1,5 +1,6 @@
 package com.tool.greeting_tool.ui.user.History;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.os.Bundle;
@@ -30,7 +31,6 @@ import org.jetbrains.annotations.NotNull;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -43,13 +43,13 @@ import okhttp3.Response;
 /**
  * The new version of history
  * show a dialog within user frgment
+ * @noinspection ALL
  */
 public class HistoryDialogFragment extends DialogFragment {
 
     private MessageAdapter messageAdapter;
     private ProgressBar progressBar;
     private List<History_Message> MessageList;
-    private Long currentUserId;
 
     public static HistoryDialogFragment newInstance() {
         return new HistoryDialogFragment();
@@ -60,7 +60,7 @@ public class HistoryDialogFragment extends DialogFragment {
      * @param savedInstanceState The last saved instance state of the Fragment,
      * or null if this is a freshly created Fragment.
      *
-     * @return
+     * @return Dialog
      */
     @NonNull
     @Override
@@ -70,9 +70,9 @@ public class HistoryDialogFragment extends DialogFragment {
         LayoutInflater inflater = requireActivity().getLayoutInflater();
         View view = inflater.inflate(R.layout.dialog_history, null);
 
-        View customTitleView = inflater.inflate(R.layout.custom_dialog_title, null);
+        @SuppressLint("InflateParams") View customTitleView = inflater.inflate(R.layout.custom_dialog_title, null);
 
-        currentUserId = SharedPreferencesUtil.getLong(requireContext());
+        Long currentUserId = SharedPreferencesUtil.getLong(requireContext());
         ListView listView = view.findViewById(R.id.history);
         progressBar = view.findViewById(R.id.progressBar_history);
         MessageList = new ArrayList<>();
@@ -107,7 +107,7 @@ public class HistoryDialogFragment extends DialogFragment {
 
     /**
      *
-     * @param message
+     * @param message : the message show to user
      */
     private void showDeleteDialog(History_Message message) {
         AlertDialog dialog = new AlertDialog.Builder(getActivity())
@@ -133,7 +133,7 @@ public class HistoryDialogFragment extends DialogFragment {
 
     /**
      * Use to help user to check their history sent card
-     * @param userId
+     * @param userId : the userID
      */
 
     private void getGreetingCards(Long userId) {
@@ -211,7 +211,7 @@ public class HistoryDialogFragment extends DialogFragment {
 
     /**
      * user delete a greeting card
-     * @param deletedId
+     * @param deletedId id need to be deleted
      */
     private void deleteMessage(Long deletedId) {
         String jwtToken = SharedPreferencesUtil.getToken(getActivity());
@@ -226,34 +226,19 @@ public class HistoryDialogFragment extends DialogFragment {
         OkHttpClient client = new OkHttpClient();
         client.newCall(request).enqueue(new Callback() {
             @Override
-            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+            public void onResponse(@NonNull Call call, @NonNull Response response) {
                 if (response.isSuccessful()) {
                     // cancel success
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            Toast.makeText(getActivity(), "Delete card successfully", Toast.LENGTH_SHORT).show();
-                        }
-                    });
+                    getActivity().runOnUiThread(() -> Toast.makeText(getActivity(), "Delete card successfully", Toast.LENGTH_SHORT).show());
                 } else {
                     //fail to cancel
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            Toast.makeText(getActivity(), ErrorMessage.INVALID_RESPONSE, Toast.LENGTH_SHORT).show();
-                        }
-                    });
+                    getActivity().runOnUiThread(() -> Toast.makeText(getActivity(), ErrorMessage.INVALID_RESPONSE, Toast.LENGTH_SHORT).show());
                 }
             }
 
             @Override
             public void onFailure(@NonNull Call call, @NonNull IOException e) {
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Toast.makeText(getActivity(), ErrorMessage.NETWORK_ERROR, Toast.LENGTH_SHORT).show();
-                    }
-                });
+                getActivity().runOnUiThread(() -> Toast.makeText(getActivity(), ErrorMessage.NETWORK_ERROR, Toast.LENGTH_SHORT).show());
             }
         });
 

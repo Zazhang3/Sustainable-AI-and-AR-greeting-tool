@@ -1,5 +1,7 @@
 package com.tool.greeting_tool.common.utils;
 
+import android.annotation.SuppressLint;
+
 import com.tool.greeting_tool.R;
 
 public class AssetManager {
@@ -47,6 +49,7 @@ public class AssetManager {
     }
 
     // Methods to map resource IDs to their corresponding string values
+    @SuppressLint("NonConstantResourceId")
     public static String mapResourceIdToText(int resourceId) {
         switch (resourceId) {
             case R.drawable.happynewyear:
@@ -91,6 +94,7 @@ public class AssetManager {
         }
     }
 
+    @SuppressLint("NonConstantResourceId")
     public static String mapResourceIdToEmoji(int resourceId) {
         switch (resourceId) {
             case R.drawable.heart:
@@ -133,6 +137,7 @@ public class AssetManager {
         }
     }
 
+    @SuppressLint("NonConstantResourceId")
     public static String mapResourceIdToAnimation(int resourceId) {
         switch (resourceId) {
             case R.drawable.staranmation:
