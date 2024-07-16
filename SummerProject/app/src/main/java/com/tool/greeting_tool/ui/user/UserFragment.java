@@ -1,5 +1,6 @@
 package com.tool.greeting_tool.ui.user;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -58,22 +59,41 @@ public class UserFragment extends Fragment {
         });
 
         ImageButton accountCancel = binding.cancelButton;
-        accountCancel.setOnClickListener(v-> cancelAccount());
+        accountCancel.setOnClickListener(v-> showActionConfirm(true));
 
         ImageButton logoutButton = binding.actionLogout;
-        logoutButton.setOnClickListener(v->{
-
-            //clear user data
-            SharedPreferencesUtil.clearSharedPreferences(requireContext());
-
-            ((MainActivity) requireActivity()).cancelWork();
-            Intent intent = new Intent(getActivity(), StartPage.class);
-            startActivity(intent);
-
-            requireActivity().finish();
-        });
+        logoutButton.setOnClickListener(v-> showActionConfirm(false));
 
         return root;
+    }
+
+    private void showActionConfirm(boolean isCancel){
+        if(isCancel){
+            new AlertDialog.Builder(requireContext())
+                    .setTitle("Confirm Cancel Account")
+                    .setMessage("Are you sure you want to cancel your account?")
+                    .setPositiveButton(android.R.string.yes, (dialog, which) -> {
+                        // Perform the action to cancel the account
+                        cancelAccount();
+                    })
+                    .setNegativeButton(android.R.string.no, null)
+                    .show();
+        }else{
+            new AlertDialog.Builder(requireContext())
+                    .setTitle("Confirm Logout")
+                    .setMessage("Are you sure you want to Logout?")
+                    .setPositiveButton(android.R.string.yes, (dialog, which) -> {
+                        SharedPreferencesUtil.clearSharedPreferences(requireContext());
+
+                        ((MainActivity) requireActivity()).cancelWork();
+                        Intent intent = new Intent(getActivity(), StartPage.class);
+                        startActivity(intent);
+
+                        requireActivity().finish();
+                    })
+                    .setNegativeButton(android.R.string.no, null)
+                    .show();
+        }
     }
 
     @Override

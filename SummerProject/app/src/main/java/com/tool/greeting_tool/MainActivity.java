@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
         //WorkManager.getInstance(this).enqueue(locationWorkRequest);
         WorkManager.getInstance(this).enqueueUniquePeriodicWork(
                 "LocationWork",
-                ExistingPeriodicWorkPolicy.UPDATE, // Ensures only one work request is active at a time
+                ExistingPeriodicWorkPolicy.KEEP, // Ensures only one work request is active at a time
                 locationWorkRequest);
 
         System.out.println("Finish schedule");
