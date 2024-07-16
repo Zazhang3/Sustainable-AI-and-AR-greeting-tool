@@ -37,6 +37,7 @@ public class ArActivity extends AppCompatActivity implements BaseArFragment.OnTa
     private ArrayList<CardDisplayVO> greetingCards;
     private final HashMap<CardDisplayVO,ArModelSet> arModelMap = new HashMap<>();
     private ArFragment arFragment;
+    private boolean tapFlag;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -117,6 +118,9 @@ public class ArActivity extends AppCompatActivity implements BaseArFragment.OnTa
             Toast.makeText(this, "Loading...", Toast.LENGTH_SHORT).show();
             return;
         }
+        if (tapFlag) {
+            return;
+        }
         int i = 0;
         int j = -1;
         float currentOffset = 0;
@@ -146,7 +150,7 @@ public class ArActivity extends AppCompatActivity implements BaseArFragment.OnTa
 
             i++;
             j = j * (-1);
-
+            tapFlag = true;
 
         }
     }
