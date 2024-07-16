@@ -28,7 +28,7 @@ public class AssetManager {
 
     private static final int[] HELPIMAGE_LIST = {
             //Add user help image here
-            R.drawable.userpage1, R.drawable.userpage_2, R.drawable.userpage_3
+            R.drawable.userpage1, R.drawable.userpage_2, R.drawable.userpage_4, R.drawable.userpage_5, R.drawable.userpage_3
     };
 
     // Methods to retrieve the asset arrays
