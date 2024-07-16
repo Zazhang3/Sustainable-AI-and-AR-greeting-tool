@@ -2,6 +2,7 @@ package com.tool.greeting_tool.ui.home;
 
 import static android.app.Activity.RESULT_OK;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -19,10 +20,14 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.tabs.TabLayoutMediator;
 import com.google.ar.core.ArCoreApk;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
+import com.tbuonomo.viewpagerdotsindicator.DotsIndicator;
+import com.tbuonomo.viewpagerdotsindicator.SpringDotsIndicator;
 import com.tool.greeting_tool.Postcode_fill;
 import com.tool.greeting_tool.R;
 import com.tool.greeting_tool.WordsSelect;
@@ -57,6 +62,7 @@ public class HomeFragment extends Fragment {
     private FragmentHomeBinding binding;
     private LocationHelper locationHelper;
     private AudioPlayer audioPlayer;
+    private Dialog dialog;
 
     private final ArrayList<CardDisplayVO> nearbyGreetingCards = new ArrayList<>();
 
@@ -130,6 +136,15 @@ public class HomeFragment extends Fragment {
         }
     }
 
+    private void showNoMessageDialog(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
+        builder.setTitle("Title")
+                .setMessage("There are no message near you !")
+                .setPositiveButton("OK", (dialog, which) -> dialog.dismiss())
+                .create()
+                .show();
+    }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -160,13 +175,16 @@ public class HomeFragment extends Fragment {
     }
 
     private void showImageDialog() {
-        Dialog dialog = new Dialog(requireContext());
+        dialog = new Dialog(requireContext());
         dialog.setContentView(R.layout.dialog_userhelp);
 
         ViewPager2 viewPager = dialog.findViewById(R.id.viewPager);
+        SpringDotsIndicator springDotsIndicator = dialog.findViewById(R.id.spring_dots_indicator);
 
         UserHelpAdapter userHelpAdapter = new UserHelpAdapter(requireContext());
         viewPager.setAdapter(userHelpAdapter);
+
+        springDotsIndicator.setViewPager2(viewPager);
 
         dialog.show();
     }
@@ -293,7 +311,11 @@ public class HomeFragment extends Fragment {
                     greetingCard.getEmojiId(),greetingCard.getAnimationId());
             nearbyGreetingCards.add(card);
         }
-        showNearbyMessageWithAR();
+        if(nearbyGreetingCards.isEmpty()){
+            showNoMessageDialog();
+        }else{
+            showNearbyMessageWithAR();
+        }
     }
 
     @Override
@@ -307,6 +329,9 @@ public class HomeFragment extends Fragment {
     public void onDestroyView() {
         //textToSpeechHelper.stopAudio();
         audioPlayer.stopAudio();
+        if (dialog != null && dialog.isShowing()) {
+            dialog.dismiss();
+        }
         super.onDestroyView();
         binding = null;
     }

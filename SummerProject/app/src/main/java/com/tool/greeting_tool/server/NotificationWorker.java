@@ -21,6 +21,7 @@ import com.tool.greeting_tool.R;
 import com.tool.greeting_tool.common.constant.URLConstant;
 import com.tool.greeting_tool.common.utils.FormatCheckerUtil;
 import com.tool.greeting_tool.common.utils.SharedPreferencesUtil;
+import com.tool.greeting_tool.ui.home.HomeFragment;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -93,13 +94,8 @@ public class NotificationWorker extends Worker {
     }
 
     private boolean shouldSkipInitialExecution() {
-        SharedPreferences sharedPreferences = context.getSharedPreferences("notification_prefs", Context.MODE_PRIVATE);
-        boolean isInitialExecutionHandled = sharedPreferences.getBoolean("initial_execution_handled", false);
-
-        if (!isInitialExecutionHandled) {
-            SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putBoolean("initial_execution_handled", true);
-            editor.apply();
+        if (!SharedPreferencesUtil.getFirstSkip(context)) {
+            SharedPreferencesUtil.setFirstSkip(context, true);
             return true;
         }
 

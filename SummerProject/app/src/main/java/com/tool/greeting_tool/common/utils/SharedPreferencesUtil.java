@@ -138,4 +138,16 @@ public class SharedPreferencesUtil {
         SharedPreferences sharedPreferences = context.getSharedPreferences(notificationPrefs, Context.MODE_PRIVATE);
         return sharedPreferences.getString("audio_path", "");
     }
+
+    public static void setFirstSkip(Context context, boolean shouldSkip){
+        SharedPreferences sharedPreferences = context.getSharedPreferences(notificationPrefs, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean("initial_execution_handled", shouldSkip);
+        editor.apply();
+    }
+
+    public static boolean getFirstSkip(Context context){
+        SharedPreferences sharedPreferences = context.getSharedPreferences(notificationPrefs, Context.MODE_PRIVATE);
+        return sharedPreferences.getBoolean("initial_execution_handled", false);
+    }
 }
