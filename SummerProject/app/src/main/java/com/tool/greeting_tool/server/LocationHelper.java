@@ -72,11 +72,9 @@ public class LocationHelper {
         }
     }
 
-    public void getLocation(Fragment fragment, PostcodeCallback callback){
+    public void getLocation(Fragment fragment){
         if(ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION)!=PackageManager.PERMISSION_GRANTED){
             fragment.requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, RequestCode.REQUEST_LOCATION_PERMISSION);
-        }else{
-            getLastLocation(callback);
         }
     }
 
