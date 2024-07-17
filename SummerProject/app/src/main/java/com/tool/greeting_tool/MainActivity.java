@@ -11,6 +11,7 @@ import androidx.work.OneTimeWorkRequest;
 import androidx.work.PeriodicWorkRequest;
 import androidx.work.WorkManager;
 
+import com.tool.greeting_tool.common.utils.SharedPreferencesUtil;
 import com.tool.greeting_tool.databinding.ActivityMainBinding;
 import com.tool.greeting_tool.server.NotificationWorker;
 
@@ -73,5 +74,11 @@ public class MainActivity extends AppCompatActivity {
     public void cancelWork() {
         WorkManager.getInstance(this).cancelUniqueWork("LocationWork");
         System.out.println("Periodic work canceled");
+    }
+
+    @Override
+    protected void onDestroy() {
+        SharedPreferencesUtil.setFirstSkip(this, false);
+        super.onDestroy();
     }
 }
