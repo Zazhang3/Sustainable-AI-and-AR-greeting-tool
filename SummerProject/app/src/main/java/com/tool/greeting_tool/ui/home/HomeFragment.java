@@ -20,13 +20,10 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager2.widget.ViewPager2;
 
-import com.google.android.material.tabs.TabLayout;
-import com.google.android.material.tabs.TabLayoutMediator;
 import com.google.ar.core.ArCoreApk;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
-import com.tbuonomo.viewpagerdotsindicator.DotsIndicator;
 import com.tbuonomo.viewpagerdotsindicator.SpringDotsIndicator;
 import com.tool.greeting_tool.Postcode_fill;
 import com.tool.greeting_tool.R;
@@ -112,7 +109,6 @@ public class HomeFragment extends Fragment {
             //showNearbyMessageWithAR();
             locationHelper.getLocation(this);
             locationHelper.getLastLocation(this::getNearbyGreetingCards);
-
         });
 
         helpButton.setOnClickListener(v-> showImageDialog());
@@ -136,14 +132,28 @@ public class HomeFragment extends Fragment {
         }
     }
 
-    private void showNoMessageDialog(){
+    private void showMessageDialog(boolean haveMessage){
         //TODO
         //update format
-        AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
-        builder.setMessage("There are no message near you !")
-                .setPositiveButton("OK", (dialog, which) -> dialog.dismiss())
-                .create()
-                .show();
+        if(!haveMessage){
+            AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
+            builder.setMessage("There are no message near you !")
+                    .setPositiveButton("OK", (dialog, which) -> dialog.dismiss())
+                    .create()
+                    .show();
+        }else{
+            AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
+            builder.setMessage("You have " + nearbyGreetingCards.size() + " meaasge in this area")
+                    //TODO
+                    //Might add title to tell user
+                    .setPositiveButton("Check with AR", (dialogInterface, which) -> {
+                        showNearbyMessageWithAR();
+                    })
+                    .setNegativeButton("OK", (dialogInterface, which)-> dialogInterface.dismiss())
+                    .create()
+                    .show();
+        }
+
     }
 
     @Override
@@ -313,22 +323,21 @@ public class HomeFragment extends Fragment {
             nearbyGreetingCards.add(card);
         }
         if(nearbyGreetingCards.isEmpty()){
-            showNoMessageDialog();
+            showMessageDialog(false);
         }else{
-            showNearbyMessageWithAR();
+            showMessageDialog(true);
+            //Toast.makeText(requireContext(), "You have " + nearbyGreetingCards.size() + " meaasge in this area", Toast.LENGTH_SHORT).show();
         }
     }
 
     @Override
     public void onPause() {
-        //textToSpeechHelper.stopAudio();
         audioPlayer.stopAudio();
         super.onPause();
     }
 
     @Override
     public void onDestroyView() {
-        //textToSpeechHelper.stopAudio();
         audioPlayer.stopAudio();
         if (dialog != null && dialog.isShowing()) {
             dialog.dismiss();
