@@ -68,6 +68,8 @@ public class UserFragment extends Fragment {
     }
 
     private void showActionConfirm(boolean isCancel){
+        //TODO
+        //update format
         if(isCancel){
             new AlertDialog.Builder(requireContext())
                     .setTitle("Confirm Cancel Account")

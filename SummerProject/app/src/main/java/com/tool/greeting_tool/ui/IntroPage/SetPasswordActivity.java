@@ -44,7 +44,6 @@ public class SetPasswordActivity extends AppCompatActivity {
         String username = data.getStringExtra(KeySet.UserKey);
         ImageButton backButton = findViewById(R.id.backbutton_reset2);
 
-
         ImageButton submitButton = findViewById(R.id.reset_password_button);
         submitButton.setOnClickListener(v->{
             String email = SharedPreferencesUtil.getEmail(SetPasswordActivity.this);

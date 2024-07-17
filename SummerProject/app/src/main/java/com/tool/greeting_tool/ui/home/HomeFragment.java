@@ -137,9 +137,10 @@ public class HomeFragment extends Fragment {
     }
 
     private void showNoMessageDialog(){
+        //TODO
+        //update format
         AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
-        builder.setTitle("Title")
-                .setMessage("There are no message near you !")
+        builder.setMessage("There are no message near you !")
                 .setPositiveButton("OK", (dialog, which) -> dialog.dismiss())
                 .create()
                 .show();
