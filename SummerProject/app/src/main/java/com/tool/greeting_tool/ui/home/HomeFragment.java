@@ -2,6 +2,7 @@ package com.tool.greeting_tool.ui.home;
 
 import static android.app.Activity.RESULT_OK;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,7 +10,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,6 +24,7 @@ import com.google.ar.core.ArCoreApk;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
+import com.tbuonomo.viewpagerdotsindicator.SpringDotsIndicator;
 import com.tool.greeting_tool.Postcode_fill;
 import com.tool.greeting_tool.R;
 import com.tool.greeting_tool.WordsSelect;
@@ -37,12 +38,13 @@ import com.tool.greeting_tool.pojo.dto.GreetingCard;
 import com.tool.greeting_tool.pojo.vo.CardDisplayVO;
 import com.tool.greeting_tool.server.AudioPlayer;
 import com.tool.greeting_tool.server.LocationHelper;
-import com.tool.greeting_tool.server.TextToSpeechHelper;
 import com.tool.greeting_tool.server.UserHelpAdapter;
 
 import org.jetbrains.annotations.NotNull;
+
 import java.io.IOException;
 import java.util.ArrayList;
+
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.MediaType;
@@ -51,15 +53,15 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
+/** @noinspection ALL*/
 public class HomeFragment extends Fragment {
 
     private FragmentHomeBinding binding;
     private LocationHelper locationHelper;
-
-    private TextToSpeechHelper textToSpeechHelper;
     private AudioPlayer audioPlayer;
+    private Dialog dialog;
 
-    private ArrayList<CardDisplayVO> nearbyGreetingCards = new ArrayList<>();
+    private final ArrayList<CardDisplayVO> nearbyGreetingCards = new ArrayList<>();
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -71,18 +73,15 @@ public class HomeFragment extends Fragment {
 
         locationHelper = new LocationHelper(requireContext());
 
-        //String postcode_notification = SharedPreferencesUtil.getNotificationMessage(requireContext());
-        textToSpeechHelper = new TextToSpeechHelper(requireContext());
         audioPlayer = new AudioPlayer(requireContext());
         String audioPath = SharedPreferencesUtil.getAudioPath(requireContext());
         audioPlayer.setAudioPath(audioPath);
 
         if (audioPath != null) {
-            if(SharedPreferencesUtil.isNotificationPosted(getContext())){
+            if(SharedPreferencesUtil.isNotificationPosted(requireContext())){
                 System.out.println("Goto tts");
                 SharedPreferencesUtil.clearNotificationPostedFlag(getContext());
                 audioPlayer.playAudio();
-                //textToSpeechHelper.startSynthesizeThread(text);
             }else if(audioPath.isEmpty()){
                 System.out.println("audioPath is empty");
             }else{
@@ -104,29 +103,15 @@ public class HomeFragment extends Fragment {
             startActivityForResult(intent, 1);
         });
 
-        //Button Listener for Send
-        /*sendButton.setOnClickListener(v->{
-                    Intent intent = new Intent(getActivity(), WordsSelect.class);
-                    intent.putExtra(KeySet.SelectedType, "Words");
-                    intent.putExtra(KeySet.Request, REQUEST_CODE_SELECT_2);
-                    startActivityForResult(intent, 2);
-                });*/
 
         //Button Listener for Nearby message
         nearByMessage.setOnClickListener(v->{
             //showNearbyMessageWithAR();
-            locationHelper.getLastLocation(new LocationHelper.PostcodeCallback() {
-                @Override
-                public void onPostcodeResult(String postcode) {
-                    getNearbyGreetingCards(postcode);
-                }
-            });
-
+            locationHelper.getLocation(this);
+            locationHelper.getLastLocation(this::getNearbyGreetingCards);
         });
 
-        helpButton.setOnClickListener(v->{
-            showImageDialog();
-        });
+        helpButton.setOnClickListener(v-> showImageDialog());
 
         final TextView textView = binding.textHome;
         homeViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
@@ -145,6 +130,30 @@ public class HomeFragment extends Fragment {
         } else {
             Toast.makeText(getContext(), "AR features not supported on this device", Toast.LENGTH_LONG).show();
         }
+    }
+
+    private void showMessageDialog(boolean haveMessage, String currentPostcode){
+        //TODO
+        //update format
+        if(!haveMessage){
+            AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
+            builder.setMessage("There are no message near you in " + currentPostcode + "!")
+                    .setPositiveButton("OK", (dialog, which) -> dialog.dismiss())
+                    .create()
+                    .show();
+        }else{
+            AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
+            builder.setMessage("You have " + nearbyGreetingCards.size() + " meaasge in " + currentPostcode)
+                    //TODO
+                    //Might add title to tell user
+                    .setPositiveButton("Check with AR", (dialogInterface, which) -> {
+                        showNearbyMessageWithAR();
+                    })
+                    .setNegativeButton("OK", (dialogInterface, which)-> dialogInterface.dismiss())
+                    .create()
+                    .show();
+        }
+
     }
 
     @Override
@@ -169,35 +178,24 @@ public class HomeFragment extends Fragment {
             }else if(sendState == 2){
                 String postcode = data.getStringExtra(KeySet.PostKey);
                 ArrayList<String> SelectedItems = data.getStringArrayListExtra(KeySet.SelectedList);
-                sendGreetingCard(SelectedItems,postcode);
+                if(SelectedItems != null){
+                    sendGreetingCard(SelectedItems,postcode);
+                }
             }
         }
-
-        /*if (requestCode == REQUEST_CODE_SELECT_1&&data!=null) {
-            ArrayList<String> selectedItems = data.getStringArrayListExtra(KeySet.SelectedList);
-            assert selectedItems != null;
-            CardDisplayVO greetingCard = new CardDisplayVO(selectedItems.get(0),selectedItems.get(1), selectedItems.get(2));
-            ArrayList<CardDisplayVO> previewCard = new ArrayList<>();
-            previewCard.add(greetingCard);
-            Intent intent = new Intent(getActivity(), ArActivity.class);
-            intent.putExtra("greetingCards", previewCard);
-            startActivity(intent);
-
-        } else if (requestCode == REQUEST_CODE_SELECT_2&&data!=null) {
-            String postcode = data.getStringExtra(KeySet.PostKey);
-            ArrayList<String> SelectedItems = data.getStringArrayListExtra(KeySet.SelectedList);
-            sendGreetingCard(SelectedItems,postcode);
-        }*/
     }
 
     private void showImageDialog() {
-        Dialog dialog = new Dialog(requireContext());
+        dialog = new Dialog(requireContext());
         dialog.setContentView(R.layout.dialog_userhelp);
 
         ViewPager2 viewPager = dialog.findViewById(R.id.viewPager);
+        SpringDotsIndicator springDotsIndicator = dialog.findViewById(R.id.spring_dots_indicator);
 
         UserHelpAdapter userHelpAdapter = new UserHelpAdapter(requireContext());
         viewPager.setAdapter(userHelpAdapter);
+
+        springDotsIndicator.setViewPager2(viewPager);
 
         dialog.show();
     }
@@ -205,19 +203,10 @@ public class HomeFragment extends Fragment {
 
     /**
      * Help user to send card
-     * @param selectionList
-     * @param postcode
+     * @param selectionList : the selection list
+     * @param postcode : the postcode that will send to
      */
     private void sendGreetingCard(ArrayList<String> selectionList, String postcode) {
-
-        //Just for test, disable it while it can receive message
-        /*GreetingCard greetingCard = new GreetingCard();
-        greetingCard.setText("Happy Birthday!");
-        greetingCard.setEmoji("Laugh");
-        greetingCard.setAnimation("rotate");
-        greetingCard.setPostcode("BS2 0BU");
-        greetingCard.setUser_id(SharedPreferencesUtil.getLong(requireContext()));*/
-
         GreetingCard greetingCard = new GreetingCard();
         greetingCard.setText(selectionList.get(0));
         greetingCard.setEmoji(selectionList.get(1));
@@ -243,18 +232,13 @@ public class HomeFragment extends Fragment {
             @Override
             public void onFailure(@NonNull Call call, @NonNull IOException e) {
                 Log.e(TAGConstant.SEND_CARD_TAG,"send card failed",e);
-                requireActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Toast.makeText(requireContext(), "Failed to send card", Toast.LENGTH_SHORT).show();
-                    }
-                });
+                requireActivity().runOnUiThread(() -> Toast.makeText(requireContext(), "Failed to send card", Toast.LENGTH_SHORT).show());
             }
 
 
 
             @Override
-            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+            public void onResponse(@NonNull Call call, @NonNull Response response) {
                 if (response.isSuccessful()) {
                     getActivity().runOnUiThread(() -> Toast.makeText(getActivity(), "Greeting card sent successfully", Toast.LENGTH_SHORT).show());
                 } else {
@@ -269,7 +253,7 @@ public class HomeFragment extends Fragment {
 
     /**
      * User get nearby greeting card via their current postcode
-     * @param currentPostcode
+     * @param currentPostcode : the current postcode that user at
      */
     private void getNearbyGreetingCards(String currentPostcode) {
         String jwtToken = SharedPreferencesUtil.getToken(requireContext());
@@ -303,7 +287,7 @@ public class HomeFragment extends Fragment {
                                     jsonResponse.get("data").getAsJsonArray(),
                                     new TypeToken<ArrayList<GreetingCard>>(){}.getType()
                             );
-                            updateMessageList(greetingCards);
+                            updateMessageList(greetingCards, currentPostcode);
                         } else {
                             String msg = jsonResponse.get("msg").getAsString();
                             Toast.makeText(requireContext(), "Error: " + msg, Toast.LENGTH_SHORT).show();
@@ -321,12 +305,7 @@ public class HomeFragment extends Fragment {
             @Override
             public void onFailure(@NotNull Call call, @NotNull IOException e) {
                 Log.e(TAGConstant.NEARBY_CARD_TAG,"Get card failed",e);
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Toast.makeText(requireContext(),"Get nearby card failed " + ErrorMessage.NETWORK_ERROR,Toast.LENGTH_SHORT).show();
-                    }
-                });
+                getActivity().runOnUiThread(() -> Toast.makeText(requireContext(),"Get nearby card failed " + ErrorMessage.NETWORK_ERROR,Toast.LENGTH_SHORT).show());
             }
         });
 
@@ -334,42 +313,35 @@ public class HomeFragment extends Fragment {
 
     /**
      * Represent nearby message
-     * @param greetingCards
+     * @param greetingCards : the greeting card list that user send
      */
-    private void updateMessageList(ArrayList<GreetingCard> greetingCards) {
+    private void updateMessageList(ArrayList<GreetingCard> greetingCards, String currentPostcode) {
         nearbyGreetingCards.clear();
         for (GreetingCard greetingCard : greetingCards) {
             CardDisplayVO card = new CardDisplayVO(greetingCard.getCardId(),
                     greetingCard.getEmojiId(),greetingCard.getAnimationId());
             nearbyGreetingCards.add(card);
         }
-        showNearbyMessageWithAR();
-    }
-
-    /**
-     * Just for test
-     */
-    private void updateArMessageList() {
-
-        CardDisplayVO card1 = new CardDisplayVO("GetWellSoon", "Heart", "StarAnimation");
-        CardDisplayVO card2 = new CardDisplayVO("HappyNewYear","Tongue","StarAnimation");
-        CardDisplayVO card3 = new CardDisplayVO("HaveaNiceDay","LoveSmile","StarAnimation");
-        nearbyGreetingCards.add(card1);
-        nearbyGreetingCards.add(card2);
-        nearbyGreetingCards.add(card3);
+        if(nearbyGreetingCards.isEmpty()){
+            showMessageDialog(false, currentPostcode);
+        }else{
+            showMessageDialog(true, currentPostcode);
+            //Toast.makeText(requireContext(), "You have " + nearbyGreetingCards.size() + " meaasge in this area", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
     public void onPause() {
-        //textToSpeechHelper.stopAudio();
         audioPlayer.stopAudio();
         super.onPause();
     }
 
     @Override
     public void onDestroyView() {
-        //textToSpeechHelper.stopAudio();
         audioPlayer.stopAudio();
+        if (dialog != null && dialog.isShowing()) {
+            dialog.dismiss();
+        }
         super.onDestroyView();
         binding = null;
     }

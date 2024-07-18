@@ -5,7 +5,6 @@ import static com.tool.greeting_tool.common.utils.FormatCheckerUtil.checkPasswor
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
@@ -18,9 +17,9 @@ import com.google.gson.JsonObject;
 import com.tool.greeting_tool.R;
 import com.tool.greeting_tool.common.constant.ErrorMessage;
 import com.tool.greeting_tool.common.constant.KeySet;
-import com.tool.greeting_tool.common.utils.SharedPreferencesUtil;
 import com.tool.greeting_tool.common.constant.TAGConstant;
 import com.tool.greeting_tool.common.constant.URLConstant;
+import com.tool.greeting_tool.common.utils.SharedPreferencesUtil;
 import com.tool.greeting_tool.pojo.vo.UserVO;
 
 import java.io.IOException;
@@ -39,7 +38,6 @@ public class SignUpController extends AppCompatActivity {
     private EditText passwordEditText;
     private EditText rePasswordEditText;
     private EditText emailEditText;
-    private ImageButton backButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,55 +48,36 @@ public class SignUpController extends AppCompatActivity {
         passwordEditText = findViewById(R.id.id_signup_password);
         rePasswordEditText = findViewById(R.id.id_signup_password_re);
         emailEditText = findViewById(R.id.email_set);
-        backButton = findViewById(R.id.id_back_signup);
+        ImageButton backButton = findViewById(R.id.id_back_signup);
         ImageButton SignUp = findViewById(R.id.id_signup_button);
 
-        SignUp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        SignUp.setOnClickListener(v -> {
 
-                String username = usernameEditText.getText().toString();
-                String password = passwordEditText.getText().toString();
-                String email = emailEditText.getText().toString();
-                if (checkPassword(password)) {
-                    if (password.equals(rePasswordEditText.getText().toString())) {
-                    /*Intent intent = new Intent(SignUp.this, MainActivity.class);
-                    intent.putExtra(KeySet.UserKey, account);
-                    startActivity(intent);*/
-                        if (!username.isEmpty()) {
-
-                            //execute signup
-                            signUp(username,password,email);
-                            //TODO
-                            //if sign up fail
-                            Intent resultIntent = new Intent();
-                            resultIntent.putExtra(KeySet.UserKey, username);
-                            setResult(RESULT_OK, resultIntent);
-                            finish();
-                        } else {
-                            Toast.makeText(SignUpController.this, ErrorMessage.USERNAME_EMPTY_ERROR, Toast.LENGTH_SHORT).show();
-                        }
+            String username = usernameEditText.getText().toString();
+            String password = passwordEditText.getText().toString();
+            String email = emailEditText.getText().toString();
+            if (checkPassword(password)) {
+                if (password.equals(rePasswordEditText.getText().toString())) {
+                    if (!username.isEmpty()) {
+                        signUp(username,password,email);
                     } else {
-                        Toast.makeText(SignUpController.this, ErrorMessage.INCONSISTENT_PASSWORD, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(SignUpController.this, ErrorMessage.USERNAME_EMPTY_ERROR, Toast.LENGTH_SHORT).show();
                     }
-                }else {
-                    Toast.makeText(SignUpController.this, ErrorMessage.INVALID_PASSWORD, Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(SignUpController.this, ErrorMessage.INCONSISTENT_PASSWORD, Toast.LENGTH_SHORT).show();
                 }
+            }else {
+                Toast.makeText(SignUpController.this, ErrorMessage.INVALID_PASSWORD, Toast.LENGTH_SHORT).show();
             }
         });
 
-        backButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
+        backButton.setOnClickListener(v -> onBackPressed());
     }
 
     /**
      * Sign up with username and password
-     * @param username
-     * @param password
+     * @param username : the username
+     * @param password : the password
      */
     private void signUp(String username,String password,String email){
         //generate userVO
@@ -126,43 +105,39 @@ public class SignUpController extends AppCompatActivity {
             @Override
             public void onFailure(@NonNull Call call, @NonNull IOException e) {
                 Log.e(TAGConstant.SIGN_UP_TAG,"Sign up failed",e);
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Toast.makeText(SignUpController.this,"Sign up failed: " + ErrorMessage.NETWORK_ERROR,Toast.LENGTH_SHORT).show();
-                    }
-                });
+                runOnUiThread(() -> Toast.makeText(SignUpController.this,"Sign up failed: " + ErrorMessage.NETWORK_ERROR,Toast.LENGTH_SHORT).show());
             }
 
             @Override
             public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
                 final String responseBody = response.body().string();
                 Log.d(TAGConstant.SIGN_UP_TAG,"Response: "+ responseBody);
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            Gson gson = new Gson();
-                            JsonObject jsonResponse = gson.fromJson(responseBody, JsonObject.class);
-                            int code = jsonResponse.get("code").getAsInt();
-                            if (code == 1) {
-                                // login successfully: handle response
-                                Long id = jsonResponse.get("data").getAsJsonObject().get("id").getAsLong();
-                                String token = jsonResponse.get("data").getAsJsonObject().get("token").getAsString();
-                                Toast.makeText(SignUpController.this, "Sign up successfully", Toast.LENGTH_SHORT).show();
+                runOnUiThread(() -> {
+                    try {
+                        Gson gson1 = new Gson();
+                        JsonObject jsonResponse = gson1.fromJson(responseBody, JsonObject.class);
+                        int code = jsonResponse.get("code").getAsInt();
+                        if (code == 1) {
+                            // login successfully: handle response
+                            Long id = jsonResponse.get("data").getAsJsonObject().get("id").getAsLong();
+                            String token = jsonResponse.get("data").getAsJsonObject().get("token").getAsString();
+                            Toast.makeText(SignUpController.this, "Sign up successfully", Toast.LENGTH_SHORT).show();
 
-                                //save user data
-                                SharedPreferencesUtil.saveUserInfo(SignUpController.this,id,username,token);
+                            //save user data
+                            SharedPreferencesUtil.saveUserInfo(SignUpController.this,id,username,token);
 
-                            } else {
-                                // login failed
-                                String msg = jsonResponse.get("msg").getAsString();
-                                Toast.makeText(SignUpController.this, "Sign up failed: " + msg, Toast.LENGTH_SHORT).show();
-                            }
-                        } catch (Exception e) {
-                            Log.e(TAGConstant.SIGN_UP_TAG, "Exception while parsing response", e);
-                            Toast.makeText(SignUpController.this, "Sign up failed: " + ErrorMessage.INVALID_RESPONSE, Toast.LENGTH_SHORT).show();
+                            Intent resultIntent = new Intent();
+                            resultIntent.putExtra(KeySet.UserKey, username);
+                            setResult(RESULT_OK, resultIntent);
+                            finish();
+                        } else {
+                            // login failed
+                            String msg = jsonResponse.get("msg").getAsString();
+                            Toast.makeText(SignUpController.this, "Sign up failed: " + msg, Toast.LENGTH_SHORT).show();
                         }
+                    } catch (Exception e) {
+                        Log.e(TAGConstant.SIGN_UP_TAG, "Exception while parsing response", e);
+                        Toast.makeText(SignUpController.this, "Sign up failed: " + ErrorMessage.INVALID_RESPONSE, Toast.LENGTH_SHORT).show();
                     }
                 });
             }

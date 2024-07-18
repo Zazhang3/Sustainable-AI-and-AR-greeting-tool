@@ -1,17 +1,11 @@
 package com.tool.greeting_tool;
 
-import com.tool.greeting_tool.common.constant.ButtonString;
-import com.tool.greeting_tool.common.constant.RequestCode;
-import com.tool.greeting_tool.common.constant.KeySet;
-import com.tool.greeting_tool.common.utils.AssetManager;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -20,16 +14,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.widget.TextViewCompat;
 
+import com.tool.greeting_tool.common.constant.KeySet;
+import com.tool.greeting_tool.common.utils.AssetManager;
+
 import java.util.ArrayList;
 import java.util.Objects;
 
 
+/** @noinspection deprecation*/
 public class WordsSelect extends AppCompatActivity {
-    public static final String EXTRA_SELECTION = "com.tool.appname.greeting_tool";
-
     private ArrayList<String> selectList;
     private String selectType;
-    private int request;
     private int[] items;
 
     private Toolbar toolbar;
@@ -100,31 +95,18 @@ public class WordsSelect extends AppCompatActivity {
                 intent.putExtra(KeySet.SelectedType, "Animation");
                 intent.putExtra(KeySet.SelectedList, selectList);
                 startActivityForResult(intent, 1);
-                //intent.putExtra(KeySet.Request, request);
-                /*if (request == 1) {
-                    startActivityForResult(intent, 1);
-                } else {
-                    startActivityForResult(intent, 2);
-                }*/
             } else if (Objects.equals(selectType, "Animation")) {
                 String animation = AssetManager.mapResourceIdToAnimation(selectedItem);
                 selectList.add(animation);
 
                 showSelectionDialog(selectList);
-                /*if (request == RequestCode.REQUEST_CODE_SELECT_1) {
-                    showSelectionDialog(selectList);
-                } else if (request == RequestCode.REQUEST_CODE_SELECT_2) {
-                    intent = new Intent(WordsSelect.this, Postcode_fill.class);
-                    intent.putExtra(KeySet.SelectedList, selectList);
-                    startActivityForResult(intent, 2);
-                }*/
             }
         });
     }
 
     /**
      * Use to update Toolbar title in each selection page
-     * @param title
+     * @param title title
      */
         private void updateToolbarTitle(String title) {
             if (toolbar != null) {
@@ -145,16 +127,15 @@ public class WordsSelect extends AppCompatActivity {
 
         TextView titleTextView = dialogView.findViewById(R.id.dialog_title);
         TextView messageTextView = dialogView.findViewById(R.id.dialog_message);
+        String titleText = "Your Selection";
+        String messageText = "Text: " + text + "\nEmoji: " + emoji + "\nAnimation: " + animation;
 
-        titleTextView.setText("Your Selection");
-        messageTextView.setText("Text: " + text + "\nEmoji: " + emoji + "\nAnimation: " + animation);
+        titleTextView.setText(titleText);
+        messageTextView.setText(messageText);
 
         AlertDialog dialog = new AlertDialog.Builder(this)
                     .setView(dialogView)
                     .setPositiveButton("send", (dialogInterface, which) -> {
-                        /*Intent intent = new Intent(WordsSelect.this, Postcode_fill.class);
-                        intent.putExtra(KeySet.SelectedList, selectList);
-                        startActivityForResult(intent, 1);*/
                         Intent resultIntent = new Intent();
                         resultIntent.putExtra(KeySet.SelectedList, selectList);
                         resultIntent.putExtra(KeySet.IsSend, 1);
@@ -169,9 +150,7 @@ public class WordsSelect extends AppCompatActivity {
                         setResult(Activity.RESULT_OK, resultIntent);
                         finish();
                     })
-                    .setNegativeButton("cancel", (dialogInterface, which)->{
-                        dialogInterface.dismiss();
-                    })
+                    .setNegativeButton("cancel", (dialogInterface, which)-> dialogInterface.dismiss())
                     .create();
 
         dialog.setOnShowListener(dialogInterface -> {
@@ -210,24 +189,6 @@ public class WordsSelect extends AppCompatActivity {
                 resultIntent.putExtra(KeySet.IsSend, sendState);
                 setResult(Activity.RESULT_OK, resultIntent);
                 finish();
-                /*if (requestCode == RequestCode.REQUEST_CODE_SELECT_1) {
-                    ArrayList<String> selection = data.getStringArrayListExtra(KeySet.SelectedList);
-                    System.out.println(selection);
-                    Intent resultIntent = new Intent();
-                    resultIntent.putExtra(KeySet.SelectedList, selection);
-                    resultIntent.putExtra(KeySet.Request, RequestCode.REQUEST_CODE_SELECT_1);
-                    setResult(Activity.RESULT_OK, resultIntent);
-                    finish();
-                } else if (requestCode == RequestCode.REQUEST_CODE_SELECT_2) {
-                    String postCode = data.getStringExtra(KeySet.PostKey);
-                    ArrayList<String> backSelectedList = data.getStringArrayListExtra(KeySet.SelectedList);
-                    Intent resultIntent = new Intent();
-                    resultIntent.putExtra(KeySet.PostKey, postCode);
-                    resultIntent.putExtra(KeySet.SelectedList, backSelectedList);
-                    resultIntent.putExtra(KeySet.Request, RequestCode.REQUEST_CODE_SELECT_2);
-                    setResult(Activity.RESULT_OK, resultIntent);
-                    finish();
-                }*/
             }
         }
 }

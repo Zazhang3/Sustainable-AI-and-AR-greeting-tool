@@ -1,5 +1,6 @@
 package com.tool.greeting_tool.ui.user;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -16,15 +17,13 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.tool.greeting_tool.MainActivity;
 import com.tool.greeting_tool.common.constant.ErrorMessage;
-import com.tool.greeting_tool.common.utils.SharedPreferencesUtil;
 import com.tool.greeting_tool.common.constant.URLConstant;
+import com.tool.greeting_tool.common.utils.SharedPreferencesUtil;
 import com.tool.greeting_tool.databinding.FragmentUserBinding;
 import com.tool.greeting_tool.server.StartPage;
-import com.tool.greeting_tool.ui.user.History.HistoryActivity;
 import com.tool.greeting_tool.ui.user.History.HistoryDialogFragment;
 
 import java.io.IOException;
-import java.util.Objects;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -35,9 +34,6 @@ import okhttp3.Response;
 public class UserFragment extends Fragment {
 
     private FragmentUserBinding binding;
-    private ImageButton History;
-    private ImageButton AccountCancel;
-    private ImageButton LogoutButton;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -56,33 +52,50 @@ public class UserFragment extends Fragment {
 
         userViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
 
-        History = binding.history;
-        History.setOnClickListener(v->{
-            /*Intent intent = new Intent(getActivity(), HistoryActivity.class);
-            startActivity(intent);*/
+        ImageButton history = binding.history;
+        history.setOnClickListener(v->{
             HistoryDialogFragment historyDialog = HistoryDialogFragment.newInstance();
             historyDialog.show(getParentFragmentManager(), "historyDialog");
         });
 
-        AccountCancel = binding.cancelButton;
-        AccountCancel.setOnClickListener(v->{
-            cancelAccount();
-        });
+        ImageButton accountCancel = binding.cancelButton;
+        accountCancel.setOnClickListener(v-> showActionConfirm(true));
 
-        LogoutButton = binding.actionLogout;
-        LogoutButton.setOnClickListener(v->{
-
-            //clear user data
-            SharedPreferencesUtil.clearSharedPreferences(requireContext());
-
-            ((MainActivity) requireActivity()).cancelWork();
-            Intent intent = new Intent(getActivity(), StartPage.class);
-            startActivity(intent);
-
-            requireActivity().finish();
-        });
+        ImageButton logoutButton = binding.actionLogout;
+        logoutButton.setOnClickListener(v-> showActionConfirm(false));
 
         return root;
+    }
+
+    private void showActionConfirm(boolean isCancel){
+        //TODO
+        //update format
+        if(isCancel){
+            new AlertDialog.Builder(requireContext())
+                    .setTitle("Confirm Cancel Account")
+                    .setMessage("Are you sure you want to cancel your account?")
+                    .setPositiveButton(android.R.string.yes, (dialog, which) -> {
+                        // Perform the action to cancel the account
+                        cancelAccount();
+                    })
+                    .setNegativeButton(android.R.string.no, null)
+                    .show();
+        }else{
+            new AlertDialog.Builder(requireContext())
+                    .setTitle("Confirm Logout")
+                    .setMessage("Are you sure you want to Logout?")
+                    .setPositiveButton(android.R.string.yes, (dialog, which) -> {
+                        SharedPreferencesUtil.clearSharedPreferences(requireContext());
+
+                        ((MainActivity) requireActivity()).cancelWork();
+                        Intent intent = new Intent(getActivity(), StartPage.class);
+                        startActivity(intent);
+
+                        requireActivity().finish();
+                    })
+                    .setNegativeButton(android.R.string.no, null)
+                    .show();
+        }
     }
 
     @Override
@@ -97,7 +110,7 @@ public class UserFragment extends Fragment {
     public void cancelAccount(){
 
         //get user id and then clear local user data
-        Long userId = SharedPreferencesUtil.getLong(requireContext());
+        long userId = SharedPreferencesUtil.getLong(requireContext());
         String jwtToken = SharedPreferencesUtil.getToken(requireContext());
         SharedPreferencesUtil.clearSharedPreferences(requireContext());
 
@@ -113,38 +126,25 @@ public class UserFragment extends Fragment {
 
         client.newCall(request).enqueue(new Callback() {
             @Override
-            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+            public void onResponse(@NonNull Call call, @NonNull Response response) {
                 if (response.isSuccessful()) {
                     // cancel success
-                    requireActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            Toast.makeText(requireContext(), "Cancel account successfully", Toast.LENGTH_SHORT).show();
-                            ((MainActivity) requireActivity()).cancelWork();
-                            Intent intent = new Intent(getActivity(), StartPage.class);
-                            startActivity(intent);
-                            requireActivity().finish();
-                        }
+                    requireActivity().runOnUiThread(() -> {
+                        Toast.makeText(requireContext(), "Cancel account successfully", Toast.LENGTH_SHORT).show();
+                        ((MainActivity) requireActivity()).cancelWork();
+                        Intent intent = new Intent(getActivity(), StartPage.class);
+                        startActivity(intent);
+                        requireActivity().finish();
                     });
                 } else {
                     //fail to cancel
-                    requireActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            Toast.makeText(requireContext(), ErrorMessage.INVALID_RESPONSE, Toast.LENGTH_SHORT).show();
-                        }
-                    });
+                    requireActivity().runOnUiThread(() -> Toast.makeText(requireContext(), ErrorMessage.INVALID_RESPONSE, Toast.LENGTH_SHORT).show());
                 }
             }
 
             @Override
             public void onFailure(@NonNull Call call, @NonNull IOException e) {
-                requireActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Toast.makeText(requireContext(), ErrorMessage.NETWORK_ERROR, Toast.LENGTH_SHORT).show();
-                    }
-                });
+                requireActivity().runOnUiThread(() -> Toast.makeText(requireContext(), ErrorMessage.NETWORK_ERROR, Toast.LENGTH_SHORT).show());
             }
         });
 

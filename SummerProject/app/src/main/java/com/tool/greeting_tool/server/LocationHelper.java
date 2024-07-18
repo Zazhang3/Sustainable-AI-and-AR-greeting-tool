@@ -10,8 +10,6 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
-import android.location.Address;
-import android.location.Geocoder;
 import android.location.Location;
 import android.os.Handler;
 import android.os.Looper;
@@ -29,9 +27,6 @@ import com.google.android.gms.tasks.Task;
 import com.tool.greeting_tool.common.utils.FormatCheckerUtil;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -61,8 +56,8 @@ public class LocationHelper {
     /**
      * The Activity version
      * compared with Fragement version
-     * @param activity
-     * @param callback
+     * @param activity : activity
+     * @param callback : callback
      */
     public void getLocation(Activity activity, PostcodeCallback callback){
         if(ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION)!=PackageManager.PERMISSION_GRANTED){
@@ -72,20 +67,18 @@ public class LocationHelper {
         }
     }
 
-    public void getLocation(Fragment fragment, PostcodeCallback callback){
+    public void getLocation(Fragment fragment){
         if(ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION)!=PackageManager.PERMISSION_GRANTED){
             fragment.requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, RequestCode.REQUEST_LOCATION_PERMISSION);
-        }else{
-            getLastLocation(callback);
         }
     }
 
     /**
      * No need for this method yet
      * Use in situation that User denied the permission
-     * @param requestCode
-     * @param grantResults
-     * @param callback
+     * @param requestCode : request code that back from getLocation method
+     * @param grantResults : results of permission
+     * @param callback : callback
      */
     public void onRequestResult(int requestCode, int[] grantResults, PostcodeCallback callback){
         if(requestCode == RequestCode.REQUEST_LOCATION_PERMISSION){
@@ -100,7 +93,7 @@ public class LocationHelper {
 
     /**
      * This is the only method use to get postcode
-     * @param callback
+     * @param callback : callback that use to get postcode
      */
 
     public void getLastLocation(PostcodeCallback callback){
@@ -120,9 +113,9 @@ public class LocationHelper {
 
     /**
      *
-     * @param latitude
-     * @param longitude
-     * @param callback
+     * @param latitude : latitude
+     * @param longitude : longitude
+     * @param callback : callback
      */
     private void fetchPostcode(double latitude, double longitude, PostcodeCallback callback){
         OkHttpClient client = new OkHttpClient();

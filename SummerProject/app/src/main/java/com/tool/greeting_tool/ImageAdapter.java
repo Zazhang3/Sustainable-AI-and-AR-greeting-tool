@@ -6,11 +6,9 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
-import com.tool.greeting_tool.R;
-
 public class ImageAdapter extends BaseAdapter{
-    private Context context;
-    private int[] imageIds;
+    private final Context context;
+    private final int[] imageIds;
 
     public ImageAdapter(Context context, int[] imageIds) {
         this.context = context;

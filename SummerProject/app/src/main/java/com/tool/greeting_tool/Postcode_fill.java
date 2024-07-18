@@ -6,17 +6,16 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.tool.greeting_tool.common.constant.ButtonString;
 import com.tool.greeting_tool.common.constant.ErrorMessage;
 import com.tool.greeting_tool.common.constant.KeySet;
 import com.tool.greeting_tool.common.constant.MessageConstant;
-import com.tool.greeting_tool.server.LocationHelper;
 import com.tool.greeting_tool.common.utils.FormatCheckerUtil;
-
-import androidx.appcompat.app.AppCompatActivity;
-import android.widget.ImageButton;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -52,14 +51,14 @@ public class Postcode_fill extends AppCompatActivity{
 
     /**
      * Temporarily use Dialog to show the postcode
-     * @param postCode
+     * @param postcode : the postcode that user insert
      */
-    private void showPostCodeDialog(String postCode, ArrayList<String> selectList) {
+    private void showPostCodeDialog(String postcode, ArrayList<String> selectList) {
         AlertDialog dialog = new AlertDialog.Builder(this)
-                .setMessage(MessageConstant.PostCodeMessage + postCode)
+                .setMessage(MessageConstant.PostCodeMessage + postcode)
                 .setPositiveButton(ButtonString.positiveSet, (dialogInterface, which) -> {
                     Intent resultIntent = new Intent();
-                    resultIntent.putExtra(KeySet.PostKey, postCode);
+                    resultIntent.putExtra(KeySet.PostKey, postcode);
                     resultIntent.putExtra(KeySet.SelectedList, selectList);
                     resultIntent.putExtra(KeySet.IsSend, 2);
                     setResult(Activity.RESULT_OK, resultIntent);

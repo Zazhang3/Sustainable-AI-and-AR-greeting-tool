@@ -81,7 +81,7 @@
         android:background="@drawable/round_background"
         android:hint="@string/password"
         android:inputType="textPassword"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="18dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/id_signup_id"
@@ -90,6 +90,23 @@
         android:layout_marginEnd="40dp"
         app:layout_constraintDimensionRatio="H,5.7:1"/>
 
+    <ImageView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@android:color/transparent"
+        android:contentDescription="@string/ar_greeting_title"
+        android:src="@drawable/password_rule"
+        android:scaleType="fitXY"
+        app:layout_constraintTop_toBottomOf="@+id/id_signup_password"
+        app:layout_constraintBottom_toTopOf="@+id/id_signup_password_re"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="1dp"
+        android:layout_marginBottom="1dp"
+        android:layout_marginEnd="50dp"
+        android:layout_marginStart="50dp"
+        app:layout_constraintDimensionRatio="H,10:1"/>
+
     <EditText
         android:id="@+id/id_signup_password_re"
         android:layout_width="0dp"
@@ -97,7 +114,7 @@
         android:background="@drawable/round_background"
         android:hint="@string/re_enter_password"
         android:inputType="textPassword"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="38dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/id_signup_password"
@@ -134,7 +151,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/id_signup_password_re"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="18dp"
         android:scaleType="centerInside"
         android:layout_marginStart="40dp"
         android:layout_marginEnd="40dp"
@@ -144,19 +161,20 @@
         android:id="@+id/flower"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginStart="60dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="60dp"
         android:background="@android:color/transparent"
         android:contentDescription="@string/ar_greeting_title"
-        android:src="@drawable/signuppage_2"
         android:scaleType="centerInside"
+        android:src="@drawable/signuppage_2"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/id_signup_button"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintDimensionRatio="H,1.36:1"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="0dp"
-        android:layout_marginEnd="60dp"
-        android:layout_marginStart="60dp"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/id_signup_button"
+        app:layout_constraintVertical_bias="1.0" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -7,16 +7,12 @@ public class History_Message {
     private int id;
     private final Long cardId;
 
-    private String Message;
+    private final String Message;
 
-    private String create_time;
+    private final String create_time;
 
     public String getCreate_time() {
         return create_time;
-    }
-
-    public void setCreate_time(String create_time) {
-        this.create_time = create_time;
     }
 
     public History_Message(int id, String Message, Long cardId, String create_time){
@@ -28,10 +24,6 @@ public class History_Message {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public void setMessage(String message) {
-        Message = message;
     }
 
     public int getId() {

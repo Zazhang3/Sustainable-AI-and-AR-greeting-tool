@@ -10,7 +10,7 @@ public class SharedPreferencesUtil {
 
     /**
      * clear user data
-     * @param context current context
+     * @param context context
      */
     public static void clearSharedPreferences(Context context) {
         SharedPreferences sharedPreferences = context.getSharedPreferences(userPrefs, Context.MODE_PRIVATE);
@@ -21,10 +21,10 @@ public class SharedPreferencesUtil {
 
     /**
      * save user data
-     * @param context current context
-     * @param userId
-     * @param username
-     * @param token
+     * @param context context
+     * @param userId userId
+     * @param username username
+     * @param token token
      */
     public static void saveUserInfo(Context context,Long userId, String username, String token) {
         SharedPreferences sharedPreferences = context.getSharedPreferences("user_prefs", Context.MODE_PRIVATE);
@@ -37,8 +37,8 @@ public class SharedPreferencesUtil {
 
     /**
      * save verificationCode
-     * @param context current context
-     * @param email
+     * @param context context
+     * @param email email
      */
     public static void saveEmail(Context context,String email) {
         SharedPreferences sharedPreferences = context.getSharedPreferences("user_prefs", Context.MODE_PRIVATE);
@@ -49,8 +49,8 @@ public class SharedPreferencesUtil {
 
     /**
      * save verificationCode
-     * @param context current context
-     * @param verificationCode
+     * @param context context
+     * @param verificationCode verificationCode
      */
     public static void saveVerificationCode(Context context,String verificationCode) {
         SharedPreferences sharedPreferences = context.getSharedPreferences("user_prefs", Context.MODE_PRIVATE);
@@ -60,8 +60,8 @@ public class SharedPreferencesUtil {
     }
     /**
      * get user id
-     * @param context current context
-     * @return
+     * @param context context
+     * @return userID
      */
     public static long getLong(Context context) {
         SharedPreferences sharedPreferences = context.getSharedPreferences(userPrefs, Context.MODE_PRIVATE);
@@ -70,8 +70,8 @@ public class SharedPreferencesUtil {
 
     /**
      * get token
-     * @param context current context
-     * @return
+     * @param context context
+     * @return token
      */
     public static String getToken(Context context) {
         SharedPreferences sharedPreferences = context.getSharedPreferences(userPrefs, Context.MODE_PRIVATE);
@@ -80,8 +80,8 @@ public class SharedPreferencesUtil {
 
     /**
      * get email
-     * @param context current context
-     * @return
+     * @param context context
+     * @return email
      */
     public static String getEmail(Context context) {
         SharedPreferences sharedPreferences = context.getSharedPreferences(userPrefs, Context.MODE_PRIVATE);
@@ -90,8 +90,8 @@ public class SharedPreferencesUtil {
 
     /**
      * get verificationCode
-     * @param context current context
-     * @return
+     * @param context context
+     * @return verification code
      */
     public static String getVerificationCode(Context context) {
         SharedPreferences sharedPreferences = context.getSharedPreferences(userPrefs, Context.MODE_PRIVATE);
@@ -109,23 +109,6 @@ public class SharedPreferencesUtil {
         editor.putString("postcode", message);
         editor.putInt("message_count", count);
         editor.apply();
-    }
-
-    public static String getNotificationMessage(Context context) {
-        SharedPreferences sharedPreferences = context.getSharedPreferences(notificationPrefs, Context.MODE_PRIVATE);
-        return sharedPreferences.getString("postcode", "");
-    }
-
-    public static void saveMessageCount(Context context, Integer count){
-        SharedPreferences sharedPreferences = context.getSharedPreferences(notificationPrefs, Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putInt("message_count", count);
-        editor.apply();
-    }
-
-    public static Integer getMessageCount(Context context){
-        SharedPreferences sharedPreferences = context.getSharedPreferences(notificationPrefs, Context.MODE_PRIVATE);
-        return sharedPreferences.getInt("message_count", 0);
     }
 
     public static void setNotificationPostedFlag(Context context, boolean isPosted) {
@@ -154,5 +137,17 @@ public class SharedPreferencesUtil {
     public static String getAudioPath(Context context){
         SharedPreferences sharedPreferences = context.getSharedPreferences(notificationPrefs, Context.MODE_PRIVATE);
         return sharedPreferences.getString("audio_path", "");
+    }
+
+    public static void setFirstSkip(Context context, boolean shouldSkip){
+        SharedPreferences sharedPreferences = context.getSharedPreferences(notificationPrefs, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean("initial_execution_handled", shouldSkip);
+        editor.apply();
+    }
+
+    public static boolean getFirstSkip(Context context){
+        SharedPreferences sharedPreferences = context.getSharedPreferences(notificationPrefs, Context.MODE_PRIVATE);
+        return sharedPreferences.getBoolean("initial_execution_handled", false);
     }
 }
