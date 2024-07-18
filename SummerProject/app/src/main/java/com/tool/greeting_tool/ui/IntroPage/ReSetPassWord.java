@@ -181,7 +181,7 @@ public class ReSetPassWord extends AppCompatActivity {
                                         TempAccountInfoConstant.emailSenderPassword,
                                         email,
                                         TempAccountInfoConstant.emailSubject,
-                                        verificationCode);
+                                        "Your security code is: "+verificationCode);
                                 Toast.makeText(ReSetPassWord.this, "Verify successfully", Toast.LENGTH_SHORT).show();
                             } else {
                                 // Verify failed

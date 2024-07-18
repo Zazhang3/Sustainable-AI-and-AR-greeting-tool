@@ -10,7 +10,7 @@ public class SharedPreferencesUtil {
 
     /**
      * clear user data
-     * @param context
+     * @param context current context
      */
     public static void clearSharedPreferences(Context context) {
         SharedPreferences sharedPreferences = context.getSharedPreferences(userPrefs, Context.MODE_PRIVATE);
@@ -21,7 +21,7 @@ public class SharedPreferencesUtil {
 
     /**
      * save user data
-     * @param context
+     * @param context current context
      * @param userId
      * @param username
      * @param token
@@ -37,7 +37,7 @@ public class SharedPreferencesUtil {
 
     /**
      * save verificationCode
-     * @param context
+     * @param context current context
      * @param email
      */
     public static void saveEmail(Context context,String email) {
@@ -49,7 +49,7 @@ public class SharedPreferencesUtil {
 
     /**
      * save verificationCode
-     * @param context
+     * @param context current context
      * @param verificationCode
      */
     public static void saveVerificationCode(Context context,String verificationCode) {
@@ -60,7 +60,7 @@ public class SharedPreferencesUtil {
     }
     /**
      * get user id
-     * @param context
+     * @param context current context
      * @return
      */
     public static long getLong(Context context) {
@@ -70,7 +70,7 @@ public class SharedPreferencesUtil {
 
     /**
      * get token
-     * @param context
+     * @param context current context
      * @return
      */
     public static String getToken(Context context) {
@@ -80,7 +80,7 @@ public class SharedPreferencesUtil {
 
     /**
      * get email
-     * @param context
+     * @param context current context
      * @return
      */
     public static String getEmail(Context context) {
@@ -90,7 +90,7 @@ public class SharedPreferencesUtil {
 
     /**
      * get verificationCode
-     * @param context
+     * @param context current context
      * @return
      */
     public static String getVerificationCode(Context context) {
