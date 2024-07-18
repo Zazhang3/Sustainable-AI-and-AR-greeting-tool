@@ -84,8 +84,8 @@ public class HistoryDialogFragment extends DialogFragment {
             History_Message message = messageAdapter.getItem(position);
             if (message != null) {
                 Long deletedId = message.getCardId();
-                showDeleteDialog(message);
-                deleteMessage(deletedId);
+                showDeleteDialog(message, deletedId);
+                //deleteMessage(deletedId);
             }
         });
 
@@ -109,14 +109,15 @@ public class HistoryDialogFragment extends DialogFragment {
      *
      * @param message : the message show to user
      */
-    private void showDeleteDialog(History_Message message) {
+    private void showDeleteDialog(History_Message message, long deletedId) {
         AlertDialog dialog = new AlertDialog.Builder(getActivity())
                 .setTitle(MessageConstant.Delete)
                 .setMessage(MessageConstant.DeleteMessage)
                 .setPositiveButton(android.R.string.yes, (dialogInterface, which) -> {
                     MessageList.remove(message);
                     messageAdapter.notifyDataSetChanged();
-                    Toast.makeText(getActivity(), MessageConstant.Delete, Toast.LENGTH_SHORT).show();
+                    deleteMessage(deletedId);
+                    //Toast.makeText(getActivity(), MessageConstant.Delete, Toast.LENGTH_SHORT).show();
                 })
                 .setNegativeButton(android.R.string.no, null)
                 .create();
