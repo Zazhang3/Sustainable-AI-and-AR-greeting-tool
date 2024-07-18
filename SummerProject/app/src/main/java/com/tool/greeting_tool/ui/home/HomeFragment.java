@@ -132,18 +132,18 @@ public class HomeFragment extends Fragment {
         }
     }
 
-    private void showMessageDialog(boolean haveMessage){
+    private void showMessageDialog(boolean haveMessage, String currentPostcode){
         //TODO
         //update format
         if(!haveMessage){
             AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
-            builder.setMessage("There are no message near you !")
+            builder.setMessage("There are no message near you in " + currentPostcode + "!")
                     .setPositiveButton("OK", (dialog, which) -> dialog.dismiss())
                     .create()
                     .show();
         }else{
             AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
-            builder.setMessage("You have " + nearbyGreetingCards.size() + " meaasge in this area")
+            builder.setMessage("You have " + nearbyGreetingCards.size() + " meaasge in " + currentPostcode)
                     //TODO
                     //Might add title to tell user
                     .setPositiveButton("Check with AR", (dialogInterface, which) -> {
@@ -287,7 +287,7 @@ public class HomeFragment extends Fragment {
                                     jsonResponse.get("data").getAsJsonArray(),
                                     new TypeToken<ArrayList<GreetingCard>>(){}.getType()
                             );
-                            updateMessageList(greetingCards);
+                            updateMessageList(greetingCards, currentPostcode);
                         } else {
                             String msg = jsonResponse.get("msg").getAsString();
                             Toast.makeText(requireContext(), "Error: " + msg, Toast.LENGTH_SHORT).show();
@@ -315,7 +315,7 @@ public class HomeFragment extends Fragment {
      * Represent nearby message
      * @param greetingCards : the greeting card list that user send
      */
-    private void updateMessageList(ArrayList<GreetingCard> greetingCards) {
+    private void updateMessageList(ArrayList<GreetingCard> greetingCards, String currentPostcode) {
         nearbyGreetingCards.clear();
         for (GreetingCard greetingCard : greetingCards) {
             CardDisplayVO card = new CardDisplayVO(greetingCard.getCardId(),
@@ -323,9 +323,9 @@ public class HomeFragment extends Fragment {
             nearbyGreetingCards.add(card);
         }
         if(nearbyGreetingCards.isEmpty()){
-            showMessageDialog(false);
+            showMessageDialog(false, currentPostcode);
         }else{
-            showMessageDialog(true);
+            showMessageDialog(true, currentPostcode);
             //Toast.makeText(requireContext(), "You have " + nearbyGreetingCards.size() + " meaasge in this area", Toast.LENGTH_SHORT).show();
         }
     }
