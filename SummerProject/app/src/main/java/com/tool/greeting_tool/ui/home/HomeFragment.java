@@ -104,7 +104,6 @@ public class HomeFragment extends Fragment {
             startActivityForResult(intent, 1);
         });
 
-
         //Button Listener for Nearby message
         nearByMessage.setOnClickListener(v->{
             //showNearbyMessageWithAR();
@@ -369,6 +368,7 @@ public class HomeFragment extends Fragment {
 
     @Override
     public void onDestroyView() {
+        //SharedPreferencesUtil.setFirstSkip(requireContext(), false);
         audioPlayer.stopAudio();
         if (dialog != null && dialog.isShowing()) {
             dialog.dismiss();

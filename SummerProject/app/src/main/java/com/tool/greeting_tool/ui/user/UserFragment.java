@@ -2,12 +2,14 @@ package com.tool.greeting_tool.ui.user;
 
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -65,6 +67,19 @@ public class UserFragment extends Fragment {
 
         ImageButton logoutButton = binding.actionLogout;
         logoutButton.setOnClickListener(v-> showActionConfirm(false));
+
+        CheckBox notificationCheckBox = binding.notificationCheckbox;
+        boolean isTick = SharedPreferencesUtil.getNotificationSender(requireContext());
+        notificationCheckBox.setChecked(isTick);
+
+        notificationCheckBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            //TODO
+            //modify the format of the checkbox
+            ((MainActivity) requireActivity()).cancelWork();
+            SharedPreferencesUtil.clearNotificationPostedFlag(requireContext());
+            SharedPreferencesUtil.setFirstSkip(requireContext(), false);
+            SharedPreferencesUtil.setNotificationSender(requireContext(), isChecked);
+        });
 
         return root;
     }

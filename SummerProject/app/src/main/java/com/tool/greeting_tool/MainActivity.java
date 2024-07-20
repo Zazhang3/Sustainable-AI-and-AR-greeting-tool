@@ -9,6 +9,7 @@ import androidx.navigation.ui.NavigationUI;
 import androidx.work.ExistingPeriodicWorkPolicy;
 import androidx.work.OneTimeWorkRequest;
 import androidx.work.PeriodicWorkRequest;
+import androidx.work.WorkInfo;
 import androidx.work.WorkManager;
 
 import com.tool.greeting_tool.common.utils.SharedPreferencesUtil;
@@ -59,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
         //It will set a background workManager to repeat the LocationWorker action each 15min
         System.out.println("Start schedule");
         PeriodicWorkRequest locationWorkRequest = new PeriodicWorkRequest.Builder(NotificationWorker.class, 15, TimeUnit.MINUTES)
-                //.setInitialDelay(15, TimeUnit.MINUTES)
+                .setInitialDelay(10, TimeUnit.MINUTES)
                 .build();
 
         //WorkManager.getInstance(this).enqueue(locationWorkRequest);
