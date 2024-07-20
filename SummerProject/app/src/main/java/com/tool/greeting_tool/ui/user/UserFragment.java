@@ -2,6 +2,7 @@ package com.tool.greeting_tool.ui.user;
 
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,6 +17,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.tool.greeting_tool.MainActivity;
+import com.tool.greeting_tool.R;
 import com.tool.greeting_tool.common.constant.ErrorMessage;
 import com.tool.greeting_tool.common.constant.URLConstant;
 import com.tool.greeting_tool.common.utils.SharedPreferencesUtil;
@@ -68,22 +70,31 @@ public class UserFragment extends Fragment {
     }
 
     private void showActionConfirm(boolean isCancel){
-        //TODO
-        //update format
-        if(isCancel){
-            new AlertDialog.Builder(requireContext())
-                    .setTitle("Confirm Cancel Account")
-                    .setMessage("Are you sure you want to cancel your account?")
+        // Inflate the custom layouts
+        LayoutInflater inflater = getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.custom_dialog, null);
+        View titleView = inflater.inflate(R.layout.custom_dialog_title, null);
+
+        TextView messageTextView = dialogView.findViewById(R.id.dialog_message);
+        TextView titleTextView = titleView.findViewById(R.id.custom_title);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
+
+        if (isCancel) {
+            messageTextView.setText("Are you sure you want to cancel your account?");
+            titleTextView.setText("Confirm Cancel Account");
+            builder.setCustomTitle(titleView)
+                    .setView(dialogView)
                     .setPositiveButton(android.R.string.yes, (dialog, which) -> {
                         // Perform the action to cancel the account
                         cancelAccount();
                     })
-                    .setNegativeButton(android.R.string.no, null)
-                    .show();
-        }else{
-            new AlertDialog.Builder(requireContext())
-                    .setTitle("Confirm Logout")
-                    .setMessage("Are you sure you want to Logout?")
+                    .setNegativeButton(android.R.string.no, null);
+        } else {
+            messageTextView.setText("Are you sure you want to Logout?");
+            titleTextView.setText("Confirm Logout");
+            builder.setCustomTitle(titleView)
+                    .setView(dialogView)
                     .setPositiveButton(android.R.string.yes, (dialog, which) -> {
                         SharedPreferencesUtil.clearSharedPreferences(requireContext());
 
@@ -93,9 +104,14 @@ public class UserFragment extends Fragment {
 
                         requireActivity().finish();
                     })
-                    .setNegativeButton(android.R.string.no, null)
-                    .show();
+                    .setNegativeButton(android.R.string.no, null);
         }
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+
+        dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.parseColor("#FAC307")); // 黄色
+        dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.parseColor("#F89E85"));
     }
 
     @Override

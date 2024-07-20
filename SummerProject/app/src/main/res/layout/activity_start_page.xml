@@ -9,6 +9,19 @@
     tools:context=".server.StartPage">
 
     <ImageView
+        android:id="@+id/background_rec1"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@android:color/transparent"
+        android:contentDescription="@string/ar_greeting_title"
+        android:src="@drawable/re_2"
+        android:scaleType="centerInside"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintDimensionRatio="H,3.91:1" />
+
+    <ImageView
         android:id="@+id/greeting_pic"
         android:layout_width="0dp"
         android:layout_height="0dp"

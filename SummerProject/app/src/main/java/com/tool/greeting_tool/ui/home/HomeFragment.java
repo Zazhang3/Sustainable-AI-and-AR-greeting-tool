@@ -5,6 +5,7 @@ import static android.app.Activity.RESULT_OK;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -132,28 +133,58 @@ public class HomeFragment extends Fragment {
         }
     }
 
-    private void showMessageDialog(boolean haveMessage, String currentPostcode){
-        //TODO
-        //update format
-        if(!haveMessage){
-            AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
-            builder.setMessage("There are no message near you in " + currentPostcode + "!")
-                    .setPositiveButton("OK", (dialog, which) -> dialog.dismiss())
-                    .create()
-                    .show();
-        }else{
-            AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
-            builder.setMessage("You have " + nearbyGreetingCards.size() + " meaasge in " + currentPostcode)
-                    //TODO
-                    //Might add title to tell user
-                    .setPositiveButton("Check with AR", (dialogInterface, which) -> {
-                        showNearbyMessageWithAR();
-                    })
-                    .setNegativeButton("OK", (dialogInterface, which)-> dialogInterface.dismiss())
-                    .create()
-                    .show();
-        }
+    private void showNoMessageDialog(String currentPostcode){
+        AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
 
+        LayoutInflater inflater = getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.custom_dialog_2, null);
+
+        TextView messageTextView = dialogView.findViewById(R.id.dialog_message_1);
+        messageTextView.setText("There are no messages near you in " + currentPostcode + "!");
+
+        builder.setView(dialogView)
+                .setPositiveButton("OK", null); // We will override this button later
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+
+        dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(view -> {
+            dialog.dismiss();
+        });
+
+        dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.parseColor("#FAC307"));
+    }
+
+    private void showHaveMessageDialog(String currentPostcode, int nearbyMessagesCount){
+        AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
+
+        LayoutInflater inflater = getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.custom_dialog_2, null);
+
+        TextView messageTextView = dialogView.findViewById(R.id.dialog_message_1);
+        messageTextView.setText("You have " + nearbyMessagesCount + " messages in " + currentPostcode);
+
+        builder.setView(dialogView)
+                .setPositiveButton("Check with AR", (dialogInterface, which) -> showNearbyMessageWithAR())
+                .setNegativeButton("OK", null); // We will override this button later
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+
+        dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setOnClickListener(view -> {
+            dialog.dismiss();
+        });
+
+        dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.parseColor("#F89E85"));
+        dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.parseColor("#FAC307"));
+    }
+
+    private void showMessageDialog(boolean haveMessage, String currentPostcode) {
+        if (!haveMessage) {
+            showNoMessageDialog(currentPostcode);
+        } else {
+            showHaveMessageDialog(currentPostcode, nearbyGreetingCards.size());
+        }
     }
 
     @Override
