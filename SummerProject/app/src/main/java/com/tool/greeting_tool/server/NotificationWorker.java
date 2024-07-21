@@ -111,7 +111,7 @@ public class NotificationWorker extends Worker {
         String text = "You have " + count + " Message in " + postcode;
         textToSpeechHelper.startSynthesizeThread(text);
 
-        SharedPreferencesUtil.saveNotificationMessage(context, postcode, count);
+        //SharedPreferencesUtil.saveNotificationMessage(context, postcode, count);
         SharedPreferencesUtil.setNotificationPostedFlag(context, true);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {

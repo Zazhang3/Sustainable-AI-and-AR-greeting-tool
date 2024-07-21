@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -109,10 +110,21 @@ public class HistoryDialogFragment extends DialogFragment {
      *
      * @param message : the message show to user
      */
+
     private void showDeleteDialog(History_Message message, long deletedId) {
+        LayoutInflater inflater = getLayoutInflater();
+        View titleView = inflater.inflate(R.layout.custom_dialog_title, null);
+        View dialogView = inflater.inflate(R.layout.custom_dialog, null);
+
+        TextView titleTextView = titleView.findViewById(R.id.custom_title);
+        TextView messageTextView = dialogView.findViewById(R.id.dialog_message);
+
+        titleTextView.setText(MessageConstant.Delete);
+        messageTextView.setText(MessageConstant.DeleteMessage);
+
         AlertDialog dialog = new AlertDialog.Builder(getActivity())
-                .setTitle(MessageConstant.Delete)
-                .setMessage(MessageConstant.DeleteMessage)
+                .setCustomTitle(titleView)
+                .setView(dialogView)
                 .setPositiveButton(android.R.string.yes, (dialogInterface, which) -> {
                     MessageList.remove(message);
                     messageAdapter.notifyDataSetChanged();
@@ -126,7 +138,7 @@ public class HistoryDialogFragment extends DialogFragment {
             Button negativeButton = dialog.getButton(AlertDialog.BUTTON_NEGATIVE);
 
             positiveButton.setTextColor(getResources().getColor(R.color.icon_color));
-            negativeButton.setTextColor(getResources().getColor(R.color.icon_color));
+            negativeButton.setTextColor(getResources().getColor(R.color.button_red));
         });
 
         dialog.show();

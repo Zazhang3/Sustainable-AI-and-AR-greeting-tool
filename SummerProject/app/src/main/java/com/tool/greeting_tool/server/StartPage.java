@@ -22,7 +22,6 @@ public class StartPage extends AppCompatActivity {
         ImageButton login = findViewById(R.id.loginButton);
         ImageButton signup = findViewById(R.id.signupButton);
 
-
         login.setOnClickListener(v -> {
             Intent intent = new Intent(this, LoginController.class);
             startActivityForResult(intent, RequestCode.REQUEST_LOGIN);

@@ -150,4 +150,16 @@ public class SharedPreferencesUtil {
         SharedPreferences sharedPreferences = context.getSharedPreferences(notificationPrefs, Context.MODE_PRIVATE);
         return sharedPreferences.getBoolean("initial_execution_handled", false);
     }
+
+    public static void setNotificationSender(Context context, boolean shouldSend){
+        SharedPreferences sharedPreferences = context.getSharedPreferences(notificationPrefs, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean("notificationChecker", shouldSend);
+        editor.apply();
+    }
+
+    public static boolean getNotificationSender(Context context){
+        SharedPreferences sharedPreferences = context.getSharedPreferences(notificationPrefs, Context.MODE_PRIVATE);
+        return sharedPreferences.getBoolean("notificationChecker", false);
+    }
 }

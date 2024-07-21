@@ -33,8 +33,8 @@ public class AudioPlayer {
                 mediaPlayer.start();
                 mediaPlayer.setOnCompletionListener(mp -> {
                     mp.release();
-                    mediaPlayer = null;
                     deleteAudioFile();
+                    mediaPlayer = null;
                 });
                 Log.d(TAG, "Playing audio from: " + audioPath);
             } catch (IOException e) {
@@ -48,8 +48,8 @@ public class AudioPlayer {
     public void stopAudio() {
         if (mediaPlayer != null) {
             if (mediaPlayer.isPlaying()) {
-                mediaPlayer.stop();
                 deleteAudioFile();
+                mediaPlayer.stop();
             }
             mediaPlayer.release();
             mediaPlayer = null;
@@ -63,6 +63,7 @@ public class AudioPlayer {
             if (deletedRows > 0) {
                 Log.d(TAG, "Audio file deleted: " + audioPath);
             } else {
+                System.out.println("fail to delete audio file" + audioPath);
                 Log.e(TAG, "Failed to delete audio file: " + audioPath);
             }
             audioPath = null;

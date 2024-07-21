@@ -110,4 +110,15 @@
         app:layout_constraintWidth_default="percent"
         app:layout_constraintWidth_percent="0.3" />
 
+    <CheckBox
+        android:id="@+id/notification_checkbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Send Notification"
+        app:layout_constraintBottom_toTopOf="@+id/welcome"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/backgroundImage"
+        app:layout_constraintVertical_bias="0.476" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
