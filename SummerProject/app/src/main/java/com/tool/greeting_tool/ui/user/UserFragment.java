@@ -1,6 +1,7 @@
 package com.tool.greeting_tool.ui.user;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -18,6 +19,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.google.android.material.switchmaterial.SwitchMaterial;
 import com.tool.greeting_tool.MainActivity;
 import com.tool.greeting_tool.R;
 import com.tool.greeting_tool.common.constant.ErrorMessage;
@@ -51,7 +53,6 @@ public class UserFragment extends Fragment {
         final TextView textView = binding.textUser;
 
         String username = SharedPreferencesUtil.getUsername(requireContext());
-        System.out.println(username);
         userViewModel.setText(username);
 
         userViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
@@ -68,20 +69,35 @@ public class UserFragment extends Fragment {
         ImageButton logoutButton = binding.actionLogout;
         logoutButton.setOnClickListener(v-> showActionConfirm(false));
 
+        ImageButton notificationButton = binding.notificationIcon;
+        notificationButton.setOnClickListener(v-> showNotificationDialog());
+
         CheckBox notificationCheckBox = binding.notificationCheckbox;
-        boolean isTick = SharedPreferencesUtil.getNotificationSender(requireContext());
-        notificationCheckBox.setChecked(isTick);
 
         notificationCheckBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
             //TODO
             //modify the format of the checkbox
+        });
+
+        return root;
+    }
+
+    private void showNotificationDialog(){
+        Dialog dialog = new Dialog(requireContext());
+        dialog.setContentView(R.layout.dialog_notification_switch);
+
+        SwitchMaterial switchMaterial = dialog.findViewById(R.id.switchNotification);
+        boolean isTick = SharedPreferencesUtil.getNotificationSender(requireContext());
+        switchMaterial.setChecked(isTick);
+
+        switchMaterial.setOnCheckedChangeListener(((buttonView, isChecked) -> {
             ((MainActivity) requireActivity()).cancelWork();
             SharedPreferencesUtil.clearNotificationPostedFlag(requireContext());
             SharedPreferencesUtil.setFirstSkip(requireContext(), false);
             SharedPreferencesUtil.setNotificationSender(requireContext(), isChecked);
-        });
+        }));
 
-        return root;
+        dialog.show();
     }
 
     private void showActionConfirm(boolean isCancel){
