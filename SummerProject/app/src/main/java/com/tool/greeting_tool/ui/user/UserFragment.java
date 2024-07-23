@@ -72,13 +72,6 @@ public class UserFragment extends Fragment {
         ImageButton notificationButton = binding.notificationIcon;
         notificationButton.setOnClickListener(v-> showNotificationDialog());
 
-        CheckBox notificationCheckBox = binding.notificationCheckbox;
-
-        notificationCheckBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            //TODO
-            //modify the format of the checkbox
-        });
-
         return root;
     }
 

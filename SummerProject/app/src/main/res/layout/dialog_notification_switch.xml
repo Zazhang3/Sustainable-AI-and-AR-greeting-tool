@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:padding="16dp">
 
@@ -10,13 +11,20 @@
         android:layout_height="wrap_content"
         android:text="Enable Notifications"
         android:textSize="18sp"
-        android:paddingBottom="8dp" />
+        android:paddingBottom="8dp"
+        android:fontFamily="@font/candal"
+        android:layout_gravity="center"
+        android:textColor="@color/black"/>
 
     <com.google.android.material.switchmaterial.SwitchMaterial
         android:id="@+id/switchNotification"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Notifications" />
+        android:text="Notifications "
+        android:fontFamily="@font/raleway"
+        android:layout_gravity="center"
+        app:thumbTint="@color/switch_thumb_color"
+        app:trackTint="@color/switch_track_color"/>
 
 </LinearLayout>
 
