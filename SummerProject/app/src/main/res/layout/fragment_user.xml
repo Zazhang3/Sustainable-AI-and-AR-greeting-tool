@@ -32,6 +32,25 @@
         app:layout_constraintTop_toBottomOf="@id/action_logout"
         app:layout_constraintDimensionRatio="H,0.56:1"
         android:layout_marginTop="40dp"/>
+    
+    <ImageButton
+        android:id="@+id/notification_icon"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@android:color/transparent"
+        android:contentDescription="@string/ar_greeting_title"
+        android:src="@drawable/notification"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/background_rec2"
+        app:layout_constraintDimensionRatio="H,1.45:1"
+        android:scaleType="fitCenter"
+        app:layout_constraintHeight_default="percent"
+        app:layout_constraintWidth_default="percent"
+        app:layout_constraintHeight_percent="0.2"
+        app:layout_constraintWidth_percent="0.18"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="10dp"/>
+
 
     <TextView
         android:id="@+id/welcome"
@@ -44,7 +63,7 @@
         app:layout_constraintTop_toTopOf="@+id/background_rec2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="50dp" />
+        android:layout_marginTop="70dp" />
 
     <TextView
         android:id="@+id/text_user"
@@ -80,7 +99,7 @@
         android:id="@+id/history"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="68dp"
+        android:layout_marginTop="58dp"
         android:background="@android:color/transparent"
         android:src="@drawable/history_button"
         android:contentDescription="@string/history"
@@ -109,16 +128,5 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintWidth_default="percent"
         app:layout_constraintWidth_percent="0.3" />
-
-    <CheckBox
-        android:id="@+id/notification_checkbox"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Send Notification"
-        app:layout_constraintBottom_toTopOf="@+id/welcome"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/backgroundImage"
-        app:layout_constraintVertical_bias="0.476" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

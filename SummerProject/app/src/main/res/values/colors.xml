@@ -26,4 +26,6 @@
     <color name="button_blue">#5CCEDB</color>
     <color name="button_red">#F89E85</color>
     <color name="border">#FDF4E0</color>
+    <color name="grey">#979797</color>
+    <color name="grey2">#DADADA</color>
 </resources>
