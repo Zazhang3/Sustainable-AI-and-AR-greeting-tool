@@ -80,7 +80,9 @@ public class NotificationWorker extends Worker {
 
                     //send notification
                     System.out.println("goto sending");
-                    sendNotification(postcode, count);
+                    if(SharedPreferencesUtil.getNotificationSender(context)){
+                        sendNotification(postcode, count);
+                    }
                 }));
                 return Result.success();
             } else {

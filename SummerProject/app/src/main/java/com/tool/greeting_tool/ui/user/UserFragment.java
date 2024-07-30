@@ -84,7 +84,7 @@ public class UserFragment extends Fragment {
         switchMaterial.setChecked(isTick);
 
         switchMaterial.setOnCheckedChangeListener(((buttonView, isChecked) -> {
-            ((MainActivity) requireActivity()).cancelWork();
+            //((MainActivity) requireActivity()).cancelWork();
             SharedPreferencesUtil.clearNotificationPostedFlag(requireContext());
             SharedPreferencesUtil.setFirstSkip(requireContext(), false);
             SharedPreferencesUtil.setNotificationSender(requireContext(), isChecked);
