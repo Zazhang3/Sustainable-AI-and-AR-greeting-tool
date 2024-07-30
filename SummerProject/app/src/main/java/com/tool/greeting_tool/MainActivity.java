@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
         //It will set a background workManager to repeat the LocationWorker action each 15min
         System.out.println("Start schedule");
         PeriodicWorkRequest locationWorkRequest = new PeriodicWorkRequest.Builder(NotificationWorker.class, 15, TimeUnit.MINUTES)
-                .setInitialDelay(10, TimeUnit.MINUTES)
+                //.setInitialDelay(10, TimeUnit.MINUTES)
                 .build();
 
         //WorkManager.getInstance(this).enqueue(locationWorkRequest);

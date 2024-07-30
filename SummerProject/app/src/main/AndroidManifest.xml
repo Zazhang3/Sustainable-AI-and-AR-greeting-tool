@@ -28,7 +28,6 @@
         android:name="android.hardware.camera"
         android:required="true" />
 
-
     <!-- Indicates that this app requires Google Play Services for AR ("AR Required") and causes
     the Google Play Store to download and intall Google Play Services for AR along with the app.
     For an "AR Optional" app, specify "optional" instead of "required". -->

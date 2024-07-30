@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Greeting_tool</string>
+    <string name="app_name">Greeting Tool</string>
     <string name="title_home">Home</string>
     <string name="title_User">User</string>
     <string name="NearbyMessage">NearByMessage</string>

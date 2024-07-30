@@ -82,6 +82,8 @@ public class NotificationWorker extends Worker {
                     System.out.println("goto sending");
                     if(SharedPreferencesUtil.getNotificationSender(context)){
                         sendNotification(postcode, count);
+                    }else{
+                        System.out.println("skip by user notification switch");
                     }
                 }));
                 return Result.success();
@@ -96,11 +98,10 @@ public class NotificationWorker extends Worker {
     }
 
     private boolean shouldSkipInitialExecution() {
-        if (!SharedPreferencesUtil.getFirstSkip(context)) {
+        /*if (!SharedPreferencesUtil.getFirstSkip(context)) {
             SharedPreferencesUtil.setFirstSkip(context, true);
             return true;
-        }
-
+        }*/
         return false;
     }
 
