@@ -78,7 +78,7 @@ public class TextToSpeechHelper {
         String relativePath = "Music/";
 
         // Check if the file already exists
-        Uri existingUri = null;
+        /*Uri existingUri = null;
         String[] projection = {MediaStore.Audio.Media._ID};
         String selection = MediaStore.Audio.Media.DISPLAY_NAME + "=? AND " + MediaStore.Audio.Media.RELATIVE_PATH + "=?";
         String[] selectionArgs = {displayName, relativePath};
@@ -90,7 +90,7 @@ public class TextToSpeechHelper {
         }
 
         // If the file already exists, delete the old file
-        /*if (existingUri != null) {
+        if (existingUri != null) {
             context.getContentResolver().delete(existingUri, null, null);
             Log.d(TAG, "Deleted existing audio file: " + existingUri);
         }*/
