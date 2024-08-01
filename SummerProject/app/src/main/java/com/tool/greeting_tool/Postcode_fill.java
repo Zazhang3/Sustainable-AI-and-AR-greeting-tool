@@ -37,7 +37,7 @@ public class Postcode_fill extends AppCompatActivity{
         setContentView(R.layout.activity_postcode_fill);
 
         Intent intent = getIntent();
-        ArrayList<String> selectList = intent.getStringArrayListExtra(KeySet.SelectedList);
+        String[] selectList = intent.getStringArrayExtra(KeySet.SelectedList);
 
         EditText postCode = findViewById(R.id.postcode);
         ImageButton submitButton = findViewById(R.id.submit_postcode_button);
@@ -57,7 +57,7 @@ public class Postcode_fill extends AppCompatActivity{
      * Temporarily use Dialog to show the postcode
      * @param postcode : the postcode that user insert
      */
-    private void showPostCodeDialog(String postcode, ArrayList<String> selectList) {
+    private void showPostCodeDialog(String postcode, String[] selectList) {
         LayoutInflater inflater = getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.custom_dialog_2, null);
 

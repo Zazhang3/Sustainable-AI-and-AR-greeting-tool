@@ -193,13 +193,13 @@ public class HomeFragment extends Fragment {
             int sendState = data.getIntExtra(KeySet.IsSend, -1);
             if(sendState == 1){
                 Intent intent = new Intent(getActivity(), Postcode_fill.class);
-                ArrayList<String> selectedItems = data.getStringArrayListExtra(KeySet.SelectedList);
+                String[] selectedItems = data.getStringArrayExtra(KeySet.SelectedList);
                 intent.putExtra(KeySet.SelectedList, selectedItems);
                 startActivityForResult(intent, 1);
             }else if(sendState == 0){
-                ArrayList<String> selectedItems = data.getStringArrayListExtra(KeySet.SelectedList);
+                String[] selectedItems = data.getStringArrayExtra(KeySet.SelectedList);
                 assert selectedItems != null;
-                CardDisplayVO greetingCard = new CardDisplayVO(selectedItems.get(0),selectedItems.get(1), selectedItems.get(2));
+                CardDisplayVO greetingCard = new CardDisplayVO(selectedItems[0],selectedItems[1], selectedItems[2]);
                 ArrayList<CardDisplayVO> previewCard = new ArrayList<>();
                 previewCard.add(greetingCard);
                 Intent intent = new Intent(getActivity(), ArActivity.class);
@@ -207,9 +207,9 @@ public class HomeFragment extends Fragment {
                 startActivity(intent);
             }else if(sendState == 2){
                 String postcode = data.getStringExtra(KeySet.PostKey);
-                ArrayList<String> SelectedItems = data.getStringArrayListExtra(KeySet.SelectedList);
-                if(SelectedItems != null){
-                    sendGreetingCard(SelectedItems,postcode);
+                String[] selectedItems = data.getStringArrayExtra(KeySet.SelectedList);
+                if(selectedItems != null){
+                    sendGreetingCard(selectedItems, postcode);
                 }
             }
         }
@@ -236,11 +236,11 @@ public class HomeFragment extends Fragment {
      * @param selectionList : the selection list
      * @param postcode : the postcode that will send to
      */
-    private void sendGreetingCard(ArrayList<String> selectionList, String postcode) {
+    private void sendGreetingCard(String[] selectionList, String postcode) {
         GreetingCard greetingCard = new GreetingCard();
-        greetingCard.setText(selectionList.get(0));
-        greetingCard.setEmoji(selectionList.get(1));
-        greetingCard.setAnimation(selectionList.get(2));
+        greetingCard.setText(selectionList[0]);
+        greetingCard.setEmoji(selectionList[1]);
+        greetingCard.setAnimation(selectionList[2]);
         greetingCard.setPostcode(postcode);
         greetingCard.setUser_id(SharedPreferencesUtil.getLong(requireContext()));
 
