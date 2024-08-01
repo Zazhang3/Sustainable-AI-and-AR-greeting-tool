@@ -23,7 +23,7 @@ import java.util.Objects;
 
 /** @noinspection deprecation*/
 public class WordsSelect extends AppCompatActivity {
-    private ArrayList<String> selectList;
+    private String[] selectList;
     private String selectType;
     private int[] items;
 
@@ -49,12 +49,12 @@ public class WordsSelect extends AppCompatActivity {
         // Optionally set custom title or other properties if needed
         Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(true);
 
-        selectList = getIntent().getStringArrayListExtra(KeySet.SelectedList);
+        selectList = getIntent().getStringArrayExtra(KeySet.SelectedList);
         selectType = getIntent().getStringExtra(KeySet.SelectedType);
         //request = getIntent().getIntExtra(KeySet.Request, -1);
 
         if (selectList == null) {
-            selectList = new ArrayList<>();
+            selectList = new String[3];
         }
 
         ListView listView = findViewById(R.id.words);
@@ -84,20 +84,20 @@ public class WordsSelect extends AppCompatActivity {
             Intent intent = new Intent(WordsSelect.this, WordsSelect.class);
             if (Objects.equals(selectType, "Words")) {
                 String text = AssetManager.mapResourceIdToText(selectedItem);
-                selectList.add(text);
+                selectList[0] = text;
                 intent.putExtra(KeySet.SelectedList, selectList);
                 intent.putExtra(KeySet.SelectedType, "Emoji");
                 //intent.putExtra(KeySet.Request, request);
                 startActivityForResult(intent, 1);
             } else if (Objects.equals(selectType, "Emoji")) {
                 String emoji = AssetManager.mapResourceIdToEmoji(selectedItem);
-                selectList.add(emoji);
+                selectList[1] = emoji;
                 intent.putExtra(KeySet.SelectedType, "Animation");
                 intent.putExtra(KeySet.SelectedList, selectList);
                 startActivityForResult(intent, 1);
             } else if (Objects.equals(selectType, "Animation")) {
                 String animation = AssetManager.mapResourceIdToAnimation(selectedItem);
-                selectList.add(animation);
+                selectList[2] = animation;
 
                 showSelectionDialog(selectList);
             }
@@ -117,10 +117,10 @@ public class WordsSelect extends AppCompatActivity {
     /**
      * Show dialog page after selection and back to Home page in Preview situation
      */
-    private void showSelectionDialog(ArrayList<String> selectList) {
-        String text = selectList.get(0);
-        String emoji = selectList.get(1);
-        String animation = selectList.get(2);
+    private void showSelectionDialog(String[] selectList) {
+        String text = selectList[0];
+        String emoji = selectList[1];
+        String animation = selectList[2];
 
         LayoutInflater inflater = getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.dialog_custom, null);
@@ -150,7 +150,9 @@ public class WordsSelect extends AppCompatActivity {
                         setResult(Activity.RESULT_OK, resultIntent);
                         finish();
                     })
-                    .setNegativeButton("cancel", (dialogInterface, which)-> dialogInterface.dismiss())
+                    .setNegativeButton("cancel", (dialogInterface, which)->{
+                        //selectList.remove(animation);
+                        dialogInterface.dismiss();})
                     .create();
 
         dialog.setOnShowListener(dialogInterface -> {
@@ -182,7 +184,7 @@ public class WordsSelect extends AppCompatActivity {
         protected void onActivityResult(int requestCode, int resultCode, Intent data) {
             super.onActivityResult(requestCode, resultCode, data);
             if (resultCode == RESULT_OK && data != null) {
-                ArrayList<String> selection = data.getStringArrayListExtra(KeySet.SelectedList);
+                String[] selection = data.getStringArrayExtra(KeySet.SelectedList);
                 int sendState = data.getIntExtra(KeySet.IsSend, -1);
                 Intent resultIntent = new Intent();
                 resultIntent.putExtra(KeySet.SelectedList, selection);

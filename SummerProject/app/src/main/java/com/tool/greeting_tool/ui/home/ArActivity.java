@@ -3,6 +3,7 @@ package com.tool.greeting_tool.ui.home;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.widget.Toast;
 
@@ -30,6 +31,8 @@ import java.util.HashMap;
 
 import com.tool.greeting_tool.common.constant.ArModelSet;
 import com.tool.greeting_tool.pojo.vo.CardDisplayVO;
+import com.tool.greeting_tool.server.AudioPlayer;
+import com.tool.greeting_tool.server.TextToSpeechHelper;
 
 
 public class ArActivity extends AppCompatActivity implements BaseArFragment.OnTapArPlaneListener {
@@ -38,6 +41,8 @@ public class ArActivity extends AppCompatActivity implements BaseArFragment.OnTa
     private final HashMap<CardDisplayVO,ArModelSet> arModelMap = new HashMap<>();
     private ArFragment arFragment;
     private boolean tapFlag;
+    private TextToSpeechHelper textToSpeechHelper;
+    private AudioPlayer audioPlayer;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -45,6 +50,14 @@ public class ArActivity extends AppCompatActivity implements BaseArFragment.OnTa
 
         setContentView(R.layout.activity_ar);
         greetingCards = new ArrayList<>();
+        textToSpeechHelper = new TextToSpeechHelper(this);
+        audioPlayer = new AudioPlayer(this);
+
+        // Play the audio when the synthesis is complete
+        textToSpeechHelper.setSynthesizeCallback(audioPath -> {
+            audioPlayer.setAudioPath(audioPath);
+            audioPlayer.playAudio();
+        });
 
         Intent intent = getIntent();
         greetingCards = (ArrayList<CardDisplayVO>) intent.getSerializableExtra("greetingCards");
@@ -65,7 +78,6 @@ public class ArActivity extends AppCompatActivity implements BaseArFragment.OnTa
         }
 
         greetingCards.forEach(this::loadModelsFromCard);
-
     }
 
     /**
@@ -152,6 +164,13 @@ public class ArActivity extends AppCompatActivity implements BaseArFragment.OnTa
             j = j * (-1);
             tapFlag = true;
 
+        }
+        // Playback of audio after a user clicks on a flat surface
+        if (greetingCards != null && !greetingCards.isEmpty()) {
+            CardDisplayVO lastCard = greetingCards.get(greetingCards.size() - 1);
+            String textId = lastCard.getTextId();
+            Log.d("ArActivity", "TextId: " + textId);
+            textToSpeechHelper.startSynthesizeThread(textId);
         }
     }
 
