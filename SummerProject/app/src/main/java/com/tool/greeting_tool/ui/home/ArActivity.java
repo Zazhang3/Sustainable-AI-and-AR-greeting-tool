@@ -78,13 +78,6 @@ public class ArActivity extends AppCompatActivity implements BaseArFragment.OnTa
         }
 
         greetingCards.forEach(this::loadModelsFromCard);
-        // Extract the last textId and call the text-to-speech function
-        if (greetingCards != null && !greetingCards.isEmpty()) {
-            CardDisplayVO lastCard = greetingCards.get(greetingCards.size() - 1);
-            String textId = lastCard.getTextId();
-            Log.d("ArActivity", "TextId: " + textId);
-            textToSpeechHelper.startSynthesizeThread(textId);
-        }
     }
 
     /**
@@ -171,6 +164,13 @@ public class ArActivity extends AppCompatActivity implements BaseArFragment.OnTa
             j = j * (-1);
             tapFlag = true;
 
+        }
+        // Playback of audio after a user clicks on a flat surface
+        if (greetingCards != null && !greetingCards.isEmpty()) {
+            CardDisplayVO lastCard = greetingCards.get(greetingCards.size() - 1);
+            String textId = lastCard.getTextId();
+            Log.d("ArActivity", "TextId: " + textId);
+            textToSpeechHelper.startSynthesizeThread(textId);
         }
     }
 
