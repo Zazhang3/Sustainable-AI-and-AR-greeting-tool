@@ -90,10 +90,10 @@ public class TextToSpeechHelper {
         }
 
         // If the file already exists, delete the old file
-        if (existingUri != null) {
+        /*if (existingUri != null) {
             context.getContentResolver().delete(existingUri, null, null);
             Log.d(TAG, "Deleted existing audio file: " + existingUri);
-        }
+        }*/
 
         ContentValues values = new ContentValues();
         values.put(MediaStore.Audio.Media.DISPLAY_NAME, displayName);
