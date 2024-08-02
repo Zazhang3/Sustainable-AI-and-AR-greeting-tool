@@ -24,6 +24,7 @@ import com.tool.greeting_tool.MainActivity;
 import com.tool.greeting_tool.R;
 import com.tool.greeting_tool.common.constant.ErrorMessage;
 import com.tool.greeting_tool.common.constant.URLConstant;
+import com.tool.greeting_tool.common.utils.JsonUtil;
 import com.tool.greeting_tool.common.utils.SharedPreferencesUtil;
 import com.tool.greeting_tool.databinding.FragmentUserBinding;
 import com.tool.greeting_tool.server.StartPage;
@@ -114,6 +115,7 @@ public class UserFragment extends Fragment {
                         cancelAccount();
                     })
                     .setNegativeButton(android.R.string.no, null);
+            JsonUtil.deleteLoginInfoJsonFile();
         } else {
             messageTextView.setText("Are you sure you want to Logout?");
             titleTextView.setText("Confirm Logout");
@@ -129,6 +131,7 @@ public class UserFragment extends Fragment {
                         requireActivity().finish();
                     })
                     .setNegativeButton(android.R.string.no, null);
+            JsonUtil.deleteLoginInfoJsonFile();
         }
 
         AlertDialog dialog = builder.create();

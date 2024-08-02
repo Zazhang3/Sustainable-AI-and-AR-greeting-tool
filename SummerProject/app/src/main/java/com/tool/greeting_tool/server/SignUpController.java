@@ -19,6 +19,7 @@ import com.tool.greeting_tool.common.constant.ErrorMessage;
 import com.tool.greeting_tool.common.constant.KeySet;
 import com.tool.greeting_tool.common.constant.TAGConstant;
 import com.tool.greeting_tool.common.constant.URLConstant;
+import com.tool.greeting_tool.common.utils.JsonUtil;
 import com.tool.greeting_tool.common.utils.SharedPreferencesUtil;
 import com.tool.greeting_tool.pojo.vo.UserVO;
 
@@ -125,6 +126,13 @@ public class SignUpController extends AppCompatActivity {
 
                             //save user data
                             SharedPreferencesUtil.saveUserInfo(SignUpController.this,id,username,token);
+
+                            // save user data for continuously login
+                            if (!JsonUtil.jsonFileIsExist()) {
+                                JsonUtil.saveLoginInfoToFile(username, password);
+                            } else {
+                                JsonUtil.updateLoginInfoToFile(username, password);
+                            }
 
                             Intent resultIntent = new Intent();
                             resultIntent.putExtra(KeySet.UserKey, username);

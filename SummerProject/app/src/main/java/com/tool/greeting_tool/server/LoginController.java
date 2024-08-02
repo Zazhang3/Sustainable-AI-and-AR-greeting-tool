@@ -1,5 +1,7 @@
 package com.tool.greeting_tool.server;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,7 +20,9 @@ import com.tool.greeting_tool.common.constant.ErrorMessage;
 import com.tool.greeting_tool.common.constant.KeySet;
 import com.tool.greeting_tool.common.constant.TAGConstant;
 import com.tool.greeting_tool.common.constant.URLConstant;
+import com.tool.greeting_tool.common.utils.JsonUtil;
 import com.tool.greeting_tool.common.utils.SharedPreferencesUtil;
+import com.tool.greeting_tool.pojo.vo.UserLoginVO;
 import com.tool.greeting_tool.pojo.vo.UserVO;
 import com.tool.greeting_tool.ui.IntroPage.ReSetPassWord;
 
@@ -55,6 +59,10 @@ public class LoginController extends AppCompatActivity {
         ImageButton backButton = findViewById(R.id.navigateButton_login);
         ImageButton loginButton = findViewById(R.id.signin_button);
         ImageButton forgetPassWord = findViewById(R.id.test_button);
+
+        if (JsonUtil.jsonFileIsExist()) {
+            showAutoLoginDialog();
+        }
 
         loginButton.setOnClickListener(v -> {
             String username = usernameEditText.getText().toString();
@@ -152,6 +160,13 @@ public class LoginController extends AppCompatActivity {
                             //save user data
                             SharedPreferencesUtil.saveUserInfo(LoginController.this,userId,username,token);
 
+                            // save user data for continuously login
+                            if (!JsonUtil.jsonFileIsExist()) {
+                                JsonUtil.saveLoginInfoToFile(username, password);
+                            } else {
+                                JsonUtil.updateLoginInfoToFile(username, password);
+                            }
+
                             Intent resultIntent = new Intent();
                             resultIntent.putExtra(KeySet.UserKey, username);
                             setResult(RESULT_OK, resultIntent);
@@ -170,4 +185,35 @@ public class LoginController extends AppCompatActivity {
         });
     }
 
+    private void showAutoLoginDialog() {
+        new AlertDialog.Builder(this)
+                .setTitle("Auto Login")
+                .setMessage("Saved login information detected, do you want to log in automatically?")
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        UserLoginVO userLoginInfo = JsonUtil.readLoginInfoFile();
+                        if (userLoginInfo != null) {
+                            String username = userLoginInfo.getUsername();
+                            String password = userLoginInfo.getPassword();
+                            // Fill username and password automate
+                            usernameEditText.setText(username);
+                            passwordEditText.setText(password);
+                            // Login
+                            login(username, password);
+                        } else {
+                            Log.e("MainActivity", "Failed to read login info.");
+                        }
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // Clean username and password in login window
+                        usernameEditText.setText("");
+                        passwordEditText.setText("");
+                    }
+                })
+                .show();
+    }
 }
