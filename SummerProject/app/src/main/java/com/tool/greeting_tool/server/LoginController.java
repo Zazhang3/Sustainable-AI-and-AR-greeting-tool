@@ -188,9 +188,11 @@ public class LoginController extends AppCompatActivity {
     private void showAutoLoginDialog() {
         UserLoginVO userLoginVO = JsonUtil.readLoginInfoFile();
         String username = userLoginVO.getUsername();
+        String lastLoginTime = userLoginVO.getLastLoginTime();
         new AlertDialog.Builder(this)
                 .setTitle("Auto Login")
-                .setMessage("Do you want to log in as " + username)
+                .setMessage("Do you want to log in as " + username +
+                        "\nLast login time: " + lastLoginTime)
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {

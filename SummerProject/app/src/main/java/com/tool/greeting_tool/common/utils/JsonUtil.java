@@ -9,6 +9,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.tool.greeting_tool.common.constant.TAGConstant;
 import com.tool.greeting_tool.pojo.vo.UserLoginVO;
+import com.tool.greeting_tool.server.GetCalender;
 
 import java.io.File;
 import java.io.FileReader;
@@ -18,8 +19,10 @@ import java.io.IOException;
 public class JsonUtil {
     private static final String FILE_NAME = "ARGreetingCardsLoginInfo.json";
     public static void saveLoginInfoToFile(String username, String password) {
+        GetCalender curTime = new GetCalender();
+        String lastLoginTime = curTime.toString();
         // Init UserLoginVO
-        UserLoginVO loginInfo = new UserLoginVO(username, password);
+        UserLoginVO loginInfo = new UserLoginVO(username, password, lastLoginTime);
         // Translate UserLoginVO into jsonString
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         String jsonString = gson.toJson(loginInfo);
@@ -82,10 +85,14 @@ public class JsonUtil {
             UserLoginVO loginInfo = gson.fromJson(fileReader, UserLoginVO.class);
             fileReader.close();
 
+            GetCalender curTime = new GetCalender();
+            String newLastLoginTime = curTime.toString();
+
             // Modify Java Object
             if (loginInfo != null) {
                 loginInfo.setUsername(newUsername);
                 loginInfo.setPassword(newPassword);
+                loginInfo.setLastLoginTime(newLastLoginTime);
 
                 // Transfer new UserLoginVO to Json
                 Gson newGson = new GsonBuilder().setPrettyPrinting().create();
