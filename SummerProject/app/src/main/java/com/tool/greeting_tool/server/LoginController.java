@@ -186,9 +186,11 @@ public class LoginController extends AppCompatActivity {
     }
 
     private void showAutoLoginDialog() {
+        UserLoginVO userLoginVO = JsonUtil.readLoginInfoFile();
+        String username = userLoginVO.getUsername();
         new AlertDialog.Builder(this)
                 .setTitle("Auto Login")
-                .setMessage("Saved login information detected, do you want to log in automatically?")
+                .setMessage("Do you want to log in as " + username)
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -202,7 +204,7 @@ public class LoginController extends AppCompatActivity {
                             // Login
                             login(username, password);
                         } else {
-                            Log.e("MainActivity", "Failed to read login info.");
+                            Log.e("LoginController", "Failed to read login info.");
                         }
                     }
                 })
