@@ -9,19 +9,21 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.tool.greeting_tool.common.constant.TAGConstant;
 import com.tool.greeting_tool.pojo.vo.UserLoginVO;
-import com.tool.greeting_tool.server.GetCalender;
 
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 
 public class JsonUtil {
     private static final String FILE_NAME = "ARGreetingCardsLoginInfo.json";
     private static final String TAG = "JsonUtil";
     public static void saveLoginInfoToFile(String username, String password) {
-        GetCalender curTime = new GetCalender();
-        String lastLoginTime = curTime.toString();
+        String lastLoginTime = getCurTime();
 
         KeyStoreUtil.generateKey();
 
@@ -92,8 +94,7 @@ public class JsonUtil {
             UserLoginVO loginInfo = gson.fromJson(fileReader, UserLoginVO.class);
             fileReader.close();
 
-            GetCalender curTime = new GetCalender();
-            String newLastLoginTime = curTime.toString();
+            String newLastLoginTime = getCurTime();
 
             KeyStoreUtil.generateKey();
 
@@ -147,5 +148,12 @@ public class JsonUtil {
         File documentsDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS);
         File jsonFile = new File(documentsDir, FILE_NAME);
         return jsonFile.exists();
+    }
+
+    public static String getCurTime () {
+        Instant instant = Instant.now();
+        LocalDateTime dateTime = LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        return dateTime.format(formatter);
     }
 }
