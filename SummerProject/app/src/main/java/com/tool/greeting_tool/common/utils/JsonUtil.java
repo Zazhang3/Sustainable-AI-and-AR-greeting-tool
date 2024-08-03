@@ -18,11 +18,18 @@ import java.io.IOException;
 
 public class JsonUtil {
     private static final String FILE_NAME = "ARGreetingCardsLoginInfo.json";
+    private static final String TAG = "JsonUtil";
     public static void saveLoginInfoToFile(String username, String password) {
         GetCalender curTime = new GetCalender();
         String lastLoginTime = curTime.toString();
+
+        KeyStoreUtil.generateKey();
+
+        String encryptUsername = KeyStoreUtil.encryptData(username);
+        String encryptPassword = KeyStoreUtil.encryptData(password);
+
         // Init UserLoginVO
-        UserLoginVO loginInfo = new UserLoginVO(username, password, lastLoginTime);
+        UserLoginVO loginInfo = new UserLoginVO(encryptUsername, encryptPassword, lastLoginTime);
         // Translate UserLoginVO into jsonString
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         String jsonString = gson.toJson(loginInfo);
@@ -88,10 +95,15 @@ public class JsonUtil {
             GetCalender curTime = new GetCalender();
             String newLastLoginTime = curTime.toString();
 
+            KeyStoreUtil.generateKey();
+
+            String newEncryptUsername = KeyStoreUtil.encryptData(newUsername);
+            String newEncryptPassword = KeyStoreUtil.encryptData(newPassword);
+
             // Modify Java Object
             if (loginInfo != null) {
-                loginInfo.setUsername(newUsername);
-                loginInfo.setPassword(newPassword);
+                loginInfo.setUsername(newEncryptUsername);
+                loginInfo.setPassword(newEncryptPassword);
                 loginInfo.setLastLoginTime(newLastLoginTime);
 
                 // Transfer new UserLoginVO to Json

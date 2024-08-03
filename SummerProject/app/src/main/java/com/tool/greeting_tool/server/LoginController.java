@@ -21,6 +21,7 @@ import com.tool.greeting_tool.common.constant.KeySet;
 import com.tool.greeting_tool.common.constant.TAGConstant;
 import com.tool.greeting_tool.common.constant.URLConstant;
 import com.tool.greeting_tool.common.utils.JsonUtil;
+import com.tool.greeting_tool.common.utils.KeyStoreUtil;
 import com.tool.greeting_tool.common.utils.SharedPreferencesUtil;
 import com.tool.greeting_tool.pojo.vo.UserLoginVO;
 import com.tool.greeting_tool.pojo.vo.UserVO;
@@ -187,8 +188,11 @@ public class LoginController extends AppCompatActivity {
 
     private void showAutoLoginDialog() {
         UserLoginVO userLoginVO = JsonUtil.readLoginInfoFile();
-        String username = userLoginVO.getUsername();
+        String encryptUsername = userLoginVO.getUsername();
         String lastLoginTime = userLoginVO.getLastLoginTime();
+
+        String username = KeyStoreUtil.decryptData(encryptUsername);
+
         new AlertDialog.Builder(this)
                 .setTitle("Auto Login")
                 .setMessage("Do you want to log in as " + username +
@@ -197,9 +201,13 @@ public class LoginController extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         UserLoginVO userLoginInfo = JsonUtil.readLoginInfoFile();
+                        KeyStoreUtil.generateKey();
                         if (userLoginInfo != null) {
-                            String username = userLoginInfo.getUsername();
-                            String password = userLoginInfo.getPassword();
+                            String encryptUsername = userLoginInfo.getUsername();
+                            String encryptPassword = userLoginInfo.getPassword();
+
+                            String username = KeyStoreUtil.decryptData(encryptUsername);
+                            String password = KeyStoreUtil.decryptData(encryptPassword);
                             // Fill username and password automate
                             usernameEditText.setText(username);
                             passwordEditText.setText(password);
