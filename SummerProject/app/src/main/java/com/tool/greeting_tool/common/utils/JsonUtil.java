@@ -2,6 +2,7 @@ package com.tool.greeting_tool.common.utils;
 
 import static android.content.ContentValues.TAG;
 
+import android.annotation.SuppressLint;
 import android.os.Environment;
 import android.util.Log;
 
@@ -14,10 +15,12 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 
 public class JsonUtil {
     private static final String FILE_NAME = "ARGreetingCardsLoginInfo.json";
@@ -151,9 +154,10 @@ public class JsonUtil {
     }
 
     public static String getCurTime () {
-        Instant instant = Instant.now();
-        LocalDateTime dateTime = LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        return dateTime.format(formatter);
+        long timestamp = System.currentTimeMillis();
+        Date date = new Date(timestamp);
+        @SuppressLint("SimpleDateFormat")
+        SimpleDateFormat formatter = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss");
+        return formatter.format(date);
     }
 }
