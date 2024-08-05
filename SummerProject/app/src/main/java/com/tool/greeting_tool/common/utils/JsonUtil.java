@@ -1,7 +1,5 @@
 package com.tool.greeting_tool.common.utils;
 
-import static android.content.ContentValues.TAG;
-
 import android.annotation.SuppressLint;
 import android.os.Environment;
 import android.util.Log;
@@ -16,15 +14,17 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 public class JsonUtil {
     private static final String FILE_NAME = "ARGreetingCardsLoginInfo.json";
     private static final String TAG = "JsonUtil";
+
+    /**
+     * Transfer info collected by login UI to Json File
+     * @param username
+     * @param password
+     */
     public static void saveLoginInfoToFile(String username, String password) {
         String lastLoginTime = getCurTime();
 
@@ -58,6 +58,10 @@ public class JsonUtil {
         }
     }
 
+    /**
+     * Read Json Login File to be a UserLoginVO Object
+     * @return UserLoginVO
+     */
     public static UserLoginVO readLoginInfoFile () {
         File documentsDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS);
         File jsonFile = new File(documentsDir, FILE_NAME);
@@ -81,6 +85,11 @@ public class JsonUtil {
         }
     }
 
+    /**
+     * Update info in Json File
+     * @param newUsername
+     * @param newPassword
+     */
     public static void updateLoginInfoToFile(String newUsername, String newPassword) {
         File documentsDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS);
         File jsonFile = new File(documentsDir, FILE_NAME);
@@ -127,6 +136,10 @@ public class JsonUtil {
         }
     }
 
+    /**
+     * Delete Json File
+     * @return true or false
+     */
     public static boolean deleteLoginInfoJsonFile() {
         File documentsDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS);
         File jsonFile = new File(documentsDir, FILE_NAME);
@@ -147,12 +160,20 @@ public class JsonUtil {
         return isDeleted;
     }
 
+    /**
+     * Check if Json File exists where it should be
+     * @return
+     */
     public static boolean jsonFileIsExist() {
         File documentsDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS);
         File jsonFile = new File(documentsDir, FILE_NAME);
         return jsonFile.exists();
     }
 
+    /**
+     * Get cur time String
+     * @return curTime
+     */
     public static String getCurTime () {
         long timestamp = System.currentTimeMillis();
         Date date = new Date(timestamp);
