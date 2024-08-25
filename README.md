@@ -13,7 +13,8 @@ Bristol MSc computer science Summer Project
 This project is an augmented reality (AR) greeting card Android application. Users can send pre-built messages to areas divided by postcode, and any user in the area can view the sent message. This project uses Sceneform, a 3D framework for the Android platform, to display models produced by Blender. The back-end service of the application, driven by Spring Boot, implements user authentication and data storage and manipulation. The project also integrates AI Watson Text to Speech function. This report begins with background research, then describes the design and implementation process of the project.
 
 # Screen shot of our Android application
-
+| ![homePage](./image/home_page.png) | ![userPage](./image/user_page.png) |
+|------------------------|------------------------|
 
 # Github branch structure
 Separate development of front-end and back-end is the most important feature of our project.  
