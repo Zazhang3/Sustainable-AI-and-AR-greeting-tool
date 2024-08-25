@@ -16,7 +16,7 @@ This project is an augmented reality (AR) greeting card Android application. Use
 
 
 # Github branch structure
-Separate development of front-end and back-end is the most important feature of our project.\n
-The front-end Android application is on [Front_End_Dev](https://github.com/Zazhang3/Sustainable-AI-and-AR-greeting-tool/tree/Front_End_Dev)\n
-The Back-end Database is on [Back_End_Dev](https://github.com/Zazhang3/Sustainable-AI-and-AR-greeting-tool/tree/Backend-Dev)\n
+Separate development of front-end and back-end is the most important feature of our project.  
+The front-end Android application is on [Front_End_Dev](https://github.com/Zazhang3/Sustainable-AI-and-AR-greeting-tool/tree/Front_End_Dev)  
+The Back-end Database is on [Back_End_Dev](https://github.com/Zazhang3/Sustainable-AI-and-AR-greeting-tool/tree/Backend-Dev)  
 The rest of branch is the sub-branch we working on during development. We work on these branch first then send a pull request to ask other teammates to approve the request and merge to above two branchs.
