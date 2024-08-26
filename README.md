@@ -14,8 +14,8 @@ This project is an augmented reality (AR) greeting card Android application. Use
 
 # Screen shot of our Android application
 <p align="center">
-  <img src="./image/home_page.png" alt="homePage" width="50%"/>
-  <img src="./image/user_page.png" alt="userPage" width="50%"/>
+  <img src="./image/home_page.png" alt="homePage" width="200"/>
+  <img src="./image/user_page.png" alt="userPage" width="200"/>
 </p>
 
 # Github branch structure
