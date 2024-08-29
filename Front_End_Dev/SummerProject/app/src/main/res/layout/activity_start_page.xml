@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_yellow"
+    tools:context=".server.StartPage">
+
+    <ImageView
+        android:id="@+id/background_rec1"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@android:color/transparent"
+        android:contentDescription="@string/ar_greeting_title"
+        android:src="@drawable/re_2"
+        android:scaleType="centerInside"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintDimensionRatio="H,3.91:1" />
+
+    <ImageView
+        android:id="@+id/greeting_pic"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@android:color/transparent"
+        android:contentDescription="@string/ar_greeting_title"
+        android:src="@drawable/startpage_1"
+        android:scaleType="centerInside"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.65"
+        app:layout_constraintDimensionRatio="H,0.7643:1"/>
+
+    <ImageView
+        android:id="@+id/background_rec"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@android:color/transparent"
+        android:contentDescription="@string/ar_greeting_title"
+        android:src="@drawable/startpage_2"
+        android:scaleType="centerInside"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/greeting_pic"
+        app:layout_constraintDimensionRatio="H,1.40625:1"
+        android:layout_marginTop="10dp"/>
+
+    <ImageButton
+        android:id="@+id/loginButton"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:scaleType="centerInside"
+        android:background="?attr/selectableItemBackground"
+        android:contentDescription="@string/intro"
+        android:src="@drawable/buttonlogin"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/background_rec"
+        app:layout_constraintBottom_toTopOf="@id/signupButton"
+        app:layout_constraintWidth_default="percent"
+        app:layout_constraintHeight_default="percent"
+        app:layout_constraintWidth_percent="1"
+        app:layout_constraintHeight_percent="0.12"
+        android:layout_marginBottom="0dp"
+        android:layout_marginTop="30dp"/>
+
+    <ImageButton
+        android:id="@+id/signupButton"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:scaleType="centerInside"
+        android:background="?attr/selectableItemBackground"
+        android:contentDescription="@string/sign_in"
+        android:src="@drawable/buttonsignup"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintWidth_default="percent"
+        app:layout_constraintHeight_default="percent"
+        app:layout_constraintWidth_percent="1"
+        app:layout_constraintHeight_percent="0.12"
+        android:layout_marginBottom="20dp"/>
+
+
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

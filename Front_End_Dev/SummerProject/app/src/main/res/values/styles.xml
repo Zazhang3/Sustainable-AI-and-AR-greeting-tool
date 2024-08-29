@@ -1,0 +1,37 @@
+<resources>
+
+    <style name="Widget.Theme.SampleApp.ButtonBar.Fullscreen" parent="">
+        <item name="android:background">@color/black_overlay</item>
+        <item name="android:buttonBarStyle">?android:attr/buttonBarStyle</item>
+    </style>
+
+    <style name="footButton" parent="Theme.AppCompat.Light">
+        <item name="colorPrimary">@color/icon_color</item>
+        <item name="android:textColorSecondary">@android:color/black</item>
+    </style>
+
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@android:color/black</item>
+        <item name="colorPrimaryDark">@android:color/black</item>
+    </style>
+
+    <!-- res/values/styles.xml -->
+    <style name="CustomToolbarTitle" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
+        <item name="android:fontFamily">@font/candal</item>
+        <item name="android:textSize">30sp</item> <!-- 根据需要修改字体大小 -->
+    </style>
+
+    <style name="CustomButton_cancel">
+        <item name="android:fontFamily">@font/raleway</item> <!-- 自定义字体 -->
+        <item name="android:textColor">@color/button_blue</item> <!-- 字体颜色 -->
+        <item name="android:textSize">16sp</item> <!-- 字体大小 -->
+    </style>
+
+    <style name="CustomButton_pre_se">
+        <item name="android:fontFamily">@font/raleway</item> <!-- 自定义字体 -->
+        <item name="android:textColor">@color/button_yellow</item> <!-- 字体颜色 -->
+        <item name="android:textSize">16sp</item> <!-- 字体大小 -->
+    </style>
+
+
+</resources>

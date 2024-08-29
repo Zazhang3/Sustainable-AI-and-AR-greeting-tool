@@ -1,0 +1,72 @@
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_light"
+    tools:context=".Postcode_fill">
+
+
+    <ImageView
+        android:id="@+id/enter_postcode"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="50dp"
+        android:layout_marginEnd="50dp"
+        android:layout_marginTop="68dp"
+        android:background="@android:color/transparent"
+        android:contentDescription="@string/title_postcode"
+        android:src="@drawable/postcode_title"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/postcode"
+        android:layout_width="0dp"
+        android:layout_height="56dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/round_background"
+        android:hint="@string/postcode"
+        android:inputType="text"
+        android:padding="16dp"
+        android:textColorHint="#808080"
+        app:layout_constraintTop_toBottomOf="@id/enter_postcode"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <ImageButton
+        android:id="@+id/submit_postcode_button"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="32dp"
+        android:background="@android:color/transparent"
+        android:contentDescription="@string/submit"
+        android:src="@drawable/submit_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_default="percent"
+        app:layout_constraintHeight_percent="0.1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintWidth_default="percent"
+        app:layout_constraintWidth_percent="0.3"
+        app:layout_constraintTop_toBottomOf="@id/postcode"/>
+
+    <ImageView
+        android:id="@+id/postcode_1"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@android:color/transparent"
+        android:contentDescription="@string/ar_greeting_title"
+        android:src="@drawable/postcode_1"
+        android:scaleType="centerInside"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/submit_postcode_button"
+        app:layout_constraintHeight_percent="0.35"
+        android:layout_marginTop="68dp"
+        app:layout_constraintDimensionRatio="H,1:1.34"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
